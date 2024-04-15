@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  title: Nutrimate API documentation
+  version: 1.0.0
+tags:
+  - name: Ingredient
+paths:
+  /ingredient/:
+    post:
+      requestBody:
+        $ref: '#/components/schemas/Ingredient'
+      responses:
+        '201':
+          description: Created
+
+components:
+  schemas:
+    Ingredient:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 0
+        name:
+          type: string
+          minLength: 1
+          maxLength: 300
