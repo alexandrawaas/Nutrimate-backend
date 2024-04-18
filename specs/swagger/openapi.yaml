@@ -3,25 +3,505 @@ info:
   title: Nutrimate API documentation
   version: 1.0.0
 tags:
-  - name: Ingredient
+  - name: food
+    description: Endpoints for foods
+  - name: recipes
+    description: Endpoint for recipe search
+  - name: allergens
+    description: Endpoints for allergens
+  - name: user
+    description: Endpoints for user and auth
+
 paths:
-  /ingredient/:
+  /food:
+    get:
+      tags:
+        - food
+      summary: Get a list of all the user's food in the fridge
+      operationId: getFood
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoodListWithScore'
+
+        '400':
+          description: Bad request
+        '404':
+          description: No food found
     post:
+      tags:
+        - food
+      summary: Add a new food to the user's fridge
+      operationId: addFood
       requestBody:
-        $ref: '#/components/schemas/Ingredient'
+        description: Create a new food instance in the fridge
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoodCreationObject'
+        required: true
       responses:
         '201':
-          description: Created
+          description: Food saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Food'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+  /food/{foodId}:
+    get:
+      tags:
+        - food
+      summary: Find food by ID
+      description: Returns a single food
+      operationId: getFoodById
+      parameters:
+        - name: foodId
+          in: path
+          description: ID of food to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Food'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Food not found
+    delete:
+      tags:
+        - food
+      summary: Deletes a food
+      description: delete a food
+      operationId: deleteFood
+      parameters:
+        - name: foodId
+          in: path
+          description: ID of food to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Food successfully deleted
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Food not found
+
+  /food/{foodId}/open:
+    put:
+      tags:
+        - food
+      summary: Open a food and add days in which it should be consumed
+      operationId: openFood
+      parameters:
+        - name: foodId
+          in: path
+          description: ID of food to open
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoodOpenObject'
+      responses:
+        '200':
+          description: Food successfully updated
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Food not found
+
+  /recipes?foods=[]&allergens=[]:
+    get:
+      tags:
+        - recipes
+      summary: Returns a filtered list of recipes
+      description: Returns a list of recipes containing the foods and not containing the allergens
+      operationId: searchRecipes
+      parameters:
+        - in: query
+          name: foods
+          schema:
+            type: array
+            items:
+              type: integer
+          description: The names of the foods that the recipe should contain
+        - in: query
+          name: allergens
+          schema:
+            type: array
+            items:
+              type: integer
+          description: The ids of the allergens of the user that should not be in the recipes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+
+  /allergens:
+    get:
+      tags:
+        - allergens
+      summary: Get all allergens
+      description: Get a list of all allergens
+      operationId: getAllergens
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Allergen'
+        '404':
+          description: Not found
+
+  /user/allergens:
+    get:
+      tags:
+        - user
+      summary: Get all allergens the user has saved in their profile
+      description: Get a list of all the user's allergens
+      operationId: getAllergensOfUser
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Allergen'
+        '404':
+          description: Not found
+    post:
+      tags:
+        - allergens
+      summary: Add a new list of allergens to a user's profile
+      operationId: addAllergens
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Allergen'
+        required: true
+      responses:
+        '201':
+          description: Allergens saved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Allergen'
+
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+  /user/allergens/{allergenId}:
+    delete:
+      tags:
+        - user
+      summary: Removes an allergen from the user's profile
+      description: remove an allergen
+      operationId: deleteAllergen
+      parameters:
+        - name: allergenId
+          in: path
+          description: ID of allergen to remove
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Allergen successfully removed
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Allergen not found
+
+  /user/recipes:
+    get:
+      tags:
+        - user
+      summary: Get all recipes the user has saved in their favourites
+      description: Get a list of all the user's favourite recipes
+      operationId: getRecipesOfUser
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+        '404':
+          description: Not found
+    post:
+      tags:
+        - user
+      summary: Add a new recipe to a user's favourite list
+      operationId: addRecipeToUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Recipe'
+        required: true
+      responses:
+        '201':
+          description: Recipe saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+  /user/recipes/{recipeId}:
+    delete:
+      tags:
+        - user
+      summary: Removes a recipe from the user's favourites
+      description: remove a recipe
+      operationId: deleteRecipe
+      parameters:
+        - name: recipeId
+          in: path
+          description: ID of recipe to remove
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Recipe successfully removed
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Recipe not found
+
+  /user:
+    delete:
+      tags:
+        - user
+      summary: Delete Account
+      description: Deletes the current user's account
+      operationId: deleteUser
+      responses:
+        '200':
+          description: Account successfully deleted
+        '400':
+          description: Invalid Token supplied
+        '404':
+          description: User not found
+
+  /register:
+    post:
+      tags:
+        - user
+      summary: Register a new user
+      description: Creates a new user account
+      operationId: registerUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterObject'
+        required: true
+      responses:
+        '201':
+          description: Account created successfully
+          headers:
+            authToken:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+  /login:
+    post:
+      tags:
+        - user
+      summary: Logs in a user
+      description: Creates a new session token to log in a user
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterObject'
+        required: true
+      responses:
+        '201':
+          description: Logged in successfully
+          headers:
+            authToken:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+
+  /logout:
+    delete:
+      tags:
+        - user
+      summary: Logs out a user
+      description: Deletes an existing session token to log out a user
+      operationId: logoutUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      responses:
+        '200':
+          description: Logged out successfully
+        '404':
+          description: User not found
+
+
 
 components:
   schemas:
-    Ingredient:
+
+    FoodListWithScore:
+      type: object
+      properties:
+        foodList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Food'
+        environmentalScore:
+          type: integer
+
+    Food:
       type: object
       properties:
         id:
           type: integer
-          minimum: 0
+          format: int64
+          example: 10
+        barcode:
+          type: string
+          example: 3045140105502
+        expireDate:
+          type: string
+          format: date-time
+          example: 2024-09-20T09:12:28Z
+        isOpen:
+          type: boolean
+          example: false
+        daysToConsume:
+          type: integer
+          example: null
+        calories:
+          type: number
+        fat:
+          type: number
+        saturated fats:
+          type: number
+        carbs:
+          type: number
+        sugar:
+          type: number
+        fibers:
+          type: number
+        protein:
+          type: number
+        salt:
+          type: number
+
+    FoodCreationObject:
+      type: object
+      properties:
+        expireDate:
+          type: string
+          format: date-time
+          example: 2024-09-20T09:12:28Z
+        barcode:
+          type: string
+          example: 3045140105502
+        amount:
+          type: integer
+          example: 1
+
+    FoodOpenObject:
+      type: object
+      properties:
+        daysToConsume:
+          type: integer
+          example: 5
+
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        url:
+          type: string
+
+    Allergen:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
         name:
           type: string
-          minLength: 1
-          maxLength: 300
+          example: lactose
+
+    UserRegisterObject:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test@example.com
+        password:
+          type: string
+          example: dfh§gwGa43g-5St5
+
+    AuthToken:
+      type: string
+      example: o435bkjwkfaew
