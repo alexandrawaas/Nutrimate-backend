@@ -140,6 +140,30 @@ paths:
         '404':
           description: Food not found
 
+  /food/{foodId}/environmental-score:
+    get:
+      tags:
+        - food
+      summary: Get environmental score of a food
+      description: Get an integer describing the environmental score of a single food
+      parameters:
+        - name: foodId
+          in: path
+          description: ID of food to show environmental score of
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentalScore'
+        '404':
+          description: Food not found
+
   /food/{foodId}/open:
     patch:
       tags:
@@ -294,11 +318,7 @@ paths:
         '422':
           description: Validation exception
 
-
-# todo
-
-
-  /user/recipes:
+  /user/favourite-recipes:
     get:
       tags:
         - user
@@ -314,32 +334,43 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Recipe'
+        '204':
+          description: No content
+        '401':
+          description: User not authenticated
         '404':
           description: Not found
-    post:
+    put:
       tags:
         - user
-      summary: Add a new recipe to a user's favourite list
-      operationId: addRecipeToUser
+      summary: Change the list of favourite recipes in a user's profile
+      operationId: editFavouriteRecipes
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Recipe'
+              type: array
+              items:
+                $ref: '#/components/schemas/Recipe'
         required: true
       responses:
         '201':
-          description: Recipe saved successfully
+          description: Allergens saved successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+
         '400':
           description: Invalid input
+        '401':
+          description: User not authenticated
         '422':
           description: Validation exception
 
-  /user/recipes/{recipeId}:
+  /user/favourite-recipes/{recipeId}:
     delete:
       tags:
         - user
@@ -359,6 +390,8 @@ paths:
           description: Recipe successfully removed
         '400':
           description: Invalid ID supplied
+        '401':
+          description: User not authenticated
         '404':
           description: Recipe not found
 
@@ -374,6 +407,8 @@ paths:
           description: Account successfully deleted
         '400':
           description: Invalid Token supplied
+        '401':
+          description: User not authenticated
         '404':
           description: User not found
 
@@ -424,25 +459,23 @@ paths:
                 $ref: '#/components/schemas/AuthToken'
         '400':
           description: Invalid input
+        '404':
+          description: User not found
         '422':
           description: Validation exception
 
   /logout:
-    delete:
+    post:
       tags:
         - user
       summary: Logs out a user
       description: Deletes an existing session token to log out a user
       operationId: logoutUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AuthToken'
-        required: true
       responses:
         '200':
           description: Logged out successfully
+        '401':
+          description: User not authenticated
         '404':
           description: User not found
 
@@ -587,7 +620,7 @@ components:
           example: test@example.com
         password:
           type: string
-          example: dfh§gwGa43g-5St5
+          example: passwort+1234
 
     AuthToken:
       type: string
