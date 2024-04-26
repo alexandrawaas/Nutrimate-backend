@@ -1,12 +1,10 @@
 package com.example.nutrimatebackend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,6 +17,9 @@ public class Food {
     String category;
     String barcode;
     Timestamp expireDate;
+
+    @OneToMany
+    List<Allergen> allergens;
 
     // when the food gets opened, save the days to consume this food
     boolean isOpen;

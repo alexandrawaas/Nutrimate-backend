@@ -1,10 +1,9 @@
 package com.example.nutrimatebackend.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -15,4 +14,13 @@ public class User {
 
     String email;
     String password;
+
+    @OneToOne
+    Fridge fridge;
+
+    @OneToMany
+    List<Allergen> allergens;
+
+    @OneToMany
+    List<Recipe> favouriteRecipes;
 }
