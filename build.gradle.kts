@@ -2,10 +2,20 @@ plugins {
     java
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
+    application
+}
+
+springBoot {
+    mainClass.set("com.example.nutrimatebackend.NutrimateBackendApplication")
+}
+
+application {
+    mainClass.set("com.example.nutrimatebackend.NutrimateBackendApplication")
 }
 
 group = "com.example"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
+
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -22,16 +32,14 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     compileOnly("org.projectlombok:lombok")
-    // developmentOnly("org.springframework.boot:spring-boot-docker-compose")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-    // https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api
-    implementation("jakarta.persistence:jakarta.persistence-api:3.2.0-M2")
-
+    runtimeOnly("com.mysql:mysql-connector-j")
 }
 
 tasks.withType<Test> {
