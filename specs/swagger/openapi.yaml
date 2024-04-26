@@ -193,7 +193,7 @@ paths:
         '404':
           description: Food not found
 
-  /recipes?foods=[]&allergens=[]:
+  /recipes:
     get:
       tags:
         - recipes
