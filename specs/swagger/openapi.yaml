@@ -30,12 +30,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Food'
-        '400':
-          description: Bad request
         '401':
           description: User not authenticated
-        '404':
-          description: No food found
+        '204':
+          description: No food inside the fridge
     post:
       tags:
         - food
@@ -83,10 +81,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FoodScanObject'
-        '400':
-          description: Invalid barcode supplied
         '404':
-          description: Food not found
+          description: Food not found in the database
+        '422':
+          description: Barcode has a wrong format
 
   /food/{foodId}:
     get:
@@ -110,7 +108,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Food'
-        '400':
+        '422':
           description: Invalid ID supplied
         '401':
           description: User not authenticated
@@ -133,7 +131,7 @@ paths:
       responses:
         '200':
           description: Food successfully deleted
-        '400':
+        '422':
           description: Invalid ID supplied
         '401':
           description: User not authenticated
@@ -163,6 +161,8 @@ paths:
                 $ref: '#/components/schemas/EnvironmentalScore'
         '404':
           description: Food not found
+        '422':
+          description: Invalid ID supplied
 
   /food/{foodId}/open:
     patch:
@@ -186,12 +186,12 @@ paths:
       responses:
         '200':
           description: Food successfully updated
-        '400':
-          description: Invalid ID supplied
         '401':
           description: User not authenticated
         '404':
           description: Food not found
+        '422':
+          description: Invalid input
 
   /recipes:
     get:
@@ -244,7 +244,7 @@ paths:
                 $ref: '#/components/schemas/EnvironmentalScore'
         '401':
           description: User not authenticated
-        '404':
+        '204':
           description: No food in the fridge
 
   /allergens:
@@ -263,8 +263,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Allergen'
-        '404':
-          description: Not found
 
   /user/allergens:
     get:
@@ -286,8 +284,6 @@ paths:
           description: No content
         '401':
           description: User not authenticated
-        '404':
-          description: Not found
     patch:
       tags:
         - user
@@ -313,6 +309,8 @@ paths:
 
         '400':
           description: Invalid input
+        '204':
+          description: User has no allergenes
         '401':
           description: User not authenticated
         '422':
@@ -333,35 +331,29 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Recipe'
+                  $ref: '#/components/schemas/RecipeFavourite'
         '204':
           description: No content
         '401':
           description: User not authenticated
-        '404':
-          description: Not found
-    put:
+    post:
       tags:
         - user
-      summary: Change the list of favourite recipes in a user's profile
-      operationId: editFavouriteRecipes
+      summary: Add one favourite recipe to the list of favourite recipes in a user's profile
+      operationId: addFavouriteRecipes
       requestBody:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Recipe'
+              $ref: '#/components/schemas/Recipe'
         required: true
       responses:
         '201':
-          description: Allergens saved successfully
+          description: Recipe saved successfully
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/Recipe'
 
         '400':
           description: Invalid input
@@ -388,12 +380,12 @@ paths:
       responses:
         '200':
           description: Recipe successfully removed
-        '400':
-          description: Invalid ID supplied
         '401':
           description: User not authenticated
         '404':
           description: Recipe not found
+        '422':
+          description: Invalid recipe id
 
   /user:
     delete:
@@ -405,8 +397,6 @@ paths:
       responses:
         '200':
           description: Account successfully deleted
-        '400':
-          description: Invalid Token supplied
         '401':
           description: User not authenticated
         '404':
