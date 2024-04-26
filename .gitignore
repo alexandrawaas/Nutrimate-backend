@@ -108,7 +108,6 @@ fabric.properties
 *.iml
 *.ipr
 *.iws
-*.jar
 *.sw?
 *~
 .#*
