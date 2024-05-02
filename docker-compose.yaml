@@ -1,6 +1,6 @@
 services:
   nutrimate-app:
-    container_name: spring
+    container_name: nutrimate-spring
     build:
       context: ./
       dockerfile: Dockerfile
@@ -10,6 +10,7 @@ services:
       - database
   database:
     image: mysql
+    container_name: nutrimate-db
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_USER: user
