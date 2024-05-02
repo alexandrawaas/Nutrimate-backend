@@ -11,10 +11,8 @@ COPY settings.gradle.kts .
 # Copy src folder
 COPY src src
 
+# Build a jar file
 RUN ./gradlew build
 
-
-#VOLUME /tmp
-#ARG JAR_FILE
-#COPY ${JAR_FILE} app.jar
-#ENTRYPOINT ["java","-jar","/app.jar"]
+# Run jar file
+CMD ["java", "-jar", "build/libs/nutrimate-backend-0.0.1.jar"]
