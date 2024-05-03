@@ -150,3 +150,4 @@ secrets.yml
 .sts4-cache
 .git-hooks/
 node_modules
+.idea/swagger-settings.xml
