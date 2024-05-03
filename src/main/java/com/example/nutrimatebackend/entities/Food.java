@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -16,14 +17,14 @@ public class Food {
     String name;
     String category;
     String barcode;
-    Timestamp expireDate;
+    LocalDateTime expireDate;
 
     @OneToMany
     List<Allergen> allergens;
 
     // when the food gets opened, save the days to consume this food
     boolean isOpen;
-    int daysToConsume;
+    Integer daysToConsume;
 
     // nutritional values
     int calories;
