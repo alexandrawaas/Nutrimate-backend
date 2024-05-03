@@ -23,4 +23,16 @@ public class User {
 
     @OneToMany
     List<Recipe> favouriteRecipes;
+
+    public User(String email, String password, Fridge fridge, List<Allergen> allergens, List<Recipe> favouriteRecipes) {
+        this.email = email;
+        this.password = password;
+        this.fridge = fridge;
+        this.allergens = allergens;
+        this.favouriteRecipes = favouriteRecipes;
+    }
+
+    public User() {
+
+    }
 }

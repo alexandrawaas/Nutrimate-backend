@@ -12,6 +12,15 @@ public class Fridge {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<Food> content;
+
+    public Fridge(List<Food> content) {
+        this.content = content;
+    }
+
+
+    public Fridge() {
+
+    }
 }

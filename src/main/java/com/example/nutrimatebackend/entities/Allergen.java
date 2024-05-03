@@ -14,4 +14,12 @@ public class Allergen {
     private Long id;
 
     String name;
+
+    public Allergen(String name) {
+        this.name = name;
+    }
+
+    public Allergen() {
+
+    }
 }
