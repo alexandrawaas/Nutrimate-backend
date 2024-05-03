@@ -83,6 +83,33 @@ paths:
           description: Food not found in the database
 
   /food/{foodId}:
+    patch:
+      tags:
+        - food
+      summary: Open a food and add days in which it should be consumed
+      operationId: openFood
+      parameters:
+        - name: foodId
+          in: path
+          description: ID of food to open
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoodOpenObject'
+      responses:
+        '200':
+          description: Food successfully updated
+        '401':
+          description: User not authenticated
+        '400':
+          description: Invalid input
+        '404':
+          description: Food not found
     get:
       tags:
         - food
@@ -151,35 +178,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EnvironmentalScore'
-        '404':
-          description: Food not found
-
-  /food/{foodId}:
-    patch:
-      tags:
-        - food
-      summary: Open a food and add days in which it should be consumed
-      operationId: openFood
-      parameters:
-        - name: foodId
-          in: path
-          description: ID of food to open
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FoodOpenObject'
-      responses:
-        '200':
-          description: Food successfully updated
-        '401':
-          description: User not authenticated
-        '400':
-          description: Invalid input
         '404':
           description: Food not found
 
