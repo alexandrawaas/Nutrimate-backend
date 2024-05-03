@@ -57,8 +57,6 @@ paths:
           description: Invalid input
         '401':
           description: User not authenticated
-        '422':
-          description: Validation exception
 
   /food/scan/{barcode}:
     get:
@@ -83,8 +81,6 @@ paths:
                 $ref: '#/components/schemas/FoodScanObject'
         '404':
           description: Food not found in the database
-        '422':
-          description: Barcode has a wrong format
 
   /food/{foodId}:
     get:
@@ -108,8 +104,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Food'
-        '422':
-          description: Invalid ID supplied
         '401':
           description: User not authenticated
         '404':
@@ -131,8 +125,6 @@ paths:
       responses:
         '200':
           description: Food successfully deleted
-        '422':
-          description: Invalid ID supplied
         '401':
           description: User not authenticated
         '404':
@@ -161,10 +153,8 @@ paths:
                 $ref: '#/components/schemas/EnvironmentalScore'
         '404':
           description: Food not found
-        '422':
-          description: Invalid ID supplied
 
-  /food/{foodId}/open:
+  /food/{foodId}:
     patch:
       tags:
         - food
@@ -188,10 +178,10 @@ paths:
           description: Food successfully updated
         '401':
           description: User not authenticated
+        '400':
+          description: Invalid input
         '404':
           description: Food not found
-        '422':
-          description: Invalid input
 
   /recipes:
     get:
@@ -226,8 +216,6 @@ paths:
                   $ref: '#/components/schemas/Recipe'
         '204':
           description: No recipes found
-        '422':
-          description: Validation exception
 
   /environmental-score:
     get:
@@ -313,8 +301,6 @@ paths:
           description: User has no allergenes
         '401':
           description: User not authenticated
-        '422':
-          description: Validation exception
 
   /user/favourite-recipes:
     get:
@@ -359,8 +345,6 @@ paths:
           description: Invalid input
         '401':
           description: User not authenticated
-        '422':
-          description: Validation exception
 
   /user/favourite-recipes/{recipeId}:
     delete:
@@ -384,8 +368,6 @@ paths:
           description: User not authenticated
         '404':
           description: Recipe not found
-        '422':
-          description: Invalid recipe id
 
   /user:
     delete:
@@ -399,8 +381,6 @@ paths:
           description: Account successfully deleted
         '401':
           description: User not authenticated
-        '404':
-          description: User not found
 
   /register:
     post:
@@ -424,8 +404,6 @@ paths:
                 $ref: '#/components/schemas/AuthToken'
         '400':
           description: Invalid input
-        '422':
-          description: Validation exception
 
   /login:
     post:
@@ -451,8 +429,6 @@ paths:
           description: Invalid input
         '404':
           description: User not found
-        '422':
-          description: Validation exception
 
   /logout:
     post:
@@ -608,9 +584,6 @@ components:
         email:
           type: string
           example: test@example.com
-        password:
-          type: string
-          example: passwort+1234
 
     AuthToken:
       type: string
