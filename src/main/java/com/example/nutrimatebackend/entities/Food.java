@@ -35,4 +35,8 @@ public class Food {
     int fibers;
     int proteins;
     int salt;
+
+    public int calculateEnvironmentalScore(){
+        return 42;
+    }
 }
