@@ -12,7 +12,7 @@ COPY settings.gradle.kts .
 COPY src src
 
 # Build a jar file
-RUN ./gradlew build
+RUN /app/gradlew build
 
 # Run jar file
 CMD ["java", "-jar", "build/libs/nutrimate-backend-0.0.1.jar"]
