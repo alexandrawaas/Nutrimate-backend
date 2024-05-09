@@ -1,9 +1,6 @@
 package com.example.nutrimatebackend.utils;
 
-import com.example.nutrimatebackend.entities.Allergen;
-import com.example.nutrimatebackend.entities.Fridge;
-import com.example.nutrimatebackend.entities.Recipe;
-import com.example.nutrimatebackend.entities.User;
+import com.example.nutrimatebackend.entities.*;
 import com.example.nutrimatebackend.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -25,13 +24,12 @@ class Seeder {
     CommandLineRunner initDatabase(
             AllergenRepository allergenRepository,
             UserRepository userRepository,
-            FoodRepository foodRepository,
             FridgeRepository fridgeRepository,
+            FoodRepository foodRepository,
             RecipeRepository recipeRepository
     ) {
         if(enableSeeder) {
             return args -> {
-
                 // Seed categories
                 log.info("Preloading " + allergenRepository.save(new Allergen("Lactose")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Peanuts")));
@@ -44,13 +42,26 @@ class Seeder {
                 log.info("Preloading " + allergenRepository.save(new Allergen("Wheat")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Sesame")));
 
-                List myFood = foodRepository.findAll();
+                // Seed some foods
+                log.info("Preloading " + foodRepository.save(
+                        new Food("Nutella", "spread", "3017620422003", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8)
+                ));
+
+                log.info("Preloading " + foodRepository.save(
+                        new Food("American Sandwich", "bread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8)
+                ));
+
+                log.info("Preloading " + foodRepository.save(
+                        new Food("Coke", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8)
+                ));
+
+                List<Food> myFood = foodRepository.findAll();
 
                 Fridge myFridge = new Fridge(myFood);
 
                 log.info("Preloading " + fridgeRepository.save(myFridge));
 
-                myFridge = fridgeRepository.findById(1L).get();
+                myFridge = fridgeRepository.findAll().getFirst();
 
                 List<Allergen> someAllergenes = allergenRepository.findAll().subList(0, 3);
 
