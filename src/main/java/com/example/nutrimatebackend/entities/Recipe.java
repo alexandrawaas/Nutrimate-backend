@@ -14,4 +14,10 @@ public class Recipe {
     private Long id;
 
     String url;
+
+    public Recipe(String url) {
+        this.url = url;
+    }
+
+    public Recipe() {}
 }
