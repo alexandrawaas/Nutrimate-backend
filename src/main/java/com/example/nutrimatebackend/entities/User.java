@@ -15,13 +15,13 @@ public class User {
     String email;
     String password;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     Fridge fridge;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<Allergen> allergens;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<Recipe> favouriteRecipes;
 
     public User(String email, String password, Fridge fridge, List<Allergen> allergens, List<Recipe> favouriteRecipes) {
