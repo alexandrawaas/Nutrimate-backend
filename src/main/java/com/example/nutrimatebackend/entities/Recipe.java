@@ -9,10 +9,6 @@ import lombok.Data;
 @Data
 @Entity
 public class Recipe {
-    public Recipe(String url) {
-        this.url = url;
-    }
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
