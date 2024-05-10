@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -18,13 +19,14 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER)
     Fridge fridge;
 
+
     @OneToMany(fetch = FetchType.EAGER)
-    List<Allergen> allergens;
+    Set<Allergen> allergens;
 
     @OneToMany(fetch = FetchType.EAGER)
     List<Recipe> favouriteRecipes;
 
-    public User(String email, String password, Fridge fridge, List<Allergen> allergens, List<Recipe> favouriteRecipes) {
+    public User(String email, String password, Fridge fridge, Set<Allergen> allergens, List<Recipe> favouriteRecipes) {
         this.email = email;
         this.password = password;
         this.fridge = fridge;
