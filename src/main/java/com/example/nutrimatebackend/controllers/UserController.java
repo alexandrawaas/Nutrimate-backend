@@ -37,6 +37,7 @@ public class UserController {
         this.allergenRepository = allergenRepository;
     }
 
+    // TODO: User zurückgeben
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody CreateUserDTO createUserDTO) {
         User newUser = userRepository.saveAndFlush(new User(createUserDTO.eMail, createUserDTO.password, new Fridge(), Set.of(), List.of()));
@@ -114,8 +115,9 @@ public class UserController {
         }
     }
 
+    // TODO: return the deleted recipe
     @DeleteMapping("/{userId}/favorite-recipes/{recipeId}")
-    public ResponseEntity deleteFavoriteRecipes(@PathVariable Long userId, @PathVariable Long recipeId){
+    public void deleteFavoriteRecipes(@PathVariable Long userId, @PathVariable Long recipeId){
 
         Optional<User> optionalUser = userRepository.findById(userId);
 
@@ -126,6 +128,7 @@ public class UserController {
 
             user.getFavouriteRecipes();
         }
+
 
     }
 }

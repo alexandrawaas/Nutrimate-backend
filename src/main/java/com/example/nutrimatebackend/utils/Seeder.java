@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 class Seeder {
@@ -63,7 +65,7 @@ class Seeder {
 
                 myFridge = fridgeRepository.findAll().getFirst();
 
-                List<Allergen> someAllergenes = allergenRepository.findAll().subList(0, 3);
+                Set<Allergen> someAllergenes = new HashSet<>(allergenRepository.findAll().subList(0, 3));
 
                 List<Recipe> someRecipes = recipeRepository.findAll();
 
