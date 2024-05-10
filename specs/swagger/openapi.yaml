@@ -15,7 +15,7 @@ tags:
     description: Endpoints for user and auth
 
 paths:
-  /food:
+  /fridge/food:
     get:
       tags:
         - food
@@ -58,7 +58,7 @@ paths:
         '401':
           description: User not authenticated
 
-  /food/scan/{barcode}:
+  /food/{barcode}:
     get:
       tags:
         - food
@@ -82,7 +82,7 @@ paths:
         '404':
           description: Food not found in the database
 
-  /food/{foodId}:
+  /fridge/food/{foodId}:
     patch:
       tags:
         - food
@@ -215,7 +215,7 @@ paths:
         '204':
           description: No recipes found
 
-  /environmental-score:
+  /fridge/environmental-score:
     get:
       tags:
         - environmentalScore
