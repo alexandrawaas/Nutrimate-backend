@@ -1,6 +1,6 @@
 package com.example.nutrimatebackend.controllers;
 
-import com.example.nutrimatebackend.dtos.EnvironmentalScoreDTO;
+import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
 import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.repositories.UserRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ public class EnvironmentalScoreController {
     }
 
     @GetMapping(value = "/environmental-score")
-    public EnvironmentalScoreDTO getEnvironmentalScore()
+    public EnvironmentalScoreDTOResponse getEnvironmentalScore()
     {
         // TODO: Replace this with the current logged in user!
 
@@ -36,7 +36,7 @@ public class EnvironmentalScoreController {
             environmentalScoreSum += food.calculateEnvironmentalScore();
         }
 
-        return new EnvironmentalScoreDTO(
+        return new EnvironmentalScoreDTOResponse(
                 environmentalScoreSum / allFoods.size()
         );
     }

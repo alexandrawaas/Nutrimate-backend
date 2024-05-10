@@ -1,9 +1,8 @@
 package com.example.nutrimatebackend.controllers;
 
-import com.example.nutrimatebackend.dtos.AllergenDTO;
-import com.example.nutrimatebackend.dtos.CreateFridgeDTO;
-import com.example.nutrimatebackend.dtos.CreateUserDTO;
-import com.example.nutrimatebackend.dtos.FavoriteRecipeDTO;
+import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
+import com.example.nutrimatebackend.dtos.user.UserDTORequest;
+import com.example.nutrimatebackend.dtos.recipe.RecipeDTORequest;
 import com.example.nutrimatebackend.entities.Allergen;
 import com.example.nutrimatebackend.entities.Fridge;
 import com.example.nutrimatebackend.entities.Recipe;
@@ -39,8 +38,8 @@ public class UserController {
 
     // TODO: User zurückgeben
     @PostMapping("/register")
-    public ResponseEntity<String> createUser(@RequestBody CreateUserDTO createUserDTO) {
-        User newUser = userRepository.saveAndFlush(new User(createUserDTO.eMail, createUserDTO.password, new Fridge(), Set.of(), List.of()));
+    public ResponseEntity<String> createUser(@RequestBody UserDTORequest userDTORequest) {
+        User newUser = userRepository.saveAndFlush(new User(userDTORequest.eMail, userDTORequest.password, new Fridge(), Set.of(), List.of()));
         return ResponseEntity.status(HttpStatus.CREATED).body("User created");
     }
 
@@ -57,14 +56,14 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}/allergens")
-    public ResponseEntity<Set<Allergen>> updateAllergens(@PathVariable Long userId, @RequestBody Set<AllergenDTO> allergenDTOs){
+    public ResponseEntity<Set<Allergen>> updateAllergens(@PathVariable Long userId, @RequestBody Set<AllergenDTOResponse> allergenDTOResponses){
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
             Set<Allergen> allergens = user.getAllergens();
-            Set<Allergen> newAllergens = allergenDTOs.stream().map(allergenDTO -> allergenRepository.findById(allergenDTO.id).orElse(null)).filter(allergen -> allergen != null).collect(Collectors.toSet());
+            Set<Allergen> newAllergens = allergenDTOResponses.stream().map(allergenDTOResponse -> allergenRepository.findById(allergenDTOResponse.id).orElse(null)).filter(allergen -> allergen != null).collect(Collectors.toSet());
 
             allergens.addAll(newAllergens);
 
@@ -91,7 +90,7 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/favorite-recipes")
-    public ResponseEntity<FavoriteRecipeDTO> addFavoriteRecipes(@PathVariable Long userId, @RequestBody FavoriteRecipeDTO favoriteRecipeDTO){
+    public ResponseEntity<RecipeDTORequest> addFavoriteRecipes(@PathVariable Long userId, @RequestBody RecipeDTORequest recipeDTORequest){
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isPresent()) {
@@ -99,13 +98,13 @@ public class UserController {
 
             List<Recipe> favoriteRecipes = user.getFavouriteRecipes();
 
-            if (favoriteRecipes.stream().filter(favoriteRecipe -> favoriteRecipe.getUrl().equals(favoriteRecipeDTO.url)).toList().isEmpty()){
-                favoriteRecipes.add(new Recipe(favoriteRecipeDTO.url));
+            if (favoriteRecipes.stream().filter(favoriteRecipe -> favoriteRecipe.getUrl().equals(recipeDTORequest.url)).toList().isEmpty()){
+                favoriteRecipes.add(new Recipe(recipeDTORequest.url));
 
                 user.setFavouriteRecipes(favoriteRecipes);
                 userRepository.saveAndFlush(user);
 
-                return ResponseEntity.status(201).body(favoriteRecipeDTO);
+                return ResponseEntity.status(201).body(recipeDTORequest);
             }
 
             return ResponseEntity.status(403).build();
