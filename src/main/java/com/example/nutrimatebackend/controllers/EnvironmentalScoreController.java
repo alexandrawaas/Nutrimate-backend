@@ -20,6 +20,8 @@ public class EnvironmentalScoreController {
     public EnvironmentalScoreDTO getEnvironmentalScore()
     {
         // TODO: Replace this with the current logged in user!
+
+        // TODO: put this inside a service
         Long currentUser = 1L;
 
         int environmentalScoreSum = 0;
