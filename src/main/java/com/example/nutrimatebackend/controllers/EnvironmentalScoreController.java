@@ -1,12 +1,11 @@
 package com.example.nutrimatebackend.controllers;
 
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
-import com.example.nutrimatebackend.entities.Food;
+import com.example.nutrimatebackend.entities.Fridge;
 import com.example.nutrimatebackend.repositories.UserRepository;
+import com.example.nutrimatebackend.services.EnvironmentalScoreService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class EnvironmentalScoreController {
@@ -20,24 +19,16 @@ public class EnvironmentalScoreController {
     public EnvironmentalScoreDTOResponse getEnvironmentalScore()
     {
         // TODO: Replace this with the current logged in user!
-
-        // TODO: put this inside a service
         Long currentUser = 1L;
 
-        int environmentalScoreSum = 0;
-
-        List<Food> allFoods = userRepository
+        Fridge fridge = userRepository
                 .findById(currentUser)
                 .orElseThrow()
-                .getFridge()
-                .getContent();
+                .getFridge();
 
-        for (Food food : allFoods) {
-            environmentalScoreSum += food.calculateEnvironmentalScore();
-        }
+        int environmentalScore = new EnvironmentalScoreService()
+                .calculateEnvironmentalScore(fridge);
 
-        return new EnvironmentalScoreDTOResponse(
-                environmentalScoreSum / allFoods.size()
-        );
+        return new EnvironmentalScoreDTOResponse(environmentalScore);
     }
 }
