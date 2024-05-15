@@ -1,7 +1,7 @@
 package com.example.nutrimatebackend.controllers;
 
-import com.example.nutrimatebackend.entities.Allergen;
-import com.example.nutrimatebackend.repositories.AllergenRepository;
+import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
+import com.example.nutrimatebackend.services.AllergenService;
 
 import java.util.List;
 
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AllergenController {
-    private final AllergenRepository allergenRepository;
+    private final AllergenService allergenService;
 
-    public AllergenController(AllergenRepository allergenRepository) {
-        this.allergenRepository = allergenRepository;
+    public AllergenController(AllergenService allergenService) {
+        this.allergenService = allergenService;
     }
 
     @GetMapping(value = "/allergens")
-    public List<Allergen> getAllAllergens() {
-        return allergenRepository.findAll();
+    public List<AllergenDTOResponse> getAllAllergens() {
+        return allergenService.getAllAllergens();
     }
 
 }
