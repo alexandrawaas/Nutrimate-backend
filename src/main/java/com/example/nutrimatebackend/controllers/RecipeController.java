@@ -14,9 +14,11 @@ import java.util.List;
 
 @RestController
 public class RecipeController {
-
-    @Autowired
     private WebClient webClient;
+
+    public RecipeController(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     @GetMapping("/recipes")
     public List<RecipeDTOResponse> getRecipes() {
