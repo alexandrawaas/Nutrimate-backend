@@ -3,6 +3,7 @@ package com.example.nutrimatebackend.controllers;
 import com.example.nutrimatebackend.dtos.api.EdamamRawRecipeResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,6 +14,10 @@ import java.util.List;
 
 @RestController
 public class RecipeController {
+
+    @Autowired
+    private WebClient webClient;
+
     @GetMapping("/recipes")
     public List<RecipeDTOResponse> getRecipes() {
         // TODO: fetch recipes suitable for the users fridges content
@@ -30,12 +35,9 @@ public class RecipeController {
 
                 .toString();
 
-        WebClient client = WebClient.builder()
-                .baseUrl(url)
-                .build();
-
-        EdamamRawRecipeResponse response = client
+        EdamamRawRecipeResponse response = webClient
                 .get()
+                .uri(url)
                 .retrieve()
                 .bodyToMono(EdamamRawRecipeResponse.class)
                 .block();
