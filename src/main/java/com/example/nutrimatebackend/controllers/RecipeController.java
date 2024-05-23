@@ -3,7 +3,6 @@ package com.example.nutrimatebackend.controllers;
 import com.example.nutrimatebackend.dtos.api.EdamamRawRecipeResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import org.apache.http.client.utils.URIBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
