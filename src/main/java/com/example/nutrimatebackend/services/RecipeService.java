@@ -31,7 +31,7 @@ public class RecipeService
                 .addParameter("app_key", "ae91ed6e3daff98e50ae16324d419b63")
 
                 // Search recipes with "chicken"
-                .addParameter("q", "chicken")
+                .addParameter("q", "Nutella")
 
                 .toString();
 
@@ -49,11 +49,7 @@ public class RecipeService
         }
 
         for (EdamamRawRecipeResponse.Hit hit : response.getHits()) {
-            String recipeURL = hit
-                    .get_links()
-                    .getSelf()
-                    .getHref();
-
+            String recipeURL = hit.getRecipe().getUri();
             RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse(recipeURL);
             recipeURLs.add(recipeDTOResponse);
         }
