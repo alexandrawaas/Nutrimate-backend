@@ -1,74 +1,83 @@
 package com.example.nutrimatebackend.controllers;
 
-import com.example.nutrimatebackend.entities.Food;
-import com.example.nutrimatebackend.repositories.FoodRepository;
+import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
+import com.example.nutrimatebackend.dtos.food.FoodConverter;
+import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
+import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
+import com.example.nutrimatebackend.services.FoodService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import com.example.nutrimatebackend.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class FoodController {
-    private final FoodRepository foodRepository;
-    private final UserRepository userRepository;
+    private final FoodService foodService;
 
-    public FoodController(FoodRepository foodRepository, UserRepository userRepository)
+    public FoodController(FoodService foodService)
     {
-        this.foodRepository = foodRepository;
-        this.userRepository = userRepository;
+        this.foodService = foodService;
     }
 
     @GetMapping(value = "/food")
-    public List<Food> getFood()
-    {
-        return userRepository.findById(1L).orElse(null).getFridge().getContent();
+    List<FoodDTOResponse> getAllFood() {
+        return foodService.getAllFood();
     }
 
     @PostMapping(path="/food")
-    public @ResponseBody Food addNewFood (@RequestParam String name, @RequestParam String category, @RequestParam String barcode, @RequestParam LocalDateTime expireDate) {
-
-        Food n = new Food();
-        n.setName(name);
-        n.setCategory(category);
-        n.setBarcode(barcode);
-        n.setExpireDate(expireDate);
-        foodRepository.save(n);
-        return n;
+    List<FoodDTOResponse> createFood(@RequestBody FoodDTORequest foodDtoRequest) {
+        return foodService.createFood(foodDtoRequest);
     }
+
     @GetMapping(value = "/food/scan/{barcode}")
-    public Food getFoodByBarcode(@PathVariable String barcode)
+    FoodDTOResponse getFoodByBarcode(@PathVariable String barcode)
     {
-        return foodRepository.findByBarcode(barcode);
+        try {
+            return foodService.getFoodByBarcode(barcode);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PatchMapping("/food/{foodId}")
-    public Food openFood(@PathVariable Long foodId, @RequestBody int daysToConsume)
+    FoodDTOResponse openFood(@PathVariable Long foodId, @RequestBody int daysToConsume)
     {
-        Food food = foodRepository.findById(foodId).orElseThrow();
-        food.setOpen(true);
-        food.setDaysToConsume(daysToConsume);
-        foodRepository.save(food);
-        return food;
+        try {
+            return foodService.openFood(foodId, daysToConsume);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food not found");
+        }
     }
 
     @GetMapping(value="/food/{foodId}")
-    public Food getFoodById(@PathVariable Long foodId)
+    FoodDTOResponse getFoodById(@PathVariable Long foodId)
     {
-        return foodRepository.findById(foodId).orElseThrow();
+        try {
+            return foodService.getFoodById(foodId);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @DeleteMapping(value="/food/{foodId}")
-    public void deleteFood(@PathVariable("foodId") Long id)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteFood(@PathVariable("foodId") Long id)
     {
-        foodRepository.deleteById(id);
+        foodService.deleteFood(id);
     }
 
     @GetMapping(value = "/food/{foodId}/environmental-score")
-    public int getEnvironmentalScore(@PathVariable Long foodId)
+    EnvironmentalScoreDTOResponse getEnvironmentalScore(@PathVariable Long foodId)
     {
-        return foodRepository.findById(foodId).orElseThrow().calculateEnvironmentalScore();
+        try {
+            return foodService.getEnvironmentalScore(foodId);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
-
 }
