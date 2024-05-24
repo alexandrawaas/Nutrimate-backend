@@ -45,6 +45,7 @@ public class RecipeService
         List<RecipeDTOResponse> recipeURLs = new ArrayList<>();
 
         if (response == null) {
+            // TODO: return 204 zurück,  nicht 200
             return Collections.emptyList();
         }
 
@@ -54,6 +55,7 @@ public class RecipeService
             recipeURLs.add(recipeDTOResponse);
         }
 
+        // TODO: add URL converter to fix broken urls
         return recipeURLs;
     }
 }
