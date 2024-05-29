@@ -1,6 +1,7 @@
 package com.example.nutrimatebackend.services;
 
-import com.example.nutrimatebackend.dtos.api.EdamamRawRecipeResponse;
+import com.example.nutrimatebackend.dtos.api.edamam.EdamamResponse;
+import com.example.nutrimatebackend.dtos.api.edamam.Hit;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,11 +37,11 @@ public class RecipeService
 
                 .toString();
 
-        EdamamRawRecipeResponse response = webClient
+        EdamamResponse response = webClient
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(EdamamRawRecipeResponse.class)
+                .bodyToMono(EdamamResponse.class)
                 .block();
 
         List<RecipeDTOResponse> recipeURLs = new ArrayList<>();
@@ -51,7 +51,7 @@ public class RecipeService
         }
 
         // TODO: create a converter here
-        for (EdamamRawRecipeResponse.Hit hit : response.getHits()) {
+        for (Hit hit : response.getHits()) {
             String recipeURL = hit.getRecipe().getUri();
             RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse(recipeURL);
             recipeURLs.add(recipeDTOResponse);
