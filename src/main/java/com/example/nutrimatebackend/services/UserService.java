@@ -14,9 +14,7 @@ import com.example.nutrimatebackend.entities.Fridge;
 import com.example.nutrimatebackend.entities.Recipe;
 import com.example.nutrimatebackend.entities.User;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
-import com.example.nutrimatebackend.repositories.FridgeRepository;
 import com.example.nutrimatebackend.repositories.UserRepository;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +25,6 @@ import java.util.stream.Collectors;
 public class UserService
 {
     private final UserRepository userRepository;
-    private final FridgeRepository fridgeRepository;
     private final AllergenRepository allergenRepository;
 
     private final UserConverter userConverter;
@@ -36,14 +33,12 @@ public class UserService
 
     public UserService(
             UserRepository userRepository,
-            FridgeRepository fridgeRepository,
             AllergenRepository allergenRepository,
             UserConverter userConverter,
             AllergenConverter allergenConverter,
             RecipeConverter recipeConverter
     ) {
         this.userRepository = userRepository;
-        this.fridgeRepository = fridgeRepository;
         this.allergenRepository = allergenRepository;
         this.userConverter = userConverter;
         this.allergenConverter = allergenConverter;
@@ -82,7 +77,7 @@ public class UserService
         return recipeConverter.convertListToDTOResponse(user.getFavouriteRecipes());
     }
 
-    public RecipeDTOResponse addRecipe(Long userId, RecipeDTORequest recipeDTORequest) throws BadRequestException {
+    public RecipeDTOResponse addRecipe(Long userId, RecipeDTORequest recipeDTORequest) {
         User user = userRepository.findById(userId).orElseThrow();
 
         List<Recipe> favoriteRecipes = user.getFavouriteRecipes();
@@ -96,8 +91,7 @@ public class UserService
 
             return recipeConverter.convertToDTOResponse(newRecipe);
         }
-
-        throw new BadRequestException("Recipe is already favorite");
+        return recipeConverter.convertToDTOResponse(newRecipe);
     }
 
     public RecipeDTOResponse deleteRecipe(Long userId, Long recipeId){
