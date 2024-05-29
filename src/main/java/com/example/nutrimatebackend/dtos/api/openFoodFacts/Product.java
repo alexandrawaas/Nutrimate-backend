@@ -1,11 +1,7 @@
 package com.example.nutrimatebackend.dtos.api.openFoodFacts;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Data
 public class Product {
@@ -16,11 +12,4 @@ public class Product {
     private String[] allergensTags;
 
     private Nutriments nutriments;
-
-    Map<String, Object> other = new LinkedHashMap<>();
-
-    @JsonAnySetter
-    void setDetail(String key, Object value) {
-        other.put(key, value);
-    }
 }
