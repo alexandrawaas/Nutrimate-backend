@@ -11,7 +11,7 @@ public class OpenFoodFactsResponse {
     Product product;
 
     @Data
-    static class Product {
+    public static class Product {
         @JsonProperty("categories_tags")
         List<String> categoriesTags;
 
@@ -20,9 +20,9 @@ public class OpenFoodFactsResponse {
     }
 
     @Data
-    static class Nutriments {
+    public static class Nutriments {
         @JsonProperty("energy-kcal_100g")
-        int energyKcal100g;
+        double energyKcal100g;
 
         @JsonProperty("fat_100g")
         double fat100g;
