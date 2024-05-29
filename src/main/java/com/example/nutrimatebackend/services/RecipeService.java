@@ -1,25 +1,23 @@
 package com.example.nutrimatebackend.services;
 
 import com.example.nutrimatebackend.dtos.api.edamam.EdamamResponse;
-import com.example.nutrimatebackend.dtos.api.edamam.Hit;
+import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import org.apache.http.client.utils.URIBuilder;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RecipeService
 {
+    private final RecipeConverter recipeConverter;
     private final WebClient webClient;
 
     public RecipeService(WebClient webClient) {
         this.webClient = webClient;
+        this.recipeConverter = new RecipeConverter();
     }
 
     public List<RecipeDTOResponse> searchRecipes() {
@@ -33,8 +31,8 @@ public class RecipeService
                 .addParameter("app_id", "c0f268ea")
                 .addParameter("app_key", "ae91ed6e3daff98e50ae16324d419b63")
 
-                // Search recipes with "chicken"
-                .addParameter("q", "Nutella")
+                // Search term
+                .addParameter("q", "Spongebob")
 
                 .toString();
 
@@ -45,38 +43,6 @@ public class RecipeService
                 .bodyToMono(EdamamResponse.class)
                 .block();
 
-        List<RecipeDTOResponse> recipeURLs = new ArrayList<>();
-
-        if (response == null) {
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Recipe not found");
-        }
-
-        // TODO: create a converter here
-        for (Hit hit : response.getHits()) {
-            String recipeURL = hit.getRecipe().getUri();
-
-            // The returned urls from Edamam are broken
-            // Let's fix them here
-            try {
-                String recipeID = new URIBuilder(recipeURL).getFragment();
-
-                String fixedRecipeURL = new URIBuilder()
-                        .setScheme("https")
-                        .setHost("www.edamam.com")
-                        .setPath("/results/recipe")
-                        .addParameter("recipe", recipeID)
-                        .toString();
-
-                RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse(fixedRecipeURL);
-                recipeURLs.add(recipeDTOResponse);
-
-            } catch (URISyntaxException e) {
-                throw new ResponseStatusException(
-                        HttpStatus.INTERNAL_SERVER_ERROR,
-                        "Can't repair broken URL from Edamam"
-                );
-            }
-        }
-        return recipeURLs;
+        return recipeConverter.convertResponseToDTOList(response);
     }
 }
