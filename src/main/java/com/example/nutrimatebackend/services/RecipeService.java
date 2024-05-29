@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -53,11 +55,26 @@ public class RecipeService
         // TODO: create a converter here
         for (Hit hit : response.getHits()) {
             String recipeURL = hit.getRecipe().getUri();
-            RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse(recipeURL);
-            recipeURLs.add(recipeDTOResponse);
-        }
 
-        // TODO: add URL converter to fix broken urls
+            // The returned urls from Edamam are broken
+            // Let's fix them here
+            try {
+                String recipeID = new URIBuilder(recipeURL).getFragment();
+
+                String fixedRecipeURL = new URIBuilder()
+                        .setScheme("https")
+                        .setHost("www.edamam.com")
+                        .setPath("/results/recipe")
+                        .addParameter("recipe", recipeID)
+                        .toString();
+
+                RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse(fixedRecipeURL);
+                recipeURLs.add(recipeDTOResponse);
+
+            } catch (URISyntaxException e) {
+                return Collections.emptyList();
+            }
+        }
         return recipeURLs;
     }
 }
