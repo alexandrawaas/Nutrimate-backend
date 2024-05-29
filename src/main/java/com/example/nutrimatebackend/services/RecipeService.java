@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -72,7 +71,10 @@ public class RecipeService
                 recipeURLs.add(recipeDTOResponse);
 
             } catch (URISyntaxException e) {
-                return Collections.emptyList();
+                throw new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Can't repair broken URL from Edamam"
+                );
             }
         }
         return recipeURLs;
