@@ -4,6 +4,7 @@ import com.example.nutrimatebackend.dtos.api.edamam.EdamamResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -14,10 +15,12 @@ public class RecipeService
 {
     private final RecipeConverter recipeConverter;
     private final WebClient webClient;
+    private final Environment env;
 
-    public RecipeService(WebClient webClient) {
+    public RecipeService(WebClient webClient, RecipeConverter recipeConverter, Environment env) {
         this.webClient = webClient;
-        this.recipeConverter = new RecipeConverter();
+        this.recipeConverter = recipeConverter;
+        this.env = env;
     }
 
     public List<RecipeDTOResponse> searchRecipes() {
@@ -28,8 +31,8 @@ public class RecipeService
                 .setHost("api.edamam.com")
                 .setPath("/api/recipes/v2")
                 .addParameter("type", "public")
-                .addParameter("app_id", "c0f268ea")
-                .addParameter("app_key", "ae91ed6e3daff98e50ae16324d419b63")
+                .addParameter("app_id", env.getProperty("edamam.app.id"))
+                .addParameter("app_key", env.getProperty("edamam.app.key"))
 
                 // Search term
                 .addParameter("q", "Spongebob")
