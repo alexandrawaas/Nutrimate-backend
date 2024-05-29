@@ -8,11 +8,15 @@ import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
 import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.repositories.FoodRepository;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -57,6 +61,10 @@ public class FoodService {
                 .retrieve()
                 .bodyToMono(OpenFoodFactsResponse.class)
                 .block();
+
+        if (response == null) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Barcode not found");
+        }
 
         return foodConverter.convertServerResponseToDtoResponse(response);
     }

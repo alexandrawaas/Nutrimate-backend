@@ -21,17 +21,17 @@ public class FoodController {
         this.foodService = foodService;
     }
 
-    @GetMapping(value = "/food")
+    @GetMapping(value = "/fridge/food")
     List<FoodDTOResponse> getAllFood() {
         return foodService.getAllFood();
     }
 
-    @PostMapping(path="/food")
+    @PostMapping(path="/fridge/food")
     List<FoodDTOResponse> createFood(@RequestBody FoodDTORequest foodDtoRequest) {
         return foodService.createFood(foodDtoRequest);
     }
 
-    @GetMapping(value = "/food/scan/{barcode}")
+    @GetMapping(value = "/food/{barcode}")
     FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
     {
         try {
@@ -42,7 +42,7 @@ public class FoodController {
         }
     }
 
-    @PatchMapping("/food/{foodId}")
+    @PatchMapping("/fridge/food/{foodId}")
     FoodDTOResponse openFood(@PathVariable Long foodId, @RequestBody int daysToConsume)
     {
         try {
@@ -52,7 +52,7 @@ public class FoodController {
         }
     }
 
-    @GetMapping(value="/food/{foodId}")
+    @GetMapping(value="/fridge/food/{foodId}")
     FoodDTOResponse getFoodById(@PathVariable Long foodId)
     {
         try {
@@ -63,14 +63,14 @@ public class FoodController {
         }
     }
 
-    @DeleteMapping(value="/food/{foodId}")
+    @DeleteMapping(value="/fridge/food/{foodId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteFood(@PathVariable("foodId") Long id)
     {
         foodService.deleteFood(id);
     }
 
-    @GetMapping(value = "/food/{foodId}/environmental-score")
+    @GetMapping(value = "/fridge/food/{foodId}/environmental-score")
     EnvironmentalScoreDTOResponse getEnvironmentalScore(@PathVariable Long foodId)
     {
         try {

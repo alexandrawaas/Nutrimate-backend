@@ -1,7 +1,7 @@
 package com.example.nutrimatebackend.dtos.api;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
 import java.util.List;
 
 @Data
@@ -12,37 +12,19 @@ public class OpenFoodFactsResponse {
 
     @Data
     public static class Product {
-        @JsonProperty("categories_tags")
-        List<String> categoriesTags;
-
-        @JsonProperty("allergens_tags")
-        List<String> allergensTags;
+        List<String> categories_tags;
+        List<String> allergens_tags;
     }
 
     @Data
     public static class Nutriments {
-        @JsonProperty("energy-kcal_100g")
-        double energyKcal100g;
-
-        @JsonProperty("fat_100g")
-        double fat100g;
-
-        @JsonProperty("fiber_100g")
-        double fiber100g;
-
-        @JsonProperty("saturated-fat_100g")
-        double saturatedFat100g;
-
-        @JsonProperty("sugars_100g")
-        double sugars100g;
-
-        @JsonProperty("carbohydrates_100g")
-        double carbohydrates100g;
-
-        @JsonProperty("proteins_100g")
-        double proteins100g;
-
-        @JsonProperty("salt_100g")
-        double salt100g;
+        double energyKcal_100g;
+        double fat_100g;
+        double fiber_100g;
+        double saturatedFat_100g;
+        double sugars_100g;
+        double carbohydrates_100g;
+        double proteins_100g;
+        double salt_100g;
     }
 }

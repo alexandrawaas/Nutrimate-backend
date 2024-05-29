@@ -3,8 +3,10 @@ package com.example.nutrimatebackend.services;
 import com.example.nutrimatebackend.dtos.api.EdamamRawRecipeResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,8 +47,7 @@ public class RecipeService
         List<RecipeDTOResponse> recipeURLs = new ArrayList<>();
 
         if (response == null) {
-            // TODO: return 204 zurück,  nicht 200
-            return Collections.emptyList();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Recipe not found");
         }
 
         // TODO: create a converter here
