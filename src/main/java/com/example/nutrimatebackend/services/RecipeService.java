@@ -5,8 +5,10 @@ import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -45,6 +47,10 @@ public class RecipeService
                 .retrieve()
                 .bodyToMono(EdamamResponse.class)
                 .block();
+
+        if (response == null) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Recipe not found");
+        }
 
         return recipeConverter.convertResponseToDTOList(response);
     }

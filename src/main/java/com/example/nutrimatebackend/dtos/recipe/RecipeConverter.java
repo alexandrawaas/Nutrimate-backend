@@ -17,10 +17,6 @@ public class RecipeConverter
     public List<RecipeDTOResponse> convertResponseToDTOList(EdamamResponse response) {
         List<RecipeDTOResponse> recipeURLs = new ArrayList<>();
 
-        if (response == null) {
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Recipe not found");
-        }
-
         // TODO: create a converter here
         for (Hit hit : response.getHits()) {
             String recipeURL = hit.getRecipe().getUri();
