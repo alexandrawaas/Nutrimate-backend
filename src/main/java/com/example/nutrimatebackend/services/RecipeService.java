@@ -49,6 +49,7 @@ public class RecipeService
             return Collections.emptyList();
         }
 
+        // TODO: create a converter here
         for (EdamamRawRecipeResponse.Hit hit : response.getHits()) {
             String recipeURL = hit.getRecipe().getUri();
             RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse(recipeURL);
