@@ -1,9 +1,9 @@
 package com.example.nutrimatebackend.controllers;
 
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
-import com.example.nutrimatebackend.dtos.food.FoodConverter;
 import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
 import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
+import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
 import com.example.nutrimatebackend.services.FoodService;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class FoodController {
     }
 
     @GetMapping(value = "/food/scan/{barcode}")
-    FoodDTOResponse getFoodByBarcode(@PathVariable String barcode)
+    FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
     {
         try {
             return foodService.getFoodByBarcode(barcode);
