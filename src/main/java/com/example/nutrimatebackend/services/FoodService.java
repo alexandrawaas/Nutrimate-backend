@@ -1,6 +1,6 @@
 package com.example.nutrimatebackend.services;
 
-import com.example.nutrimatebackend.dtos.api.OpenFoodFactsResponse;
+import com.example.nutrimatebackend.dtos.api.openFoodFacts.OpenFoodFactsResponse;
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodConverter;
 import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
@@ -8,7 +8,6 @@ import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
 import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.repositories.FoodRepository;
-import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service

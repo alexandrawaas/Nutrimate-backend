@@ -1,8 +1,10 @@
 package com.example.nutrimatebackend.dtos.food;
 
-import com.example.nutrimatebackend.dtos.api.OpenFoodFactsResponse;
+import com.example.nutrimatebackend.dtos.api.openFoodFacts.OpenFoodFactsResponse;
 import com.example.nutrimatebackend.entities.Food;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 @Service
 public class FoodConverter {
@@ -19,16 +21,16 @@ public class FoodConverter {
 
         return new FoodScanDTOResponse(
                 response.getCode(),
-                response.getNutriments().getEnergyKcal_100g(),
-                response.getNutriments().getFat_100g(),
-                response.getNutriments().getSaturatedFat_100g(),
-                response.getNutriments().getCarbohydrates_100g(),
-                response.getNutriments().getSugars_100g(),
-                response.getNutriments().getFiber_100g(),
-                response.getNutriments().getProteins_100g(),
-                response.getNutriments().getSalt_100g(),
-                response.getProduct().getAllergens_tags(),
-                response.getProduct().getCategories_tags().getLast()
+                response.getNutriments().getEnergyKcal100g(),
+                response.getNutriments().getFat100g(),
+                response.getNutriments().getSaturatedFat100g(),
+                response.getNutriments().getCarbohydrates100g(),
+                response.getNutriments().getSugars100g(),
+                response.getNutriments().getFiber100g(),
+                response.getNutriments().getProteins100g(),
+                response.getNutriments().getSalt100g(),
+                Arrays.stream(response.getProduct().getAllergensTags()).toList(),
+                Arrays.stream(response.getProduct().getCategoriesTags()).toList().getLast()
         );
     }
 
