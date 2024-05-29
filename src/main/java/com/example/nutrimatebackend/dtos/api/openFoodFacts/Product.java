@@ -15,6 +15,8 @@ public class Product {
     @JsonProperty("allergens_tags")
     private String[] allergensTags;
 
+    private Nutriments nutriments;
+
     Map<String, Object> other = new LinkedHashMap<>();
 
     @JsonAnySetter

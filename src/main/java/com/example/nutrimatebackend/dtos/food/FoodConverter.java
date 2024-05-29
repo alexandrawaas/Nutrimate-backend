@@ -21,14 +21,14 @@ public class FoodConverter {
 
         return new FoodScanDTOResponse(
                 response.getCode(),
-                response.getNutriments().getEnergyKcal100g(),
-                response.getNutriments().getFat100g(),
-                response.getNutriments().getSaturatedFat100g(),
-                response.getNutriments().getCarbohydrates100g(),
-                response.getNutriments().getSugars100g(),
-                response.getNutriments().getFiber100g(),
-                response.getNutriments().getProteins100g(),
-                response.getNutriments().getSalt100g(),
+                response.getProduct().getNutriments().getEnergyKcal100g(),
+                response.getProduct().getNutriments().getFat100g(),
+                response.getProduct().getNutriments().getSaturatedFat100g(),
+                response.getProduct().getNutriments().getCarbohydrates100g(),
+                response.getProduct().getNutriments().getSugars100g(),
+                response.getProduct().getNutriments().getFiber100g(),
+                response.getProduct().getNutriments().getProteins100g(),
+                response.getProduct().getNutriments().getSalt100g(),
                 Arrays.stream(response.getProduct().getAllergensTags()).toList(),
                 Arrays.stream(response.getProduct().getCategoriesTags()).toList().getLast()
         );

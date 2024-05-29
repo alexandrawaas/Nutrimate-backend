@@ -9,7 +9,6 @@ import java.util.Map;
 @Data
 public class OpenFoodFactsResponse {
     private String code;
-    private Nutriments nutriments;
     private Product product;
 
     Map<String, Object> other = new LinkedHashMap<>();
