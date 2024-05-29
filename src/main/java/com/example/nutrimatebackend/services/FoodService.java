@@ -1,12 +1,16 @@
 package com.example.nutrimatebackend.services;
 
+import com.example.nutrimatebackend.dtos.api.OpenFoodFactsResponse;
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodConverter;
 import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
 import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
+import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
 import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.repositories.FoodRepository;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +20,13 @@ public class FoodService {
 
     private final FoodRepository foodRepository;
     private final FoodConverter foodConverter;
+    private final WebClient webClient;
 
 
-    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter) {
+    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient) {
         this.foodRepository = foodRepository;
         this.foodConverter = foodConverter;
+        this.webClient = webClient;
     }
 
     public List<FoodDTOResponse> getAllFood() {
@@ -36,9 +42,23 @@ public class FoodService {
         return list;
     }
 
-    public FoodDTOResponse getFoodByBarcode(String barcode) {
-        Food food = foodRepository.findByBarcode(barcode).orElseThrow(() -> new RuntimeException("Food not found"));
-        return foodConverter.convertToDtoResponse(food);
+    public FoodScanDTOResponse getFoodByBarcode(String barcode) {
+        String path = String.format("/api/v0/product/%s.json", barcode);
+
+        String url = new URIBuilder()
+                .setScheme("https")
+                .setHost("en.openfoodfacts.org")
+                .setPath(path)
+                .toString();
+
+        OpenFoodFactsResponse response = webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(OpenFoodFactsResponse.class)
+                .block();
+
+        return foodConverter.convertServerResponseToDtoResponse(response);
     }
 
     public FoodDTOResponse openFood(Long foodId, int daysToConsume) {
