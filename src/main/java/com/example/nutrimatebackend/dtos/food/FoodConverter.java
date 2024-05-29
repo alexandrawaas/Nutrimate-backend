@@ -18,7 +18,6 @@ public class FoodConverter {
     }
 
     public FoodScanDTOResponse convertServerResponseToDtoResponse(OpenFoodFactsResponse response) {
-
         return new FoodScanDTOResponse(
                 response.getCode(),
                 response.getProduct().getNutriments().getEnergyKcal100g(),
@@ -29,8 +28,8 @@ public class FoodConverter {
                 response.getProduct().getNutriments().getFiber100g(),
                 response.getProduct().getNutriments().getProteins100g(),
                 response.getProduct().getNutriments().getSalt100g(),
-                Arrays.stream(response.getProduct().getAllergensTags()).toList(),
-                Arrays.stream(response.getProduct().getCategoriesTags()).toList().getLast()
+                response.getProduct().getAllergensTags(),
+                response.getProduct().getCategoriesTags().getLast()
         );
     }
 
