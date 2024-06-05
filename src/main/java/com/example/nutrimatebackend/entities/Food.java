@@ -26,14 +26,14 @@ public class Food {
     Integer daysToConsume;
 
     // nutritional values
-    int calories;
-    int fats;
-    int saturatedFats;
-    int carbs;
-    int sugar;
-    int fibers;
-    int proteins;
-    int salt;
+    double calories;
+    double fats;
+    double saturatedFats;
+    double carbs;
+    double sugar;
+    double fibers;
+    double proteins;
+    double salt;
 
     public Food(String name, String category, String barcode, LocalDateTime expireDate, List<Allergen> allergens, int calories, int fats, int saturatedFats, int carbs, int sugar, int fibers, int proteins, int salt) {
         isOpen = false;
