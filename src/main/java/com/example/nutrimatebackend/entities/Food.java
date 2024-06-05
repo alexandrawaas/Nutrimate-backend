@@ -1,5 +1,6 @@
 package com.example.nutrimatebackend.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,6 +24,8 @@ public class Food {
 
     // when the food gets opened, save the days to consume this food
     boolean isOpen;
+
+    @Nullable
     Integer daysToConsume;
 
     // nutritional values
@@ -37,7 +40,7 @@ public class Food {
 
     public Food(String name, String category, String barcode, LocalDateTime expireDate, List<Allergen> allergens, int calories, int fats, int saturatedFats, int carbs, int sugar, int fibers, int proteins, int salt) {
         isOpen = false;
-        daysToConsume = 0;
+        daysToConsume = null;
 
         this.name = name;
         this.category = category;
