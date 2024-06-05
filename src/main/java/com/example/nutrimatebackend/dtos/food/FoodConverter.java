@@ -13,7 +13,20 @@ public class FoodConverter {
         return new FoodDTOResponse(
                 food.getId(),
                 food.getBarcode(),
-                food.getExpireDate()
+                food.getExpireDate(),
+                food.getCategory(),
+                food.getName(),
+                food.isOpen(),
+                food.getDaysToConsume(),
+                food.getCalories(),
+                food.getFats(),
+                food.getSaturatedFats(),
+                food.getCarbs(),
+                food.getSugar(),
+                food.getFibers(),
+                food.getProteins(),
+                food.getSalt(),
+                food.getAllergens()
         );
     }
 
@@ -29,7 +42,8 @@ public class FoodConverter {
                 response.getProduct().getNutriments().getProteins100g(),
                 response.getProduct().getNutriments().getSalt100g(),
                 response.getProduct().getAllergensTags(),
-                response.getProduct().getCategoriesTags().getLast()
+                response.getProduct().getCategoriesTags().getLast(),
+                response.getProduct().getProductName()
         );
     }
 

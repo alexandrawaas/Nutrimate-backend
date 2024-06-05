@@ -42,6 +42,7 @@ public class FoodController {
         }
     }
 
+    // TODO: DTO erstellen für daysToConsume
     @PatchMapping("/fridge/food/{foodId}")
     FoodDTOResponse openFood(@PathVariable Long foodId, @RequestBody int daysToConsume)
     {

@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class FoodScanDTOResponse {
+    private String name;
     private String barcode;
     private double calories;
     private double fat;
@@ -20,7 +21,7 @@ public class FoodScanDTOResponse {
 
     private String category;
 
-    public FoodScanDTOResponse(String barcode, double calories, double fat, double saturatedFats, double carbs, double sugar, double fibers, double protein, double salt, List<String> allergens, String category) {
+    public FoodScanDTOResponse(String barcode, double calories, double fat, double saturatedFats, double carbs, double sugar, double fibers, double protein, double salt, List<String> allergens, String category, String name) {
         this.barcode = barcode;
         this.calories = calories;
         this.fat = fat;
@@ -32,5 +33,6 @@ public class FoodScanDTOResponse {
         this.salt = salt;
         this.allergens = allergens;
         this.category = category;
+        this.name = name;
     }
 }

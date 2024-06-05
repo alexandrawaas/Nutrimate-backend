@@ -57,6 +57,7 @@ public class FoodService {
         for (int i = 0; i < amount; i++) {
             Food foodEntity = foodConverter.convertToEntity(foodDTORequest);
 
+            foodEntity.setName(foodRequest.getName());
             foodEntity.setCalories(foodRequest.getCalories());
             foodEntity.setFats(foodRequest.getFat());
             foodEntity.setCarbs(foodRequest.getCarbs());

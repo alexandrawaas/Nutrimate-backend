@@ -13,5 +13,8 @@ public class Product {
     @JsonProperty("allergens_tags")
     private List<String> allergensTags;
 
+    @JsonProperty("product_name")
+    private String productName;
+
     private Nutriments nutriments;
 }
