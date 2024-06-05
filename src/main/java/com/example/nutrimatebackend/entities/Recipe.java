@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Recipe {
+public class Recipe implements Comparable<Recipe> {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -20,4 +20,9 @@ public class Recipe {
     }
 
     public Recipe() {}
+
+    @Override
+    public int compareTo(Recipe other) {
+        return url.compareTo(other.url);
+    }
 }
