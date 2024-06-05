@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Long>, JpaSpecificationExecutor<Food> {
-    Food findByBarcode(String barcode);
+    Optional<Food> findByBarcode(String barcode);
 
 }
