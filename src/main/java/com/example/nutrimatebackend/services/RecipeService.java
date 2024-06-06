@@ -3,6 +3,7 @@ package com.example.nutrimatebackend.services;
 import com.example.nutrimatebackend.dtos.api.edamam.EdamamResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
+import com.example.nutrimatebackend.dtos.recipe.RecipeSearchDTORequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,13 @@ public class RecipeService
         this.env = env;
     }
 
-    public List<RecipeDTOResponse> searchRecipes() {
+    public List<RecipeDTOResponse> searchRecipes(RecipeSearchDTORequest request) {
         // TODO: fetch recipes suitable for the users fridges content
+
+        StringBuilder queries = new StringBuilder();
+        for (String category : request.categories) {
+            queries.append(category).append(" ");
+        }
 
         String url = new URIBuilder()
                 .setScheme("https")
@@ -36,8 +42,8 @@ public class RecipeService
                 .addParameter("app_id", env.getProperty("edamam.app.id"))
                 .addParameter("app_key", env.getProperty("edamam.app.key"))
 
-                // Search term
-                .addParameter("q", "Spongebob")
+                // Search terms
+                .addParameter("q", queries.toString())
 
                 .toString();
 

@@ -50,14 +50,20 @@ public class FoodService {
         List<Allergen> allergens = new ArrayList<>();
 
         for (String allergenName : foodRequest.getAllergens()) {
-            Allergen allergen = allergenRepository.findByName(allergenName);
+            Allergen allergen = allergenRepository.findByNameIgnoreCase(allergenName.substring(3));
+            if(allergen == null) {
+                System.out.println("Allergen not found: " + allergenName);
+            }
             allergens.add(allergen);
         }
+
+        String category = foodRequest.getCategory().substring(3).replace("-", " ");
 
         for (int i = 0; i < amount; i++) {
             Food foodEntity = foodConverter.convertToEntity(foodDTORequest);
 
             foodEntity.setName(foodRequest.getName());
+            foodEntity.setCategory(category);
             foodEntity.setCalories(foodRequest.getCalories());
             foodEntity.setFats(foodRequest.getFat());
             foodEntity.setCarbs(foodRequest.getCarbs());
