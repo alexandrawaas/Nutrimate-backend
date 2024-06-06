@@ -45,6 +45,11 @@ public class UserService
         this.recipeConverter = recipeConverter;
     }
 
+    public User getCurrentUser(){
+        //TODO: Implement with Auth
+        return userRepository.findAll().getFirst();
+    }
+
     public UserDTOResponse add(UserDTORequest userDTORequest){
         User newUser = userRepository.saveAndFlush(new User(userDTORequest.eMail, userDTORequest.password, new Fridge(), Set.of(), List.of()));
 
