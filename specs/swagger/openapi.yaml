@@ -82,6 +82,34 @@ paths:
         '404':
           description: Food not found in the database
 
+  /food/{barcode}/matching-allergens:
+    get:
+      tags:
+        - food
+      summary: Get allergens of a food that match the user's allergens
+      description: Get a list of allergens of the food that match the user's allergens
+      operationId: getMatchingAllergens
+      parameters:
+        - name: barcode
+          in: path
+          description: barcode of food to return allergens of
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Allergen'
+        '401':
+          description: User not authenticated
+        '404':
+          description: Food not found
+
   /fridge/food/{foodId}:
     patch:
       tags:
