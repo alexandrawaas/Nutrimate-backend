@@ -33,7 +33,7 @@ class Seeder {
         if(enableSeeder) {
             return args -> {
                 // Seed categories
-                log.info("Preloading " + allergenRepository.save(new Allergen("Lactose")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Milk")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Peanuts")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Gluten")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Shellfish")));
@@ -41,7 +41,6 @@ class Seeder {
                 log.info("Preloading " + allergenRepository.save(new Allergen("Tree nuts")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Eggs")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Fish")));
-                log.info("Preloading " + allergenRepository.save(new Allergen("Wheat")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Sesame")));
 
                 // Seed some foods

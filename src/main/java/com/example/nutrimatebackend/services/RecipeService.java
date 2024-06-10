@@ -4,6 +4,7 @@ import com.example.nutrimatebackend.dtos.api.edamam.EdamamResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeSearchDTORequest;
+import com.example.nutrimatebackend.utils.AllergenTranslator;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -33,8 +34,10 @@ public class RecipeService
         for (String category : request.categories) {
             queries.append(category).append(" ");
         }
+        queries.deleteCharAt(queries.length() - 1);
 
-        String url = new URIBuilder()
+
+        URIBuilder uriBuilder = new URIBuilder()
                 .setScheme("https")
                 .setHost("api.edamam.com")
                 .setPath("/api/recipes/v2")
@@ -43,9 +46,18 @@ public class RecipeService
                 .addParameter("app_key", env.getProperty("edamam.app.key"))
 
                 // Search terms
-                .addParameter("q", queries.toString())
+                .addParameter("q", queries.toString());
 
-                .toString();
+                // Health labels
+                for (String allergen : request.allergens)
+                {
+                    allergen = AllergenTranslator.translateOpenFoodFactsToEdamam(allergen);
+                    if(allergen != "") uriBuilder.addParameter("health", allergen);
+                }
+
+        String url = uriBuilder.toString();
+
+        System.out.println(url);
 
         EdamamResponse response = webClient
                 .get()
