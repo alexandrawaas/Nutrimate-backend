@@ -41,10 +41,12 @@ public class FoodController {
     }
 
     @GetMapping(value = "/food/{barcode}")
-    FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
+    public FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
     {
         try {
-            return foodService.getFoodByBarcode(barcode);
+            FoodScanDTOResponse response = foodService.getFoodByBarcode(barcode);
+            response.addLinks(barcode);
+            return response;
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
