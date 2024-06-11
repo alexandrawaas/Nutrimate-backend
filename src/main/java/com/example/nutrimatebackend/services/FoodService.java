@@ -2,23 +2,22 @@ package com.example.nutrimatebackend.services;
 
 import com.example.nutrimatebackend.dtos.api.openFoodFacts.OpenFoodFactsResponse;
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
-import com.example.nutrimatebackend.dtos.food.FoodConverter;
-import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
-import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
-import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
+import com.example.nutrimatebackend.dtos.food.*;
 import com.example.nutrimatebackend.entities.Allergen;
 import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.repositories.FoodRepository;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,13 +27,20 @@ public class FoodService {
     private final FoodConverter foodConverter;
     private final WebClient webClient;
     private final AllergenRepository allergenRepository;
+    private final FoodAssembler foodAssembler;
 
 
-    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository) {
+    public FoodService(FoodAssembler foodAssembler, FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository) {
         this.foodRepository = foodRepository;
         this.foodConverter = foodConverter;
         this.webClient = webClient;
         this.allergenRepository = allergenRepository;
+        this.foodAssembler = foodAssembler;
+    }
+
+    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
+        Page<Food> response = foodRepository.findAll(pageable);
+        return foodAssembler.toPagedModel(response);
     }
 
     public List<FoodDTOResponse> getAllFood() {
