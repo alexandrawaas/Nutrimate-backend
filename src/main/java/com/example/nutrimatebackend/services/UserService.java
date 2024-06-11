@@ -58,7 +58,6 @@ public class UserService
 
     public Set<AllergenDTOResponse> getAllergens(Long userId){
         User user = userRepository.findById(userId).orElseThrow();
-
         return allergenConverter.convertSetToDTOResponse(user.getAllergens());
     }
 
