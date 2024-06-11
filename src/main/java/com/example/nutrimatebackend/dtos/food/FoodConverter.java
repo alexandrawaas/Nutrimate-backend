@@ -42,7 +42,7 @@ public class FoodConverter {
                 response.getProduct().getNutriments().getProteins100g(),
                 response.getProduct().getNutriments().getSalt100g(),
                 response.getProduct().getAllergensTags(),
-                response.getProduct().getCategoriesTags().getLast(),
+                response.getProduct().getCategoriesTags().getLast().substring(3).replace("-", " "),
                 response.getProduct().getProductName()
         );
     }
