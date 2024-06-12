@@ -38,10 +38,17 @@ class Seeder {
                 log.info("Preloading " + allergenRepository.save(new Allergen("Gluten")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Shellfish")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Soy")));
-                log.info("Preloading " + allergenRepository.save(new Allergen("Tree nuts")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Tree Nuts")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Eggs")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Fish")));
-                log.info("Preloading " + allergenRepository.save(new Allergen("Sesame")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Mustard")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Celery")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Sulphur Dioxide and Sulphites")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Lupin")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Molluscs")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Crustaceans")));
+
+
 
                 // Seed some foods
                 log.info("Preloading " + foodRepository.save(

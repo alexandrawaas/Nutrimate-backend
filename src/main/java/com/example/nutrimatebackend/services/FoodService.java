@@ -1,5 +1,7 @@
 package com.example.nutrimatebackend.services;
 
+import com.example.nutrimatebackend.dtos.allergen.AllergenConverter;
+import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
 import com.example.nutrimatebackend.dtos.api.openFoodFacts.OpenFoodFactsResponse;
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodConverter;
@@ -17,9 +19,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FoodService {
@@ -28,13 +29,17 @@ public class FoodService {
     private final FoodConverter foodConverter;
     private final WebClient webClient;
     private final AllergenRepository allergenRepository;
+    private final AllergenConverter allergenConverter;
+    private final UserService userService;
 
 
-    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository) {
+    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository, AllergenConverter allergenConverter, UserService userService) {
         this.foodRepository = foodRepository;
         this.foodConverter = foodConverter;
         this.webClient = webClient;
         this.allergenRepository = allergenRepository;
+        this.allergenConverter = allergenConverter;
+        this.userService = userService;
     }
 
     public List<FoodDTOResponse> getAllFood() {
@@ -126,6 +131,22 @@ public class FoodService {
         Food food = foodRepository.findById(foodId).orElseThrow(() -> new RuntimeException("Food not found"));
         int score = food.calculateEnvironmentalScore();
         return new EnvironmentalScoreDTOResponse(score);
+    }
+
+    public List<AllergenDTOResponse> getMatchingAllergensByFoodBarcode(String barcode) {
+        Optional<Food> food = foodRepository.findByBarcode(barcode);
+        List<Allergen> foodAllergens = new ArrayList<>();
+        if (food.isEmpty()) {
+            foodAllergens = getFoodByBarcode(barcode).getAllergens().stream().map(allergenName -> allergenRepository.findByNameIgnoreCase(allergenName.substring(3))).toList();
+        }
+        else {
+            foodAllergens = food.get().getAllergens();
+        }
+        Set<Allergen> userAllergens = userService.getCurrentUser().getAllergens();
+        Set<Allergen> matchingAllergens = new HashSet<Allergen>();
+        matchingAllergens= userAllergens.stream().filter(foodAllergens::contains).collect(Collectors.toSet());
+
+        return matchingAllergens.stream().map(allergenConverter::convertToDTOResponse).toList();
     }
 
 }

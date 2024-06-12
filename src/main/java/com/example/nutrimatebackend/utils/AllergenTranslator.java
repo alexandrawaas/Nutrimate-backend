@@ -15,6 +15,12 @@ public class AllergenTranslator
                     case "shellfish" -> "shellfish-free";
                     case "fish" -> "fish-free";
                     case "tree nuts" -> "tree-nut-free";
+                    case "mustard" -> "mustard-free";
+                    case "sulphur dioxide and sulphites" -> "sulfite-free";
+                    case "lupin" -> "lupine-free";
+                    case "molluscs" -> "mollusk-free";
+                    case "celery" -> "celery-free";
+                    case "crustaceans" -> "crustacean-free";
                     default -> "";
                 };
     }

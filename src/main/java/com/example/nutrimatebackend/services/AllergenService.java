@@ -1,6 +1,7 @@
 package com.example.nutrimatebackend.services;
 
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
+import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.dtos.allergen.AllergenConverter;
 
@@ -21,4 +22,7 @@ public class AllergenService
     public List<AllergenDTOResponse> getAllAllergens() {
         return allergenRepository.findAll().stream().map(allergenConverter::convertToDTOResponse).toList();
     }
+
+
 }
+
