@@ -57,13 +57,11 @@ public class FoodService {
             allergens.add(allergen);
         }
 
-        String category = foodRequest.getCategory().substring(3).replace("-", " ");
-
         for (int i = 0; i < amount; i++) {
             Food foodEntity = foodConverter.convertToEntity(foodDTORequest);
 
             foodEntity.setName(foodRequest.getName());
-            foodEntity.setCategory(category);
+            foodEntity.setCategory(foodRequest.getCategory().substring(3).replace("-", " "));
             foodEntity.setCalories(foodRequest.getCalories());
             foodEntity.setFats(foodRequest.getFat());
             foodEntity.setCarbs(foodRequest.getCarbs());
@@ -72,7 +70,6 @@ public class FoodService {
             foodEntity.setFibers(foodRequest.getFibers());
             foodEntity.setSaturatedFats(foodRequest.getSaturatedFats());
             foodEntity.setSugar(foodRequest.getSugar());
-
             foodEntity.setAllergens(allergens);
 
             dtoResponseList.add(foodConverter.convertToDtoResponse(
@@ -102,6 +99,8 @@ public class FoodService {
         if (response == null) {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Barcode not found");
         }
+
+
 
         return foodConverter.convertServerResponseToDtoResponse(response);
     }
