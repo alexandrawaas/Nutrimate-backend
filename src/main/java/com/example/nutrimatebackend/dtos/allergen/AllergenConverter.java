@@ -14,6 +14,6 @@ public class AllergenConverter
     }
 
     public Set<AllergenDTOResponse> convertSetToDTOResponse(Set<Allergen> allergens) {
-        return allergens.stream().map(allergen -> convertToDTOResponse(allergen)).collect(Collectors.toSet());
+        return allergens.stream().map(this::convertToDTOResponse).collect(Collectors.toSet());
     }
 }

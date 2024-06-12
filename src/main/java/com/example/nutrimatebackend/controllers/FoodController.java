@@ -1,5 +1,6 @@
 package com.example.nutrimatebackend.controllers;
 
+import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
 import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
@@ -8,6 +9,7 @@ import com.example.nutrimatebackend.services.FoodService;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,8 +33,9 @@ public class FoodController {
         return foodService.createFood(foodDtoRequest);
     }
 
+    @Cacheable("food")
     @GetMapping(value = "/food/{barcode}")
-    FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
+    public FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
     {
         try {
             return foodService.getFoodByBarcode(barcode);
@@ -76,6 +79,16 @@ public class FoodController {
     {
         try {
             return foodService.getEnvironmentalScore(foodId);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+    @GetMapping(value = "/food/{barcode}/matching-allergens")
+    public List<AllergenDTOResponse> getMatchingAllergens(@PathVariable String barcode)
+    {
+        try {
+            return foodService.getMatchingAllergensByFoodBarcode(barcode);
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
