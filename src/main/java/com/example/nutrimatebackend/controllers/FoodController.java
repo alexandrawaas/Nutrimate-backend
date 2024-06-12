@@ -5,11 +5,9 @@ import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDT
 import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
 import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
-import com.example.nutrimatebackend.services.AllergenService;
 import com.example.nutrimatebackend.services.FoodService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -19,12 +17,10 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class FoodController {
     private final FoodService foodService;
-    private final AllergenService allergenService;
 
-    public FoodController(FoodService foodService, AllergenService allergenService)
+    public FoodController(FoodService foodService)
     {
         this.foodService = foodService;
-        this.allergenService = allergenService;
     }
 
     @GetMapping(value = "/fridge/food")
