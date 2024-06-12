@@ -8,6 +8,7 @@ import com.example.nutrimatebackend.services.FoodService;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,8 +32,9 @@ public class FoodController {
         return foodService.createFood(foodDtoRequest);
     }
 
+    @Cacheable("food")
     @GetMapping(value = "/food/{barcode}")
-    FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
+    public FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
     {
         try {
             return foodService.getFoodByBarcode(barcode);
