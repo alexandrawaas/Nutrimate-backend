@@ -41,6 +41,9 @@ public class FoodService {
         this.foodAssembler = foodAssembler;
         this.allergenConverter = allergenConverter;
         this.userService = userService;
+
+    }
+
     public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
         Page<Food> response = foodRepository.findAll(pageable);
         return foodAssembler.toPagedModel(response);
