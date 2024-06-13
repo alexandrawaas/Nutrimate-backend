@@ -2,10 +2,10 @@ package com.example.nutrimatebackend.controllers;
 
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
+import com.example.nutrimatebackend.dtos.food.DaysToConsumeRequestDTO;
 import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
 import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
-import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.services.FoodService;
 
 import java.util.List;
@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -56,12 +55,11 @@ public class FoodController {
         }
     }
 
-    // TODO: DTO erstellen für daysToConsume
-    @PatchMapping("/fridge/food/{foodId}")
-    FoodDTOResponse openFood(@PathVariable Long foodId, @RequestBody int daysToConsume)
+    @PatchMapping(value = "/fridge/food/{foodId}")
+    FoodDTOResponse openFood(@RequestBody DaysToConsumeRequestDTO daysToConsumeDTO, @PathVariable Long foodId)
     {
         try {
-            return foodService.openFood(foodId, daysToConsume);
+            return foodService.openFood(foodId, daysToConsumeDTO.getDaysToConsume());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food not found");
         }
