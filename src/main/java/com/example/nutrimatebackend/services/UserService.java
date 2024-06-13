@@ -47,9 +47,10 @@ public class UserService
         this.recipeConverter = recipeConverter;
     }
 
-    public User getCurrentUser(){
-        //TODO: Implement with Auth
-        return userRepository.findAll().getFirst();
+    public User getCurrentUser() {
+        return userRepository.findByEmail(
+                getEmail()
+        );
     }
 
     public UserDTOResponse add(UserDTORequest userDTORequest){
@@ -114,7 +115,7 @@ public class UserService
         return recipeConverter.convertToDTOResponse(deletedRecipe);
     }
 
-    public String getEmail() {
+    private String getEmail() {
         OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder
                 .getContext()
                 .getAuthentication();
