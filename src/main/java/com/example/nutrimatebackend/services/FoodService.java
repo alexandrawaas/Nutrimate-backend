@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,16 +25,15 @@ import java.util.List;
 
 @Service
 public class FoodService {
-
     private final FoodRepository foodRepository;
     private final FoodConverter foodConverter;
     private final WebClient webClient;
     private final AllergenRepository allergenRepository;
     private final FoodAssembler foodAssembler;
-    public FoodService(FoodAssembler foodAssembler, FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository) {
     private final AllergenConverter allergenConverter;
     private final UserService userService;
-    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository, AllergenConverter allergenConverter, UserService userService) {
+    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository, AllergenConverter allergenConverter, UserService userService, FoodAssembler foodAssembler)
+    {
         this.foodRepository = foodRepository;
         this.foodConverter = foodConverter;
         this.webClient = webClient;
