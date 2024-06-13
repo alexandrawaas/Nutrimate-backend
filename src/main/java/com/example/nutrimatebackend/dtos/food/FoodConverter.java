@@ -41,7 +41,7 @@ public class FoodConverter {
                 response.getProduct().getNutriments().getFiber100g(),
                 response.getProduct().getNutriments().getProteins100g(),
                 response.getProduct().getNutriments().getSalt100g(),
-                response.getProduct().getAllergensTags(),
+                response.getProduct().getAllergensTags().stream().map(allergen -> allergen.replaceFirst("en:", "").replace("-", " ")).toList(),
                 response.getProduct().getCategoriesTags().getLast().replaceFirst("en:", "").replace("-", " "),
                 response.getProduct().getProductName(),
                 response.getProduct().getEcoscoreGrade(),
