@@ -19,7 +19,7 @@ public class Food {
     String barcode;
     LocalDateTime expireDate;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER)
     List<Allergen> allergens;
 
     @ManyToOne
