@@ -10,6 +10,8 @@ import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.entities.User;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.repositories.FoodRepository;
+import com.example.nutrimatebackend.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +34,9 @@ public class FoodService {
     private final FoodAssembler foodAssembler;
     private final AllergenConverter allergenConverter;
     private final UserService userService;
-    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository, AllergenConverter allergenConverter, UserService userService, FoodAssembler foodAssembler)
+    private final UserRepository userRepository;
+
+    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository, AllergenConverter allergenConverter, UserService userService, FoodAssembler foodAssembler, UserRepository userRepository)
     {
         this.foodRepository = foodRepository;
         this.foodConverter = foodConverter;
@@ -41,7 +45,7 @@ public class FoodService {
         this.foodAssembler = foodAssembler;
         this.allergenConverter = allergenConverter;
         this.userService = userService;
-
+        this.userRepository = userRepository;
     }
 
     public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
@@ -138,13 +142,25 @@ public class FoodService {
         return foodConverter.convertToDtoResponse(food);
     }
 
+    @Transactional
     public FoodDTOResponse deleteFood(Long id) {
         User user = userService.getCurrentUser();
-        Food food = user.getFridge().getContent().stream().filter(f -> f.getId().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Food not found"));
-        user.getFridge().getContent().remove(food);
-        userService.saveUser(user);
-        //foodRepository.deleteById(id); //Throws error //TODO: delete the food from the database
-        return foodConverter.convertToDtoResponse(food);
+
+        List<Food> foodsOfUser = user.getFridge().getContent();
+
+        for (Food food : foodsOfUser) {
+            if (food.getId().equals(id)) {
+                foodsOfUser.remove(food);
+                user.getFridge().setContent(foodsOfUser);
+                userRepository.save(user);
+
+                foodRepository.delete(food);
+
+                return foodConverter.convertToDtoResponse(food);
+            }
+        }
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food not found");
     }
 
     public EnvironmentalScoreDTOResponse getEnvironmentalScore(String barcode) {
