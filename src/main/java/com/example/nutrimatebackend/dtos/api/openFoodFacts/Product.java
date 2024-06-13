@@ -16,5 +16,11 @@ public class Product {
     @JsonProperty("product_name")
     private String productName;
 
+    @JsonProperty("ecoscore_grade")
+    private String ecoscoreGrade;
+
+    @JsonProperty("ecoscore_score")
+    private int ecoscoreScore;
+
     private Nutriments nutriments;
 }

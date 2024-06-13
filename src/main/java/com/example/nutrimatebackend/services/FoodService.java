@@ -113,8 +113,6 @@ public class FoodService {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Barcode not found");
         }
 
-
-
         return foodConverter.convertServerResponseToDtoResponse(response);
     }
 
