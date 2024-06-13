@@ -43,7 +43,9 @@ public class FoodConverter {
                 response.getProduct().getNutriments().getSalt100g(),
                 response.getProduct().getAllergensTags(),
                 response.getProduct().getCategoriesTags().getLast().replaceFirst("en:", "").replace("-", " "),
-                response.getProduct().getProductName()
+                response.getProduct().getProductName(),
+                response.getProduct().getEcoscoreGrade(),
+                response.getProduct().getEcoscoreScore()
         );
     }
 

@@ -83,6 +83,8 @@ public class FoodService {
             foodEntity.setSaturatedFats(foodRequest.getSaturatedFats());
             foodEntity.setSugar(foodRequest.getSugar());
             foodEntity.setAllergens(allergens);
+            foodEntity.setEcoscoreGrade(foodRequest.getEcoscoreGrade());
+            foodEntity.setEcoscoreScore(foodRequest.getEcoscoreScore());
 
             User user = userService.getCurrentUser();
             user.getFridge().getContent().add(foodEntity);
