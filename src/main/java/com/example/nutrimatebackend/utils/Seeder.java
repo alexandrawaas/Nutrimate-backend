@@ -45,7 +45,17 @@ class Seeder {
                 log.info("Preloading " + allergenRepository.save(new Allergen("Molluscs")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Crustaceans")));
 
+                Set<Allergen> myAllergens = new HashSet<>(allergenRepository.findAll().subList(0, 3));
 
+                List<Recipe> myRecipes = new ArrayList<>();
+
+                User user = userRepository.save(new User(
+                        "dummyuser@email.com",
+                        "securePassword123",
+                        new Fridge(),
+                        myAllergens,
+                        myRecipes
+                ));
                 List<Food> myFood = new ArrayList<>();
 
                 myFood.add(
@@ -60,19 +70,15 @@ class Seeder {
                         new Food("Coke", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8, "C", 24)
                 );
 
-                Set<Allergen> myAllergens = new HashSet<>(allergenRepository.findAll().subList(0, 3));
+                user.getFridge().setContent(myFood);
 
-                List<Recipe> myRecipes = new ArrayList<>();
+                userRepository.save(user);
 
-                log.info("Preloading " + userRepository.save(new User(
-                        "dummyuser@email.com",
-                        "securePassword123",
-                        new Fridge(
-                            myFood
-                        ),
-                        myAllergens,
-                        myRecipes
-                )));
+
+                user.getFridge().getContent().forEach(food -> {
+                    food.setFridge(user.getFridge());
+                    foodRepository.save(food);
+                });
             };
         }
         return args -> {};

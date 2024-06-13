@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ public class Fridge {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     List<Food> content;
 
     public Fridge(List<Food> content) {

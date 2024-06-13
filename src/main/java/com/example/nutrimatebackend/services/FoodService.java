@@ -45,7 +45,8 @@ public class FoodService {
     }
 
     public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
-        Page<Food> response = foodRepository.findAll(pageable);
+        User user = userService.getCurrentUser();
+        Page<Food> response = foodRepository.findAllByFridge_Id(user.getFridge().getId(), pageable);
         return foodAssembler.toPagedModel(response);
     }
 
@@ -88,7 +89,13 @@ public class FoodService {
 
             User user = userService.getCurrentUser();
             user.getFridge().getContent().add(foodEntity);
-            userService.saveUser(user);
+            User savedUser = userService.saveUser(user);
+            savedUser.getFridge().getContent().forEach(f ->
+            {
+                Food food = foodRepository.findById(f.getId()).orElseThrow();
+                food.setFridge(savedUser.getFridge());
+                foodRepository.save(food);
+            });
             dtoResponseList.add(foodConverter.convertToDtoResponse(foodEntity));
         }
 
@@ -154,10 +161,8 @@ public class FoodService {
         }
         else {
             foodAllergens = food.get().getAllergens();
-            System.out.println(foodAllergens);
         }
         Set<Allergen> userAllergens = userService.getCurrentUser().getAllergens();
-        System.out.println(userAllergens);
         Set<Allergen> matchingAllergens = userAllergens.stream().filter(foodAllergens::contains).collect(Collectors.toSet());
 
         return matchingAllergens.stream().map(allergenConverter::convertToDTOResponse).toList();

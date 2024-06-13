@@ -58,8 +58,6 @@ public class RecipeService
 
         String url = uriBuilder.toString();
 
-        System.out.println(url);
-
         EdamamResponse response = webClient
                 .get()
                 .uri(url)

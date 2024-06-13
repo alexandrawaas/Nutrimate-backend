@@ -22,6 +22,10 @@ public class Food {
     @ManyToMany()
     List<Allergen> allergens;
 
+    @ManyToOne
+    @JoinColumn(name = "fridge_id")
+    Fridge fridge;
+
     // when the food gets opened, save the days to consume this food
     boolean isOpen;
 
