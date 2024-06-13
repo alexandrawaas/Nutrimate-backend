@@ -141,7 +141,7 @@ public class FoodService {
 
     public EnvironmentalScoreDTOResponse getEnvironmentalScore(String barcode) {
         Food food = foodConverter.convertScanDtoToEntity(getFoodByBarcode(barcode));
-        int score = food.calculateEnvironmentalScore();
+        int score = food.getEcoscoreScore();
         return new EnvironmentalScoreDTOResponse(score);
     }
 
