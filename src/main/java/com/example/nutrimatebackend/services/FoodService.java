@@ -62,7 +62,7 @@ public class FoodService {
         List<Allergen> allergens = new ArrayList<>();
 
         for (String allergenName : foodRequest.getAllergens()) {
-            Allergen allergen = allergenRepository.findByNameIgnoreCase(allergenName.replaceFirst("en:", ""));
+            Allergen allergen = allergenRepository.findByNameIgnoreCase(allergenName.replace("en:", ""));
             if(allergen == null) {
                 System.out.println("Allergen not found: " + allergenName);
             }
@@ -73,7 +73,7 @@ public class FoodService {
             Food foodEntity = foodConverter.convertToEntity(foodDTORequest);
 
             foodEntity.setName(foodRequest.getName());
-            foodEntity.setCategory(foodRequest.getCategory().replaceFirst("en:", "").replace("-", " "));
+            foodEntity.setCategory(foodRequest.getCategory().replace("en:", "").replace("-", " "));
             foodEntity.setCalories(foodRequest.getCalories());
             foodEntity.setFats(foodRequest.getFat());
             foodEntity.setCarbs(foodRequest.getCarbs());
@@ -150,13 +150,15 @@ public class FoodService {
         Optional<Food> food = foodRepository.findByBarcode(barcode);
         List<Allergen> foodAllergens = new ArrayList<>();
         if (food.isEmpty()) {
-            foodAllergens = getFoodByBarcode(barcode).getAllergens().stream().map(allergenName -> allergenRepository.findByNameIgnoreCase(allergenName.substring(3))).toList();
+            foodAllergens = getFoodByBarcode(barcode).getAllergens().stream().map(allergenRepository::findByNameIgnoreCase).toList();
         }
         else {
             foodAllergens = food.get().getAllergens();
+            System.out.println(foodAllergens);
         }
         Set<Allergen> userAllergens = userService.getCurrentUser().getAllergens();
-        Set<Allergen> matchingAllergens= userAllergens.stream().filter(foodAllergens::contains).collect(Collectors.toSet());
+        System.out.println(userAllergens);
+        Set<Allergen> matchingAllergens = userAllergens.stream().filter(foodAllergens::contains).collect(Collectors.toSet());
 
         return matchingAllergens.stream().map(allergenConverter::convertToDTOResponse).toList();
     }
