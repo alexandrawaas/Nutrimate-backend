@@ -5,12 +5,16 @@ import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDT
 import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
 import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
+import com.example.nutrimatebackend.entities.Food;
 import com.example.nutrimatebackend.services.FoodService;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,11 +28,16 @@ public class FoodController {
     }
 
     @GetMapping(value = "/fridge/food")
-    List<FoodDTOResponse> getAllFood() {
+    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
+        return foodService.getAllFoodPaginated(pageable);
+    }
+
+    public List<FoodDTOResponse> getAllFood() {
         return foodService.getAllFood();
     }
 
     @PostMapping(path="/fridge/food")
+    @ResponseStatus(HttpStatus.CREATED)
     List<FoodDTOResponse> createFood(@RequestBody FoodDTORequest foodDtoRequest) {
         return foodService.createFood(foodDtoRequest);
     }
@@ -38,7 +47,9 @@ public class FoodController {
     public FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
     {
         try {
-            return foodService.getFoodByBarcode(barcode);
+            FoodScanDTOResponse response = foodService.getFoodByBarcode(barcode);
+            response.addLinks(barcode);
+            return response;
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -57,10 +68,12 @@ public class FoodController {
     }
 
     @GetMapping(value="/fridge/food/{foodId}")
-    FoodDTOResponse getFoodById(@PathVariable Long foodId)
+    public FoodDTOResponse getFoodById(@PathVariable Long foodId)
     {
         try {
-            return foodService.getFoodById(foodId);
+            FoodDTOResponse foodDTOResponse =  foodService.getFoodById(foodId);
+            foodDTOResponse.addLinks(foodId);
+            return foodDTOResponse;
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
