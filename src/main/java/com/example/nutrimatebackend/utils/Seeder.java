@@ -47,9 +47,18 @@ class Seeder {
 
 
                 List<Food> myFood = new ArrayList<>();
-                myFood.add(new Food("Nutella", "spread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8));
-                myFood.add(new Food("American Sandwich", "bread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8));
-                myFood.add(new Food("Coke", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8));
+
+                myFood.add(
+                        new Food("Nutella", "spread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8, "A", 42)
+                );
+
+                myFood.add(
+                        new Food("American Sandwich", "bread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8, "B", 33)
+                );
+
+                myFood.add(
+                        new Food("Coke", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8, "C", 24)
+                );
 
                 Set<Allergen> myAllergens = new HashSet<>(allergenRepository.findAll().subList(0, 3));
 

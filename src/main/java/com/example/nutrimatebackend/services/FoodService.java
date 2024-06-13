@@ -83,6 +83,8 @@ public class FoodService {
             foodEntity.setSaturatedFats(foodRequest.getSaturatedFats());
             foodEntity.setSugar(foodRequest.getSugar());
             foodEntity.setAllergens(allergens);
+            foodEntity.setEcoscoreGrade(foodRequest.getEcoscoreGrade());
+            foodEntity.setEcoscoreScore(foodRequest.getEcoscoreScore());
 
             User user = userService.getCurrentUser();
             user.getFridge().getContent().add(foodEntity);
@@ -113,8 +115,6 @@ public class FoodService {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Barcode not found");
         }
 
-
-
         return foodConverter.convertServerResponseToDtoResponse(response);
     }
 
@@ -142,7 +142,7 @@ public class FoodService {
 
     public EnvironmentalScoreDTOResponse getEnvironmentalScore(String barcode) {
         Food food = foodConverter.convertScanDtoToEntity(getFoodByBarcode(barcode));
-        int score = food.calculateEnvironmentalScore();
+        int score = food.getEcoscoreScore();
         return new EnvironmentalScoreDTOResponse(score);
     }
 

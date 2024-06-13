@@ -25,7 +25,11 @@ public class FoodScanDTOResponse extends RepresentationModel<FoodScanDTOResponse
 
     private String category;
 
-    public FoodScanDTOResponse(String barcode, double calories, double fat, double saturatedFats, double carbs, double sugar, double fibers, double protein, double salt, List<String> allergens, String category, String name) {
+    // environmental data
+    String ecoscoreGrade;
+    int ecoscoreScore;
+
+    public FoodScanDTOResponse(String barcode, double calories, double fat, double saturatedFats, double carbs, double sugar, double fibers, double protein, double salt, List<String> allergens, String category, String name, String ecoscoreGrade, int ecoscoreScore) {
         this.barcode = barcode;
         this.calories = calories;
         this.fat = fat;
@@ -38,6 +42,8 @@ public class FoodScanDTOResponse extends RepresentationModel<FoodScanDTOResponse
         this.allergens = allergens;
         this.category = category;
         this.name = name;
+        this.ecoscoreGrade = ecoscoreGrade;
+        this.ecoscoreScore = ecoscoreScore;
     }
 
     public void addLinks(String barcode) {

@@ -15,7 +15,7 @@ public class EnvironmentalScoreService
         int sum = 0;
 
         for (Food food : foods) {
-            sum += food.calculateEnvironmentalScore();
+            sum += food.getEcoscoreScore();
         }
 
         return sum / foods.size();
