@@ -45,7 +45,7 @@ public class FoodService {
     }
 
     public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
-        Page<Food> response = foodRepository.findAll(pageable);
+        Page<Food> response = foodRepository.findAllByUserId(userService.getCurrentUser().getId(), pageable);
         return foodAssembler.toPagedModel(response);
     }
 
