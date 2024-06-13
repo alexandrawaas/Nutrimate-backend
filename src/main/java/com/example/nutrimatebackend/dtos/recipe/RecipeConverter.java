@@ -16,11 +16,19 @@ import java.util.List;
 public class RecipeConverter
 {
     public RecipeDTOResponse convertToDTOResponse(Recipe recipe){
-        return new RecipeDTOResponse(recipe.getId(), recipe.getUrl());
+        return new RecipeDTOResponse(recipe.getUrl(), recipe.getName());
+    }
+
+    public FavouriteRecipeDTOResponse convertToFavouriteRecipeDTOResponse(Recipe recipe){
+        return new FavouriteRecipeDTOResponse(recipe.getId(), recipe.getUrl(), recipe.getName());
+    }
+
+    public Recipe convertToEntity(RecipeDTORequest recipeDTORequest){
+        return new Recipe(recipeDTORequest.url, recipeDTORequest.name);
     }
 
     public List<RecipeDTOResponse> convertListToDTOResponse(List<Recipe> recipes){
-        return recipes.stream().map(recipe -> convertToDTOResponse(recipe)).toList();
+        return recipes.stream().map(this::convertToDTOResponse).toList();
     }
 
     public List<RecipeDTOResponse> convertResponseToDTOList(EdamamResponse response) {
@@ -29,6 +37,7 @@ public class RecipeConverter
         // TODO: create a converter here
         for (Hit hit : response.getHits()) {
             String recipeURL = hit.getRecipe().getUri();
+            String recipeName = hit.getRecipe().getLabel();
 
             // The returned urls from Edamam are broken
             // Let's fix them here
@@ -43,7 +52,7 @@ public class RecipeConverter
                         .toString();
 
                 // TODO: insert real id
-                RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse((long) 1, fixedRecipeURL);
+                RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse(fixedRecipeURL, recipeName);
                 recipeURLs.add(recipeDTOResponse);
 
             } catch (URISyntaxException e) {

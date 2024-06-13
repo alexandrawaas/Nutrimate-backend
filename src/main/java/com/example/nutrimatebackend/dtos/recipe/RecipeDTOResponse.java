@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class RecipeDTOResponse
 {
-    Long id;
     String url;
+    String name;
 
 
-    public RecipeDTOResponse(Long id, String url) {
-        this.id = id;
+    public RecipeDTOResponse(String url, String name) {
         this.url = url;
+        this.name = name;
     }
 }

@@ -70,17 +70,23 @@ public class FoodController {
     }
 
     @DeleteMapping(value="/fridge/food/{foodId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteFood(@PathVariable("foodId") Long id)
+    FoodDTOResponse deleteFood(@PathVariable("foodId") Long id)
     {
-        foodService.deleteFood(id);
+        try
+        {
+            return foodService.deleteFood(id);
+        }
+        catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
-    @GetMapping(value = "/fridge/food/{foodId}/environmental-score")
-    EnvironmentalScoreDTOResponse getEnvironmentalScore(@PathVariable Long foodId)
+    @GetMapping(value = "/food/{barcode}/environmental-score")
+    EnvironmentalScoreDTOResponse getEnvironmentalScore(@PathVariable String barcode)
     {
         try {
-            return foodService.getEnvironmentalScore(foodId);
+            return foodService.getEnvironmentalScore(barcode);
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

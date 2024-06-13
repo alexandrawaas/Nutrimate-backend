@@ -4,6 +4,7 @@ import com.example.nutrimatebackend.dtos.api.edamam.EdamamResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeSearchDTORequest;
+import com.example.nutrimatebackend.entities.Recipe;
 import com.example.nutrimatebackend.utils.AllergenTranslator;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.core.env.Environment;

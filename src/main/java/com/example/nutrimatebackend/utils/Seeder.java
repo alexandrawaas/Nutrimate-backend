@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Configuration
 class Seeder {
@@ -49,38 +46,23 @@ class Seeder {
                 log.info("Preloading " + allergenRepository.save(new Allergen("Crustaceans")));
 
 
+                List<Food> myFood = new ArrayList<>();
+                myFood.add(new Food("Nutella", "spread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8));
+                myFood.add(new Food("American Sandwich", "bread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8));
+                myFood.add(new Food("Coke", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8));
 
-                // Seed some foods
-                log.info("Preloading " + foodRepository.save(
-                        new Food("Nutella", "spread", "3017620422003", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8)
-                ));
+                Set<Allergen> myAllergens = new HashSet<>(allergenRepository.findAll().subList(0, 3));
 
-                log.info("Preloading " + foodRepository.save(
-                        new Food("American Sandwich", "bread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8)
-                ));
-
-                log.info("Preloading " + foodRepository.save(
-                        new Food("Coke", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8)
-                ));
-
-                List<Food> myFood = foodRepository.findAll();
-
-                Fridge myFridge = new Fridge(myFood);
-
-                log.info("Preloading " + fridgeRepository.save(myFridge));
-
-                myFridge = fridgeRepository.findAll().getFirst();
-
-                Set<Allergen> someAllergenes = new HashSet<>(allergenRepository.findAll().subList(0, 3));
-
-                List<Recipe> someRecipes = recipeRepository.findAll();
+                List<Recipe> myRecipes = new ArrayList<>();
 
                 log.info("Preloading " + userRepository.save(new User(
                         "dummyuser@email.com",
                         "securePassword123",
-                        myFridge,
-                        someAllergenes,
-                        someRecipes
+                        new Fridge(
+                            myFood
+                        ),
+                        myAllergens,
+                        myRecipes
                 )));
             };
         }

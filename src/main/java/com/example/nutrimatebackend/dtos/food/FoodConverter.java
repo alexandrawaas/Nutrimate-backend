@@ -42,7 +42,7 @@ public class FoodConverter {
                 response.getProduct().getNutriments().getProteins100g(),
                 response.getProduct().getNutriments().getSalt100g(),
                 response.getProduct().getAllergensTags(),
-                response.getProduct().getCategoriesTags().getLast().substring(3).replace("-", " "),
+                response.getProduct().getCategoriesTags().getLast().replaceFirst("en:", "").replace("-", " "),
                 response.getProduct().getProductName()
         );
     }
@@ -51,6 +51,22 @@ public class FoodConverter {
         Food food = new Food();
         food.setBarcode(foodDtoRequest.getBarcode());
         food.setExpireDate(foodDtoRequest.getExpireDate());
+        return food;
+    }
+
+    public Food convertScanDtoToEntity(FoodScanDTOResponse foodScanDTOResponse) {
+        Food food = new Food();
+        food.setBarcode(foodScanDTOResponse.getBarcode());
+        food.setCalories(foodScanDTOResponse.getCalories());
+        food.setFats(foodScanDTOResponse.getFat());
+        food.setSaturatedFats(foodScanDTOResponse.getSaturatedFats());
+        food.setCarbs(foodScanDTOResponse.getCarbs());
+        food.setSugar(foodScanDTOResponse.getSugar());
+        food.setFibers(foodScanDTOResponse.getFibers());
+        food.setProteins(foodScanDTOResponse.getProtein());
+        food.setSalt(foodScanDTOResponse.getSalt());
+        food.setCategory(foodScanDTOResponse.getCategory());
+        food.setName(foodScanDTOResponse.getName());
         return food;
     }
 

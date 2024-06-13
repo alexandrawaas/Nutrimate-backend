@@ -19,7 +19,7 @@ public class Food {
     String barcode;
     LocalDateTime expireDate;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
     List<Allergen> allergens;
 
     // when the food gets opened, save the days to consume this food
@@ -60,6 +60,7 @@ public class Food {
     public Food() {}
 
     public int calculateEnvironmentalScore(){
+        // TODO: implement environmental score calculation
         return 42;
     }
 }

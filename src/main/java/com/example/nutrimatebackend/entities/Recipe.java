@@ -9,14 +9,17 @@ import lombok.Data;
 @Data
 @Entity
 public class Recipe implements Comparable<Recipe> {
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     String url;
+    String name;
 
-    public Recipe(String url) {
+    public Recipe(String url, String name) {
         this.url = url;
+        this.name = name;
     }
 
     public Recipe() {}
