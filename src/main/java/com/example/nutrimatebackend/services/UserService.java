@@ -3,6 +3,7 @@ package com.example.nutrimatebackend.services;
 import com.example.nutrimatebackend.dtos.allergen.AllergenConverter;
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTORequest;
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
+import com.example.nutrimatebackend.dtos.recipe.FavouriteRecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTORequest;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
@@ -52,19 +53,23 @@ public class UserService
         return userRepository.findAll().getFirst();
     }
 
+    public User saveUser(User user){
+        return userRepository.saveAndFlush(user);
+    }
+
     public UserDTOResponse add(UserDTORequest userDTORequest){
         User newUser = userRepository.saveAndFlush(new User(userDTORequest.eMail, userDTORequest.password, new Fridge(), Set.of(), List.of()));
 
         return userConverter.convertToUserDTOResponse(newUser);
     }
 
-    public Set<AllergenDTOResponse> getAllergens(Long userId){
-        User user = userRepository.findById(userId).orElseThrow();
+    public Set<AllergenDTOResponse> getAllergens(){
+        User user = getCurrentUser();
         return allergenConverter.convertSetToDTOResponse(user.getAllergens());
     }
 
-    public Set<AllergenDTOResponse> updateAllergens(Long userId, Set<AllergenDTORequest> allergenDTORequest){
-        User user = userRepository.findById(userId).orElseThrow();
+    public Set<AllergenDTOResponse> updateAllergens(Set<AllergenDTORequest> allergenDTORequest){
+        User user = getCurrentUser();
 
         Set<Allergen> newAllergens = allergenDTORequest
                 .stream()
@@ -77,31 +82,33 @@ public class UserService
         return allergenConverter.convertSetToDTOResponse(newAllergens);
     }
 
-    public List<RecipeDTOResponse> getRecipes(Long userId){
-        User user = userRepository.findById(userId).orElseThrow();
-
-        return recipeConverter.convertListToDTOResponse(user.getFavouriteRecipes());
+    public List<FavouriteRecipeDTOResponse> getRecipes(){
+        User user = getCurrentUser();
+        return user.getFavouriteRecipes().stream().map(recipeConverter::convertToFavouriteRecipeDTOResponse).toList();
     }
 
-    public RecipeDTOResponse addRecipe(Long userId, RecipeDTORequest recipeDTORequest) {
-        User user = userRepository.findById(userId).orElseThrow();
+    public FavouriteRecipeDTOResponse addRecipe(RecipeDTORequest recipeDTORequest) {
 
+        User user = getCurrentUser();
         List<Recipe> favoriteRecipes = user.getFavouriteRecipes();
-        Recipe newRecipe = new Recipe(recipeDTORequest.url);
+        Recipe existingRecipe = favoriteRecipes.stream().filter(recipe -> recipe.getUrl().equals(recipeDTORequest.url)).findFirst().orElse(null);
 
-        if (!favoriteRecipes.contains(newRecipe)) {
+        if (existingRecipe == null) {
+            Recipe newRecipe = new Recipe(recipeDTORequest.url, recipeDTORequest.name);
             favoriteRecipes.add(newRecipe);
 
             user.setFavouriteRecipes(favoriteRecipes);
-            userRepository.saveAndFlush(user);
+            userRepository.save(user);
 
-            return recipeConverter.convertToDTOResponse(newRecipe);
+            newRecipe = user.getFavouriteRecipes().stream().filter(recipe -> recipe.getUrl().equals(recipeDTORequest.url)).findFirst().orElseThrow();
+
+            return recipeConverter.convertToFavouriteRecipeDTOResponse(newRecipe);
         }
-        return recipeConverter.convertToDTOResponse(newRecipe);
+        return recipeConverter.convertToFavouriteRecipeDTOResponse(existingRecipe);
     }
 
-    public RecipeDTOResponse deleteRecipe(Long userId, Long recipeId){
-        User user = userRepository.findById(userId).orElseThrow();
+    public FavouriteRecipeDTOResponse deleteRecipe(Long recipeId){
+        User user = getCurrentUser();
 
         List<Recipe> favoriteRecipes = user.getFavouriteRecipes();
         Recipe deletedRecipe = favoriteRecipes.stream().filter(recipe -> recipe.getId().equals(recipeId)).findFirst().orElseThrow();
@@ -111,7 +118,7 @@ public class UserService
         user.setFavouriteRecipes(favoriteRecipes);
         userRepository.saveAndFlush(user);
 
-        return recipeConverter.convertToDTOResponse(deletedRecipe);
+        return recipeConverter.convertToFavouriteRecipeDTOResponse(deletedRecipe);
     }
 
     public String getEmail() {

@@ -4,23 +4,25 @@ import com.example.nutrimatebackend.dtos.allergen.AllergenConverter;
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
 import com.example.nutrimatebackend.dtos.api.openFoodFacts.OpenFoodFactsResponse;
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
-import com.example.nutrimatebackend.dtos.food.FoodConverter;
-import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
-import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
-import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
+import com.example.nutrimatebackend.dtos.food.*;
 import com.example.nutrimatebackend.entities.Allergen;
 import com.example.nutrimatebackend.entities.Food;
+import com.example.nutrimatebackend.entities.User;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.repositories.FoodRepository;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FoodService {
@@ -29,21 +31,25 @@ public class FoodService {
     private final FoodConverter foodConverter;
     private final WebClient webClient;
     private final AllergenRepository allergenRepository;
+    private final FoodAssembler foodAssembler;
+    public FoodService(FoodAssembler foodAssembler, FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository) {
     private final AllergenConverter allergenConverter;
     private final UserService userService;
-
-
     public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository, AllergenConverter allergenConverter, UserService userService) {
         this.foodRepository = foodRepository;
         this.foodConverter = foodConverter;
         this.webClient = webClient;
         this.allergenRepository = allergenRepository;
+        this.foodAssembler = foodAssembler;
         this.allergenConverter = allergenConverter;
         this.userService = userService;
+    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
+        Page<Food> response = foodRepository.findAll(pageable);
+        return foodAssembler.toPagedModel(response);
     }
 
     public List<FoodDTOResponse> getAllFood() {
-        return foodRepository.findAll().stream().map(foodConverter::convertToDtoResponse).toList();
+        return userService.getCurrentUser().getFridge().getContent().stream().map(foodConverter::convertToDtoResponse).toList();
     }
 
     public List<FoodDTOResponse> createFood(FoodDTORequest foodDTORequest) {
@@ -55,7 +61,7 @@ public class FoodService {
         List<Allergen> allergens = new ArrayList<>();
 
         for (String allergenName : foodRequest.getAllergens()) {
-            Allergen allergen = allergenRepository.findByNameIgnoreCase(allergenName.substring(3));
+            Allergen allergen = allergenRepository.findByNameIgnoreCase(allergenName.replaceFirst("en:", ""));
             if(allergen == null) {
                 System.out.println("Allergen not found: " + allergenName);
             }
@@ -66,7 +72,7 @@ public class FoodService {
             Food foodEntity = foodConverter.convertToEntity(foodDTORequest);
 
             foodEntity.setName(foodRequest.getName());
-            foodEntity.setCategory(foodRequest.getCategory().substring(3).replace("-", " "));
+            foodEntity.setCategory(foodRequest.getCategory().replaceFirst("en:", "").replace("-", " "));
             foodEntity.setCalories(foodRequest.getCalories());
             foodEntity.setFats(foodRequest.getFat());
             foodEntity.setCarbs(foodRequest.getCarbs());
@@ -77,9 +83,10 @@ public class FoodService {
             foodEntity.setSugar(foodRequest.getSugar());
             foodEntity.setAllergens(allergens);
 
-            dtoResponseList.add(foodConverter.convertToDtoResponse(
-                    foodRepository.save(foodEntity)
-            ));
+            User user = userService.getCurrentUser();
+            user.getFridge().getContent().add(foodEntity);
+            userService.saveUser(user);
+            dtoResponseList.add(foodConverter.convertToDtoResponse(foodEntity));
         }
 
         return dtoResponseList;
@@ -123,12 +130,17 @@ public class FoodService {
         return foodConverter.convertToDtoResponse(food);
     }
 
-    public void deleteFood(Long id) {
-        foodRepository.deleteById(id);
+    public FoodDTOResponse deleteFood(Long id) {
+        User user = userService.getCurrentUser();
+        Food food = user.getFridge().getContent().stream().filter(f -> f.getId().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Food not found"));
+        user.getFridge().getContent().remove(food);
+        userService.saveUser(user);
+        //foodRepository.deleteById(id); //Throws error //TODO: delete the food from the database
+        return foodConverter.convertToDtoResponse(food);
     }
 
-    public EnvironmentalScoreDTOResponse getEnvironmentalScore(Long foodId) {
-        Food food = foodRepository.findById(foodId).orElseThrow(() -> new RuntimeException("Food not found"));
+    public EnvironmentalScoreDTOResponse getEnvironmentalScore(String barcode) {
+        Food food = foodConverter.convertScanDtoToEntity(getFoodByBarcode(barcode));
         int score = food.calculateEnvironmentalScore();
         return new EnvironmentalScoreDTOResponse(score);
     }
@@ -143,8 +155,7 @@ public class FoodService {
             foodAllergens = food.get().getAllergens();
         }
         Set<Allergen> userAllergens = userService.getCurrentUser().getAllergens();
-        Set<Allergen> matchingAllergens = new HashSet<Allergen>();
-        matchingAllergens= userAllergens.stream().filter(foodAllergens::contains).collect(Collectors.toSet());
+        Set<Allergen> matchingAllergens= userAllergens.stream().filter(foodAllergens::contains).collect(Collectors.toSet());
 
         return matchingAllergens.stream().map(allergenConverter::convertToDTOResponse).toList();
     }

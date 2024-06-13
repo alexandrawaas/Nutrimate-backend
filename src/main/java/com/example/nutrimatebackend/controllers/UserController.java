@@ -2,6 +2,7 @@ package com.example.nutrimatebackend.controllers;
 
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTORequest;
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
+import com.example.nutrimatebackend.dtos.recipe.FavouriteRecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.user.UserDTORequest;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTORequest;
@@ -10,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.example.nutrimatebackend.services.UserService;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -34,11 +34,11 @@ public class UserController {
         return userService.add(userDTORequest);
     }
 
-    @GetMapping("/user/{userId}/allergens")
-    public Set<AllergenDTOResponse> getAllergens(@PathVariable Long userId){
+    @GetMapping("/user/allergens")
+    public Set<AllergenDTOResponse> getAllergens(){
         try
         {
-            return userService.getAllergens(userId);
+            return userService.getAllergens();
         }
         catch (Exception e)
         {
@@ -46,12 +46,12 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/user/{userId}/allergens")
+    @PatchMapping("/user/allergens")
     @ResponseStatus(HttpStatus.CREATED)
-    public Set<AllergenDTOResponse> updateAllergens(@PathVariable Long userId, @RequestBody Set<AllergenDTORequest> allergenDTORequests){
+    public Set<AllergenDTOResponse> updateAllergens(@RequestBody Set<AllergenDTORequest> allergenDTORequests){
         try
         {
-            return userService.updateAllergens(userId, allergenDTORequests);
+            return userService.updateAllergens(allergenDTORequests);
         }
         catch (Exception e)
         {
@@ -59,11 +59,11 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/{userId}/favorite-recipes")
-    public List<RecipeDTOResponse> getFavoriteRecipes(@PathVariable Long userId){
+    @GetMapping("/user/favourite-recipes")
+    public List<FavouriteRecipeDTOResponse> getFavoriteRecipes(){
         try
         {
-            return userService.getRecipes(userId);
+            return userService.getRecipes();
         }
         catch (Exception e)
         {
@@ -71,25 +71,21 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/{userId}/favorite-recipes")
+    @PostMapping("/user/favourite-recipes")
     @ResponseStatus(HttpStatus.CREATED)
-    public RecipeDTOResponse addFavoriteRecipes(@PathVariable Long userId, @RequestBody RecipeDTORequest recipeDTORequest) throws BadRequestException {
-        try
-        {
-            return userService.addRecipe(userId, recipeDTORequest);
-        }
-        catch (Exception e)
-        {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+    public FavouriteRecipeDTOResponse addFavoriteRecipes(@RequestBody RecipeDTORequest recipeDTORequest) {
+
+
+            return userService.addRecipe(recipeDTORequest);
+
+
     }
 
-    @DeleteMapping("/user/{userId}/favorite-recipes/{recipeId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public RecipeDTOResponse deleteFavoriteRecipes(@PathVariable Long userId, @PathVariable Long recipeId){
+    @DeleteMapping("/user/favourite-recipes/{recipeId}")
+    public FavouriteRecipeDTOResponse deleteFavoriteRecipes(@PathVariable Long recipeId){
         try
         {
-            return userService.deleteRecipe(userId, recipeId);
+            return userService.deleteRecipe(recipeId);
         }
         catch (Exception e)
         {
