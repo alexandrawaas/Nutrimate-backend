@@ -38,7 +38,11 @@ public class Food {
     double proteins;
     double salt;
 
-    public Food(String name, String category, String barcode, LocalDateTime expireDate, List<Allergen> allergens, int calories, int fats, int saturatedFats, int carbs, int sugar, int fibers, int proteins, int salt) {
+    // environmental data
+    String ecoscoreGrade;
+    int ecoscoreScore;
+
+    public Food(String name, String category, String barcode, LocalDateTime expireDate, List<Allergen> allergens, int calories, int fats, int saturatedFats, int carbs, int sugar, int fibers, int proteins, int salt, String ecoscoreGrade, int ecoscoreScore) {
         isOpen = false;
         daysToConsume = null;
 
@@ -55,12 +59,10 @@ public class Food {
         this.fibers = fibers;
         this.proteins = proteins;
         this.salt = salt;
+
+        this.ecoscoreGrade = ecoscoreGrade;
+        this.ecoscoreScore = ecoscoreScore;
     }
 
     public Food() {}
-
-    public int calculateEnvironmentalScore(){
-        // TODO: implement environmental score calculation
-        return 42;
-    }
 }

@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,16 +25,15 @@ import java.util.List;
 
 @Service
 public class FoodService {
-
     private final FoodRepository foodRepository;
     private final FoodConverter foodConverter;
     private final WebClient webClient;
     private final AllergenRepository allergenRepository;
     private final FoodAssembler foodAssembler;
-    public FoodService(FoodAssembler foodAssembler, FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository) {
     private final AllergenConverter allergenConverter;
     private final UserService userService;
-    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository, AllergenConverter allergenConverter, UserService userService) {
+    public FoodService(FoodRepository foodRepository, FoodConverter foodConverter, WebClient webClient, AllergenRepository allergenRepository, AllergenConverter allergenConverter, UserService userService, FoodAssembler foodAssembler)
+    {
         this.foodRepository = foodRepository;
         this.foodConverter = foodConverter;
         this.webClient = webClient;
@@ -43,8 +41,11 @@ public class FoodService {
         this.foodAssembler = foodAssembler;
         this.allergenConverter = allergenConverter;
         this.userService = userService;
+
+    }
+
     public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
-        Page<Food> response = foodRepository.findAll(pageable);
+        Page<Food> response = foodRepository.findAllByUserId(userService.getCurrentUser().getId(), pageable);
         return foodAssembler.toPagedModel(response);
     }
 
@@ -61,7 +62,7 @@ public class FoodService {
         List<Allergen> allergens = new ArrayList<>();
 
         for (String allergenName : foodRequest.getAllergens()) {
-            Allergen allergen = allergenRepository.findByNameIgnoreCase(allergenName.replaceFirst("en:", ""));
+            Allergen allergen = allergenRepository.findByNameIgnoreCase(allergenName.replace("en:", ""));
             if(allergen == null) {
                 System.out.println("Allergen not found: " + allergenName);
             }
@@ -72,7 +73,7 @@ public class FoodService {
             Food foodEntity = foodConverter.convertToEntity(foodDTORequest);
 
             foodEntity.setName(foodRequest.getName());
-            foodEntity.setCategory(foodRequest.getCategory().replaceFirst("en:", "").replace("-", " "));
+            foodEntity.setCategory(foodRequest.getCategory().replace("en:", "").replace("-", " "));
             foodEntity.setCalories(foodRequest.getCalories());
             foodEntity.setFats(foodRequest.getFat());
             foodEntity.setCarbs(foodRequest.getCarbs());
@@ -82,6 +83,8 @@ public class FoodService {
             foodEntity.setSaturatedFats(foodRequest.getSaturatedFats());
             foodEntity.setSugar(foodRequest.getSugar());
             foodEntity.setAllergens(allergens);
+            foodEntity.setEcoscoreGrade(foodRequest.getEcoscoreGrade());
+            foodEntity.setEcoscoreScore(foodRequest.getEcoscoreScore());
 
             User user = userService.getCurrentUser();
             user.getFridge().getContent().add(foodEntity);
@@ -112,8 +115,6 @@ public class FoodService {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Barcode not found");
         }
 
-
-
         return foodConverter.convertServerResponseToDtoResponse(response);
     }
 
@@ -141,7 +142,7 @@ public class FoodService {
 
     public EnvironmentalScoreDTOResponse getEnvironmentalScore(String barcode) {
         Food food = foodConverter.convertScanDtoToEntity(getFoodByBarcode(barcode));
-        int score = food.calculateEnvironmentalScore();
+        int score = food.getEcoscoreScore();
         return new EnvironmentalScoreDTOResponse(score);
     }
 
@@ -149,13 +150,15 @@ public class FoodService {
         Optional<Food> food = foodRepository.findByBarcode(barcode);
         List<Allergen> foodAllergens = new ArrayList<>();
         if (food.isEmpty()) {
-            foodAllergens = getFoodByBarcode(barcode).getAllergens().stream().map(allergenName -> allergenRepository.findByNameIgnoreCase(allergenName.substring(3))).toList();
+            foodAllergens = getFoodByBarcode(barcode).getAllergens().stream().map(allergenRepository::findByNameIgnoreCase).toList();
         }
         else {
             foodAllergens = food.get().getAllergens();
+            System.out.println(foodAllergens);
         }
         Set<Allergen> userAllergens = userService.getCurrentUser().getAllergens();
-        Set<Allergen> matchingAllergens= userAllergens.stream().filter(foodAllergens::contains).collect(Collectors.toSet());
+        System.out.println(userAllergens);
+        Set<Allergen> matchingAllergens = userAllergens.stream().filter(foodAllergens::contains).collect(Collectors.toSet());
 
         return matchingAllergens.stream().map(allergenConverter::convertToDTOResponse).toList();
     }

@@ -15,7 +15,7 @@ public class EnvironmentalScoreController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping(value = "/environmental-score")
+    @GetMapping(value = "/fridge/environmental-score")
     public EnvironmentalScoreDTOResponse getEnvironmentalScore()
     {
         // TODO: Replace this with the current logged in user!
