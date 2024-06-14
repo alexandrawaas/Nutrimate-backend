@@ -3,8 +3,6 @@ package com.example.nutrimatebackend.services;
 import com.example.nutrimatebackend.dtos.api.edamam.EdamamResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
-import com.example.nutrimatebackend.dtos.recipe.RecipeSearchDTORequest;
-import com.example.nutrimatebackend.entities.Recipe;
 import com.example.nutrimatebackend.utils.AllergenTranslator;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.core.env.Environment;
@@ -14,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class RecipeService
@@ -28,11 +27,10 @@ public class RecipeService
         this.env = env;
     }
 
-    public List<RecipeDTOResponse> searchRecipes(RecipeSearchDTORequest request) {
-        // TODO: fetch recipes suitable for the users fridges content
+    public List<RecipeDTOResponse> searchRecipes(String[] categories, String[] allergens) {
 
         StringBuilder queries = new StringBuilder();
-        for (String category : request.categories) {
+        for (String category : categories) {
             queries.append(category).append(" ");
         }
         queries.deleteCharAt(queries.length() - 1);
@@ -50,16 +48,14 @@ public class RecipeService
                 .addParameter("q", queries.toString());
 
                 // Health labels
-                for (String allergen : request.allergens)
+                for (String allergen : allergens)
                 {
                     allergen = AllergenTranslator.translateOpenFoodFactsToEdamam(allergen);
-                    if(allergen != "") uriBuilder.addParameter("health", allergen);
+                    if(!Objects.equals(allergen, "")) uriBuilder.addParameter("health", allergen);
                 }
 
         String url = uriBuilder.toString();
-
-        System.out.println(url);
-
+                
         EdamamResponse response = webClient
                 .get()
                 .uri(url)

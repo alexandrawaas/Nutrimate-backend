@@ -301,7 +301,7 @@ paths:
           description: No content
         '401':
           description: User not authenticated
-    patch:
+    put:
       tags:
         - user
       summary: Change the list of allergens in a user's profile

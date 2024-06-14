@@ -46,7 +46,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/user/allergens")
+    @PutMapping("/user/allergens")
     @ResponseStatus(HttpStatus.CREATED)
     public Set<AllergenDTOResponse> updateAllergens(@RequestBody Set<AllergenDTORequest> allergenDTORequests){
         try
