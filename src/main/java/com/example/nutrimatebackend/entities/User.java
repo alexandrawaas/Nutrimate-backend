@@ -2,6 +2,7 @@ package com.example.nutrimatebackend.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 import java.util.Set;
@@ -16,14 +17,15 @@ public class User {
     String email;
     String password;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne() @Cascade(org.hibernate.annotations.CascadeType.ALL)
     Fridge fridge;
 
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
     Set<Allergen> allergens;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany()
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<Recipe> favouriteRecipes;
 
     public User(String email, String password, Fridge fridge, Set<Allergen> allergens, List<Recipe> favouriteRecipes) {

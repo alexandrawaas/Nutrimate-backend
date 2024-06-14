@@ -1,13 +1,16 @@
 package com.example.nutrimatebackend.dtos.food;
 
+import com.example.nutrimatebackend.controllers.FoodController;
 import com.example.nutrimatebackend.entities.Allergen;
 import lombok.Data;
-
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class FoodDTOResponse {
+public class FoodDTOResponse extends RepresentationModel<FoodDTOResponse>
+{
     private Long id;
     private String barcode;
     private LocalDateTime expireDate;
@@ -49,6 +52,10 @@ public class FoodDTOResponse {
 
     public Long getId() {
         return id;
+    }
+
+    public void addLinks(Long id) {
+        add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FoodController.class).getFoodById(id)).withSelfRel());
     }
 
 }
