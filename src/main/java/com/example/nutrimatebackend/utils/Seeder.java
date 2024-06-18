@@ -34,8 +34,8 @@ class Seeder {
                 log.info("Preloading " + allergenRepository.save(new Allergen("Peanuts")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Gluten")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Shellfish")));
-                log.info("Preloading " + allergenRepository.save(new Allergen("Soy")));
-                log.info("Preloading " + allergenRepository.save(new Allergen("Tree Nuts")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Soybeans")));
+                log.info("Preloading " + allergenRepository.save(new Allergen("Nuts")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Eggs")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Fish")));
                 log.info("Preloading " + allergenRepository.save(new Allergen("Mustard")));
