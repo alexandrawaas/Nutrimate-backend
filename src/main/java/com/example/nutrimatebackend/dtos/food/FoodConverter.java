@@ -47,7 +47,7 @@ public class FoodConverter {
                 response.getProduct().getProductName(),
                 response.getProduct().getEcoscoreGrade(),
                 response.getProduct().getEcoscoreScore(),
-                response.getProduct().getSelectedImages()
+                response.getProduct().getSelectedImages().getFront().getDisplay().getEn() != null ? response.getProduct().getSelectedImages().getFront().getDisplay().getEn() : response.getProduct().getSelectedImages().getFront().getDisplay().getDe()
         );
     }
 
@@ -71,7 +71,7 @@ public class FoodConverter {
         food.setSalt(foodScanDTOResponse.getSalt());
         food.setCategory(foodScanDTOResponse.getCategory());
         food.setName(foodScanDTOResponse.getName());
-        food.setImageUrl((foodScanDTOResponse.getSelectedImages().getFront().getDisplay().getEn() != null ? foodScanDTOResponse.getSelectedImages().getFront().getDisplay().getEn() : foodScanDTOResponse.getSelectedImages().getFront().getDisplay().getDe()));
+        food.setImageUrl(foodScanDTOResponse.getImageUrl());
         return food;
     }
 

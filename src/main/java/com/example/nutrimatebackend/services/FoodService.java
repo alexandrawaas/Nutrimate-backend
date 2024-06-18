@@ -85,7 +85,7 @@ public class FoodService {
             foodEntity.setAllergens(allergens);
             foodEntity.setEcoscoreGrade(foodRequest.getEcoscoreGrade());
             foodEntity.setEcoscoreScore(foodRequest.getEcoscoreScore());
-            foodEntity.setImageUrl((foodRequest.getSelectedImages().getFront().getDisplay().getEn() != null ? foodRequest.getSelectedImages().getFront().getDisplay().getEn() : foodRequest.getSelectedImages().getFront().getDisplay().getDe()));
+            foodEntity.setImageUrl(foodRequest.getImageUrl());
 
             User user = userService.getCurrentUser();
             user.getFridge().getContent().add(foodEntity);
