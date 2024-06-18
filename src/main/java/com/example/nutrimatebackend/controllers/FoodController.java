@@ -59,7 +59,9 @@ public class FoodController {
     FoodDTOResponse openFood(@RequestBody DaysToConsumeRequestDTO daysToConsumeDTO, @PathVariable Long foodId)
     {
         try {
-            return foodService.openFood(foodId, daysToConsumeDTO.getDaysToConsume());
+            FoodDTOResponse response = foodService.openFood(foodId, daysToConsumeDTO.getDaysToConsume());
+            response.addLinks(foodId);
+            return response;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food not found");
         }
