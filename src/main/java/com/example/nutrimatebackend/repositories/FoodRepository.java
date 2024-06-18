@@ -22,6 +22,8 @@ public interface FoodRepository extends JpaRepository<Food, Long>, JpaSpecificat
                     "JOIN fridge_content c1 ON f1.id = c1.fridge_id " +
                     "JOIN food f ON c1.content_id = f.id " +
                     "WHERE u.id = :userId " +
+                    "AND (LOWER(f.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+                    "     LOWER(f.category) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) " +
                     "ORDER BY " +
                     "CASE " +
                     "WHEN f.days_to_consume IS NOT NULL THEN DATE_ADD(CURRENT_DATE(), INTERVAL f.days_to_consume DAY) " +
@@ -32,9 +34,13 @@ public interface FoodRepository extends JpaRepository<Food, Long>, JpaSpecificat
                     "JOIN fridge f1 ON u.fridge_id = f1.id " +
                     "JOIN fridge_content c1 ON f1.id = c1.fridge_id " +
                     "JOIN food f ON c1.content_id = f.id " +
-                    "WHERE u.id = :userId",
+                    "WHERE u.id = :userId " +
+                    "AND (LOWER(f.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+                    "     LOWER(f.category) LIKE LOWER(CONCAT('%', :searchTerm, '%')))",
             nativeQuery = true
     )
-    Page<Food> findAllByUserId(@Param("userId") Long userId, Pageable pageable);
+    Page<Food> findAllByUserIdAndSearchTerm(Long userId,
+                                            String searchTerm,
+                                            Pageable pageable);
 
 }

@@ -27,8 +27,8 @@ public class FoodController {
     }
 
     @GetMapping(value = "/fridge/food")
-    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
-        return foodService.getAllFoodPaginated(pageable);
+    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable, @RequestParam(required = false) String q) {
+        return foodService.getAllFoodPaginated(pageable, q);
     }
 
     public List<FoodDTOResponse> getAllFood() {

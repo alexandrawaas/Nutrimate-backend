@@ -44,8 +44,11 @@ public class FoodService {
 
     }
 
-    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
-        Page<Food> response = foodRepository.findAllByUserId(userService.getCurrentUser().getId(), pageable);
+    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable, String searchTerm) {
+        if(searchTerm == null) {
+            searchTerm = "";
+        }
+        Page<Food> response = foodRepository.findAllByUserIdAndSearchTerm(userService.getCurrentUser().getId(), searchTerm, pageable);
         return foodAssembler.toPagedModel(response);
     }
 
