@@ -80,9 +80,14 @@ public class UserService
         return allergenConverter.convertSetToDTOResponse(newAllergens);
     }
 
-    public List<FavouriteRecipeDTOResponse> getRecipes(){
+    public List<FavouriteRecipeDTOResponse> getRecipes(String searchTerm){
         User user = getCurrentUser();
-        return user.getFavouriteRecipes().stream().map(recipeConverter::convertToFavouriteRecipeDTOResponse).toList();
+        if(searchTerm == null || searchTerm.isEmpty()){
+            return user.getFavouriteRecipes().stream().map(recipeConverter::convertToFavouriteRecipeDTOResponse).toList();
+        }
+        return user.getFavouriteRecipes().stream().filter(
+                recipe -> recipe.getName().toLowerCase().contains(searchTerm.toLowerCase())
+        ).map(recipeConverter::convertToFavouriteRecipeDTOResponse).toList();
     }
 
     public FavouriteRecipeDTOResponse addRecipe(RecipeDTORequest recipeDTORequest) {

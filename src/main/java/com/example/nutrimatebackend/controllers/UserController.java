@@ -60,25 +60,14 @@ public class UserController {
     }
 
     @GetMapping("/user/favourite-recipes")
-    public List<FavouriteRecipeDTOResponse> getFavoriteRecipes(){
-        try
-        {
-            return userService.getRecipes();
-        }
-        catch (Exception e)
-        {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
+    public List<FavouriteRecipeDTOResponse> getFavoriteRecipes(@RequestParam(required = false) String q){
+        return userService.getRecipes(q);
     }
 
     @PostMapping("/user/favourite-recipes")
     @ResponseStatus(HttpStatus.CREATED)
     public FavouriteRecipeDTOResponse addFavoriteRecipes(@RequestBody RecipeDTORequest recipeDTORequest) {
-
-
-            return userService.addRecipe(recipeDTORequest);
-
-
+        return userService.addRecipe(recipeDTORequest);
     }
 
     @DeleteMapping("/user/favourite-recipes/{recipeId}")
