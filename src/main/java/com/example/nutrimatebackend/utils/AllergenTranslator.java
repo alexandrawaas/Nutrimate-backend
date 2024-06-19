@@ -11,10 +11,10 @@ public class AllergenTranslator
                     case "gluten" -> "gluten-free";
                     case "peanuts" -> "peanut-free";
                     case "sesame" -> "sesame-free";
-                    case "soy" -> "soy-free";
+                    case "soybeans" -> "soy-free";
                     case "shellfish" -> "shellfish-free";
                     case "fish" -> "fish-free";
-                    case "tree nuts" -> "tree-nut-free";
+                    case "nuts" -> "tree-nut-free";
                     case "mustard" -> "mustard-free";
                     case "sulphur dioxide and sulphites" -> "sulfite-free";
                     case "lupin" -> "lupine-free";

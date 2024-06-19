@@ -23,4 +23,8 @@ public class Product {
     private int ecoscoreScore;
 
     private Nutriments nutriments;
+
+    @JsonProperty("selected_images")
+    private SelectedImages selectedImages;
 }
+

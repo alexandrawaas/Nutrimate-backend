@@ -15,20 +15,8 @@ import java.util.List;
 @Service
 public class RecipeConverter
 {
-    public RecipeDTOResponse convertToDTOResponse(Recipe recipe){
-        return new RecipeDTOResponse(recipe.getUrl(), recipe.getName());
-    }
-
     public FavouriteRecipeDTOResponse convertToFavouriteRecipeDTOResponse(Recipe recipe){
         return new FavouriteRecipeDTOResponse(recipe.getId(), recipe.getUrl(), recipe.getName());
-    }
-
-    public Recipe convertToEntity(RecipeDTORequest recipeDTORequest){
-        return new Recipe(recipeDTORequest.url, recipeDTORequest.name);
-    }
-
-    public List<RecipeDTOResponse> convertListToDTOResponse(List<Recipe> recipes){
-        return recipes.stream().map(this::convertToDTOResponse).toList();
     }
 
     public List<RecipeDTOResponse> convertResponseToDTOList(EdamamResponse response) {

@@ -1,12 +1,8 @@
 package com.example.nutrimatebackend.controllers;
 
-import com.example.nutrimatebackend.dtos.recipe.RecipeDTORequest;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
-import com.example.nutrimatebackend.dtos.recipe.RecipeSearchDTORequest;
 import com.example.nutrimatebackend.services.RecipeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +15,7 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes")
-    public List<RecipeDTOResponse> getRecipes(@RequestBody RecipeSearchDTORequest request) {
-        return recipeService.searchRecipes(request);
+    public List<RecipeDTOResponse> getRecipes(@RequestParam String[] categories, @RequestParam String[] allergens) {
+        return recipeService.searchRecipes(categories, allergens);
     }
 }

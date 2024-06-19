@@ -26,7 +26,8 @@ public class FoodConverter {
                 food.getFibers(),
                 food.getProteins(),
                 food.getSalt(),
-                food.getAllergens()
+                food.getAllergens(),
+                food.getImageUrl()
         );
     }
 
@@ -45,7 +46,8 @@ public class FoodConverter {
                 response.getProduct().getCategoriesTags().getLast().replaceFirst("en:", "").replace("-", " "),
                 response.getProduct().getProductName(),
                 response.getProduct().getEcoscoreGrade(),
-                response.getProduct().getEcoscoreScore()
+                response.getProduct().getEcoscoreScore(),
+                response.getProduct().getSelectedImages().getFront().getDisplay().getEn() != null ? response.getProduct().getSelectedImages().getFront().getDisplay().getEn() : response.getProduct().getSelectedImages().getFront().getDisplay().getDe()
         );
     }
 
@@ -69,6 +71,7 @@ public class FoodConverter {
         food.setSalt(foodScanDTOResponse.getSalt());
         food.setCategory(foodScanDTOResponse.getCategory());
         food.setName(foodScanDTOResponse.getName());
+        food.setImageUrl(foodScanDTOResponse.getImageUrl());
         return food;
     }
 

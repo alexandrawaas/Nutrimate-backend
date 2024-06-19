@@ -51,6 +51,6 @@ public class FoodAssembler implements RepresentationModelAssembler<Food, FoodDTO
     }
 
     public void addLinks(CollectionModel<FoodDTOResponse> resources) {
-        resources.add(linkTo(methodOn(FoodController.class).getAllFoodPaginated(null)).withSelfRel());
+        resources.add(linkTo(methodOn(FoodController.class).getAllFoodPaginated(null, "")).withSelfRel());
     }
 }

@@ -27,8 +27,8 @@ public class FoodController {
     }
 
     @GetMapping(value = "/fridge/food")
-    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
-        return foodService.getAllFoodPaginated(pageable);
+    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable, @RequestParam(required = false) String q) {
+        return foodService.getAllFoodPaginated(pageable, q);
     }
 
     public List<FoodDTOResponse> getAllFood() {
@@ -59,7 +59,9 @@ public class FoodController {
     FoodDTOResponse openFood(@RequestBody DaysToConsumeRequestDTO daysToConsumeDTO, @PathVariable Long foodId)
     {
         try {
-            return foodService.openFood(foodId, daysToConsumeDTO.getDaysToConsume());
+            FoodDTOResponse response = foodService.openFood(foodId, daysToConsumeDTO.getDaysToConsume());
+            response.addLinks(foodId);
+            return response;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Food not found");
         }

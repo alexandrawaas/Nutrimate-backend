@@ -44,8 +44,11 @@ public class FoodService {
 
     }
 
-    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable) {
-        Page<Food> response = foodRepository.findAllByUserId(userService.getCurrentUser().getId(), pageable);
+    public PagedModel<FoodDTOResponse> getAllFoodPaginated(Pageable pageable, String searchTerm) {
+        if(searchTerm == null) {
+            searchTerm = "";
+        }
+        Page<Food> response = foodRepository.findAllByUserIdAndSearchTerm(userService.getCurrentUser().getId(), searchTerm, pageable);
         return foodAssembler.toPagedModel(response);
     }
 
@@ -85,6 +88,7 @@ public class FoodService {
             foodEntity.setAllergens(allergens);
             foodEntity.setEcoscoreGrade(foodRequest.getEcoscoreGrade());
             foodEntity.setEcoscoreScore(foodRequest.getEcoscoreScore());
+            foodEntity.setImageUrl(foodRequest.getImageUrl());
 
             User user = userService.getCurrentUser();
             user.getFridge().getContent().add(foodEntity);

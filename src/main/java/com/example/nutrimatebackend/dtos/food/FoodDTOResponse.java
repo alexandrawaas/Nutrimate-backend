@@ -31,7 +31,9 @@ public class FoodDTOResponse extends RepresentationModel<FoodDTOResponse>
 
     List<Allergen> allergens;
 
-    public FoodDTOResponse(Long id, String barcode, LocalDateTime expireDate, String category, String name, boolean isOpen, Integer daysToConsume, double calories, double fats, double saturatedFats, double carbs, double sugar, double fibers, double proteins, double salt, List<Allergen> allergens) {
+    String imageUrl;
+
+    public FoodDTOResponse(Long id, String barcode, LocalDateTime expireDate, String category, String name, boolean isOpen, Integer daysToConsume, double calories, double fats, double saturatedFats, double carbs, double sugar, double fibers, double proteins, double salt, List<Allergen> allergens, String imageUrl) {
         this.id = id;
         this.barcode = barcode;
         this.expireDate = expireDate;
@@ -48,6 +50,7 @@ public class FoodDTOResponse extends RepresentationModel<FoodDTOResponse>
         this.proteins = proteins;
         this.salt = salt;
         this.allergens = allergens;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
