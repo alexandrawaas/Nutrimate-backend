@@ -87,6 +87,7 @@ public class FoodController {
 
             return ResponseEntity.ok()
                     .header("ETag", currentETag)
+                    .header("Cache-Control", "max-age=400") // 400 = 5 Minuten
                     .body(foodDTOResponse);
         }
         catch (Exception e) {
