@@ -10,10 +10,12 @@ import com.example.nutrimatebackend.services.FoodService;
 
 import java.util.List;
 
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,14 +43,22 @@ public class FoodController {
         return foodService.createFood(foodDtoRequest);
     }
 
-    @Cacheable("food")
     @GetMapping(value = "/food/{barcode}")
-    public FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
+    public ResponseEntity<FoodScanDTOResponse> getFoodByBarcode(@PathVariable String barcode, @RequestHeader(value = "If-None-Match", required = false) String ifNoneMatch)
     {
         try {
             FoodScanDTOResponse response = foodService.getFoodByBarcode(barcode);
             response.addLinks(barcode);
-            return response;
+
+            String currentETag = calculateETag(response);
+
+            if (ifNoneMatch != null && ifNoneMatch.equals(currentETag)) {
+                return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+            }
+
+            return ResponseEntity.ok()
+                    .header("ETag", currentETag)
+                    .body(response);
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -68,12 +78,21 @@ public class FoodController {
     }
 
     @GetMapping(value="/fridge/food/{foodId}")
-    public FoodDTOResponse getFoodById(@PathVariable Long foodId)
+    public ResponseEntity<FoodDTOResponse> getFoodById(@PathVariable Long foodId, @RequestHeader(value = "If-None-Match", required = false) String ifNoneMatch)
     {
         try {
             FoodDTOResponse foodDTOResponse =  foodService.getFoodById(foodId);
             foodDTOResponse.addLinks(foodId);
-            return foodDTOResponse;
+
+            String currentETag = calculateETag(foodDTOResponse);
+
+            if (ifNoneMatch != null && ifNoneMatch.equals(currentETag)) {
+                return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+            }
+
+            return ResponseEntity.ok()
+                    .header("ETag", currentETag)
+                    .body(foodDTOResponse);
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -112,5 +131,13 @@ public class FoodController {
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
+    }
+
+    private String calculateETag(FoodDTOResponse food) {
+        return food.getId() + "--" + food.hashCode();
+    }
+
+    private String calculateETag(FoodScanDTOResponse food) {
+        return food.getBarcode() + "--" + food.hashCode();
     }
 }
