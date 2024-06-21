@@ -11,11 +11,13 @@ import com.example.nutrimatebackend.entities.User;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.repositories.FoodRepository;
 import org.apache.http.client.utils.URIBuilder;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
@@ -135,13 +137,17 @@ public class FoodService {
         return foodConverter.convertToDtoResponse(food);
     }
 
+    @Transactional
     public FoodDTOResponse deleteFood(Long id) {
         User user = userService.getCurrentUser();
         Food food = user.getFridge().getContent().stream().filter(f -> f.getId().equals(id)).findFirst().orElseThrow(() -> new RuntimeException("Food not found"));
         user.getFridge().getContent().remove(food);
         userService.saveUser(user);
-        //foodRepository.deleteById(id); //Throws error //TODO: delete the food from the database
-        return foodConverter.convertToDtoResponse(food);
+        // Initialize lazy-loaded collections to prevent lazy loading issues
+        Hibernate.initialize(food.getAllergens());
+        FoodDTOResponse foodDTOResponse = foodConverter.convertToDtoResponse(food);
+        foodRepository.deleteById(id);
+        return foodDTOResponse;
     }
 
     public EnvironmentalScoreDTOResponse getEnvironmentalScore(String barcode) {

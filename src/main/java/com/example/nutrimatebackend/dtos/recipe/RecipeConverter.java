@@ -22,7 +22,6 @@ public class RecipeConverter
     public List<RecipeDTOResponse> convertResponseToDTOList(EdamamResponse response) {
         List<RecipeDTOResponse> recipeURLs = new ArrayList<>();
 
-        // TODO: create a converter here
         for (Hit hit : response.getHits()) {
             String recipeURL = hit.getRecipe().getUri();
             String recipeName = hit.getRecipe().getLabel();
@@ -39,7 +38,6 @@ public class RecipeConverter
                         .addParameter("recipe", recipeID)
                         .toString();
 
-                // TODO: insert real id
                 RecipeDTOResponse recipeDTOResponse = new RecipeDTOResponse(fixedRecipeURL, recipeName);
                 recipeURLs.add(recipeDTOResponse);
 
