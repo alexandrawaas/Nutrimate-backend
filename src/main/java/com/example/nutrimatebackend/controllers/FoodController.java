@@ -23,12 +23,9 @@ import org.springframework.web.server.ResponseStatusException;
 public class FoodController {
     private final FoodService foodService;
 
-    private final CacheManager cacheManager;
-
-    public FoodController(FoodService foodService, CacheManager cacheManager)
+    public FoodController(FoodService foodService)
     {
         this.foodService = foodService;
-        this.cacheManager = cacheManager;
     }
 
     @GetMapping(value = "/fridge/food")
@@ -46,14 +43,22 @@ public class FoodController {
         return foodService.createFood(foodDtoRequest);
     }
 
-    @Cacheable(value = "foodsCache", key = "#barcode")
     @GetMapping(value = "/food/{barcode}")
-    public FoodScanDTOResponse getFoodByBarcode(@PathVariable String barcode)
+    public ResponseEntity<FoodScanDTOResponse> getFoodByBarcode(@PathVariable String barcode, @RequestHeader(value = "If-None-Match", required = false) String ifNoneMatch)
     {
         try {
             FoodScanDTOResponse response = foodService.getFoodByBarcode(barcode);
             response.addLinks(barcode);
-            return response;
+
+            String currentETag = calculateETag(response);
+
+            if (ifNoneMatch != null && ifNoneMatch.equals(currentETag)) {
+                return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+            }
+
+            return ResponseEntity.ok()
+                    .header("ETag", currentETag)
+                    .body(response);
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -87,7 +92,6 @@ public class FoodController {
 
             return ResponseEntity.ok()
                     .header("ETag", currentETag)
-                    .header("Cache-Control", "max-age=400") // 400 = 5 Minuten
                     .body(foodDTOResponse);
         }
         catch (Exception e) {
@@ -131,5 +135,9 @@ public class FoodController {
 
     private String calculateETag(FoodDTOResponse food) {
         return food.getId() + "--" + food.hashCode();
+    }
+
+    private String calculateETag(FoodScanDTOResponse food) {
+        return food.getBarcode() + "--" + food.hashCode();
     }
 }
