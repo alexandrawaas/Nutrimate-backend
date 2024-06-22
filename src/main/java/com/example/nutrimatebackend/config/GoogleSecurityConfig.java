@@ -14,8 +14,6 @@ public class GoogleSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // WARNING: Disabling CSRF is not good, but I disabled it here for simplicity
-                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 );
