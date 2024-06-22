@@ -3,19 +3,18 @@ package com.example.nutrimatebackend.controllers;
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTORequest;
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.FavouriteRecipeDTOResponse;
-import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
-import com.example.nutrimatebackend.dtos.user.UserDTORequest;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTORequest;
+import com.example.nutrimatebackend.dtos.user.UserDTORequest;
 import com.example.nutrimatebackend.dtos.user.UserDTOResponse;
-import java.util.List;
-import java.util.Set;
-
 import com.example.nutrimatebackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @Validated
@@ -26,11 +25,6 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping("/login")
-    public String login() {
-        return "Einloggen Test";
     }
 
     @PostMapping("/register")
