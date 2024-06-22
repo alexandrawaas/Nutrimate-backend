@@ -6,7 +6,9 @@ import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 public class FoodScanDTOResponse extends RepresentationModel<FoodScanDTOResponse>
@@ -51,6 +53,15 @@ public class FoodScanDTOResponse extends RepresentationModel<FoodScanDTOResponse
     }
 
     public void addLinks(String barcode) {
-        add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FoodController.class).getFoodByBarcode(barcode)).withSelfRel());
+        add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(FoodController.class).getFoodByBarcode(barcode, null)).withSelfRel());
+    }
+
+    @Override
+    public int hashCode() {
+        int[] array = new int[allergens.size()];
+        for (int i = 0; i < allergens.size(); i++) {
+            array[i] = allergens.get(i).hashCode();
+        }
+        return Objects.hash(barcode, category, name, calories, fat, saturatedFats, carbs, sugar, fibers, protein, salt, imageUrl, ecoscoreGrade, ecoscoreScore)+ Arrays.stream(array).sum();
     }
 }

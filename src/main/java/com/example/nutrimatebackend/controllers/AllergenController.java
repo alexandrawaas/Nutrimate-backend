@@ -5,6 +5,7 @@ import com.example.nutrimatebackend.services.AllergenService;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,12 @@ public class AllergenController {
     }
 
     @GetMapping(value = "/allergens")
-    public List<AllergenDTOResponse> getAllAllergens() {
-        return allergenService.getAllAllergens();
+    public ResponseEntity<List<AllergenDTOResponse>> getAllAllergens() {
+
+        List<AllergenDTOResponse> allergens = allergenService.getAllAllergens();
+        return ResponseEntity.ok()
+                .header("Cache-Control", "max-age=86400") // 86400 = 1 Tag
+                .body(allergens);
     }
 
 }
