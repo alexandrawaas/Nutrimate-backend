@@ -42,6 +42,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation ("org.springframework.boot:spring-boot-starter-security")
+    implementation ("com.google.firebase:firebase-admin:9.3.0")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
