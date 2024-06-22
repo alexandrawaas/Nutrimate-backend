@@ -28,6 +28,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/login")
+    public String login() {
+        return "Einloggen Test";
+    }
+
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTOResponse createUser(@RequestBody UserDTORequest userDTORequest) {

@@ -17,7 +17,7 @@ import com.example.nutrimatebackend.entities.User;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+//import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -128,10 +128,12 @@ public class UserService
     }
 
     private String getEmail() {
-        OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder
-                .getContext()
-                .getAuthentication();
+        return "timwagner997@gmail.com";
 
-        return authentication.getPrincipal().getAttribute("email");
+//        OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder
+//                .getContext()
+//                .getAuthentication();
+//
+//        return authentication.getPrincipal().getAttribute("email");
     }
 }
