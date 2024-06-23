@@ -15,8 +15,8 @@ import com.example.nutrimatebackend.entities.Recipe;
 import com.example.nutrimatebackend.entities.User;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.repositories.UserRepository;
+import com.example.nutrimatebackend.utils.HttpRequestUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestAttribute;
 
 import java.util.List;
 import java.util.Set;
@@ -32,23 +32,27 @@ public class UserService
     private final AllergenConverter allergenConverter;
     private final RecipeConverter recipeConverter;
 
+    private final HttpRequestUtil httpRequestUtil;
+
     public UserService(
             UserRepository userRepository,
             AllergenRepository allergenRepository,
             UserConverter userConverter,
             AllergenConverter allergenConverter,
-            RecipeConverter recipeConverter
+            RecipeConverter recipeConverter,
+            HttpRequestUtil httpRequestUtil
     ) {
         this.userRepository = userRepository;
         this.allergenRepository = allergenRepository;
         this.userConverter = userConverter;
         this.allergenConverter = allergenConverter;
         this.recipeConverter = recipeConverter;
+        this.httpRequestUtil = httpRequestUtil;
     }
 
     public User getCurrentUser() {
         return userRepository.findByEmail(
-                getEmail()
+                httpRequestUtil.getUserEmailFromRequest()
         );
     }
 
@@ -123,15 +127,5 @@ public class UserService
         userRepository.saveAndFlush(user);
 
         return recipeConverter.convertToFavouriteRecipeDTOResponse(deletedRecipe);
-    }
-
-    private String getEmail() {
-        return "timwagner997@gmail.com";
-
-//        OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder
-//                .getContext()
-//                .getAuthentication();
-//
-//        return authentication.getPrincipal().getAttribute("email");
     }
 }
