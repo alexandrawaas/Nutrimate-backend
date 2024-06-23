@@ -5,13 +5,11 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
 @Configuration
-@EnableWebSecurity
 public class FirebaseSDKConfig {
     @Bean
     public FirebaseApp initFirebaseSDK() throws IOException {
