@@ -8,6 +8,8 @@ services:
       - ./src:/app/src
     ports:
       - '8080:8080'
+    environment:
+      DEBUG: ${DEBUG}
     depends_on:
       - database
   database:
