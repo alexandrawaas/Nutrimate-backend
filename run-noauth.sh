@@ -1,1 +1,2 @@
+export SPRING_GOOGLE_AUTH=disabled
 docker compose up
