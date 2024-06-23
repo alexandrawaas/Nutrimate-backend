@@ -6,7 +6,6 @@ import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.FavouriteRecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTORequest;
-import com.example.nutrimatebackend.dtos.recipe.RecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.user.UserConverter;
 import com.example.nutrimatebackend.dtos.user.UserDTORequest;
 import com.example.nutrimatebackend.dtos.user.UserDTOResponse;
@@ -16,8 +15,6 @@ import com.example.nutrimatebackend.entities.Recipe;
 import com.example.nutrimatebackend.entities.User;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.repositories.UserRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
