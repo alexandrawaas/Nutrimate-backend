@@ -15,7 +15,6 @@ public class User {
     private Long id;
 
     String email;
-    String password;
 
     @OneToOne() @Cascade(org.hibernate.annotations.CascadeType.ALL)
     Fridge fridge;
@@ -28,9 +27,8 @@ public class User {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     List<Recipe> favouriteRecipes;
 
-    public User(String email, String password, Fridge fridge, Set<Allergen> allergens, List<Recipe> favouriteRecipes) {
+    public User(String email, Fridge fridge, Set<Allergen> allergens, List<Recipe> favouriteRecipes) {
         this.email = email;
-        this.password = password;
         this.fridge = fridge;
         this.allergens = allergens;
         this.favouriteRecipes = favouriteRecipes;

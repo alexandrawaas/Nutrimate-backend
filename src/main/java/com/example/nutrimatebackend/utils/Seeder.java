@@ -64,17 +64,19 @@ class Seeder {
 
                 List<Recipe> myRecipes = new ArrayList<>();
 
-                log.info("Preloading " + userRepository.save(new User(
-                        "dummyuser@email.com",
-                        "securePassword123",
+                User newUser = new User(
+                        "timwagner997@gmail.com",
                         new Fridge(
-                            myFood
+                                myFood
                         ),
                         myAllergens,
                         myRecipes
-                )));
+                );
+
+                log.info("Preloading " + userRepository.save(newUser));
             };
         }
+
         return args -> {};
     }
 }

@@ -16,6 +16,7 @@ import com.example.nutrimatebackend.entities.User;
 import com.example.nutrimatebackend.repositories.AllergenRepository;
 import com.example.nutrimatebackend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import java.util.List;
 import java.util.Set;
@@ -56,7 +57,7 @@ public class UserService
     }
 
     public UserDTOResponse add(UserDTORequest userDTORequest){
-        User newUser = userRepository.saveAndFlush(new User(userDTORequest.eMail, userDTORequest.password, new Fridge(), Set.of(), List.of()));
+        User newUser = userRepository.saveAndFlush(new User(userDTORequest.email, new Fridge(), Set.of(), List.of()));
 
         return userConverter.convertToUserDTOResponse(newUser);
     }

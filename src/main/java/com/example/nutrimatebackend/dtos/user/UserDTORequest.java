@@ -2,11 +2,9 @@ package com.example.nutrimatebackend.dtos.user;
 
 public class UserDTORequest
 {
-    public String eMail;
-    public String password;
+    public String email;
 
-    public UserDTORequest(String eMail, String password) {
-        this.eMail = eMail;
-        this.password = password;
+    public UserDTORequest(String email) {
+        this.email = email;
     }
 }
