@@ -1,0 +1,3 @@
+# Beschreibung der Schnittstelle
+
+Unsere Swagger-Dokumentation befindet sich im Ordner docs/swagger. Sie kann mit dem Befehl `docker compose up` als Docker-Container gestartet werden und ist dann im Browser unter http://localhost:8089 abrufbar.
