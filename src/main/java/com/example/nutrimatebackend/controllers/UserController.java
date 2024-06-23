@@ -4,7 +4,6 @@ import com.example.nutrimatebackend.dtos.allergen.AllergenDTORequest;
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.FavouriteRecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTORequest;
-import com.example.nutrimatebackend.dtos.user.UserDTORequest;
 import com.example.nutrimatebackend.dtos.user.UserDTOResponse;
 import com.example.nutrimatebackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,8 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTOResponse createUser(@RequestBody UserDTORequest userDTORequest) {
-        return userService.add(userDTORequest);
+    public UserDTOResponse createUser() {
+        return userService.createUser();
     }
 
     @GetMapping("/user/allergens")

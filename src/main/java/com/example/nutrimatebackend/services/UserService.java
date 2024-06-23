@@ -7,7 +7,6 @@ import com.example.nutrimatebackend.dtos.recipe.FavouriteRecipeDTOResponse;
 import com.example.nutrimatebackend.dtos.recipe.RecipeConverter;
 import com.example.nutrimatebackend.dtos.recipe.RecipeDTORequest;
 import com.example.nutrimatebackend.dtos.user.UserConverter;
-import com.example.nutrimatebackend.dtos.user.UserDTORequest;
 import com.example.nutrimatebackend.dtos.user.UserDTOResponse;
 import com.example.nutrimatebackend.entities.Allergen;
 import com.example.nutrimatebackend.entities.Fridge;
@@ -18,6 +17,7 @@ import com.example.nutrimatebackend.repositories.UserRepository;
 import com.example.nutrimatebackend.utils.HttpRequestUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,25 +28,25 @@ public class UserService
     private final UserRepository userRepository;
     private final AllergenRepository allergenRepository;
 
-    private final UserConverter userConverter;
     private final AllergenConverter allergenConverter;
     private final RecipeConverter recipeConverter;
+    private final UserConverter userConverter;
 
     private final HttpRequestUtil httpRequestUtil;
 
     public UserService(
             UserRepository userRepository,
             AllergenRepository allergenRepository,
-            UserConverter userConverter,
             AllergenConverter allergenConverter,
             RecipeConverter recipeConverter,
+            UserConverter userConverter,
             HttpRequestUtil httpRequestUtil
     ) {
         this.userRepository = userRepository;
         this.allergenRepository = allergenRepository;
-        this.userConverter = userConverter;
         this.allergenConverter = allergenConverter;
         this.recipeConverter = recipeConverter;
+        this.userConverter = userConverter;
         this.httpRequestUtil = httpRequestUtil;
     }
 
@@ -60,10 +60,24 @@ public class UserService
         userRepository.saveAndFlush(user);
     }
 
-    public UserDTOResponse add(UserDTORequest userDTORequest){
-        User newUser = userRepository.saveAndFlush(new User(userDTORequest.email, new Fridge(), Set.of(), List.of()));
+    public UserDTOResponse createUser() {
+        User user = getCurrentUser();
 
-        return userConverter.convertToUserDTOResponse(newUser);
+        // If the user already exists, don't add a new one and return
+        if (user != null) {
+            return userConverter.convertToUserDTOResponse(user);
+        }
+
+        User rawUser = new User(
+                httpRequestUtil.getUserEmailFromRequest(),
+                new Fridge(),
+                Collections.emptySet(),
+                Collections.emptyList()
+        );
+
+        User createdUser = userRepository.save(rawUser);
+
+        return userConverter.convertToUserDTOResponse(createdUser);
     }
 
     public Set<AllergenDTOResponse> getAllergens(){
