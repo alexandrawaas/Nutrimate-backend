@@ -56,8 +56,8 @@ public class UserService
         );
     }
 
-    public User saveUser(User user){
-        return userRepository.saveAndFlush(user);
+    public void saveUser(User user) {
+        userRepository.saveAndFlush(user);
     }
 
     public UserDTOResponse add(UserDTORequest userDTORequest){
