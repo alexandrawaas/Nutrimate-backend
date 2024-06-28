@@ -4,8 +4,6 @@ import com.example.nutrimatebackend.dtos.api.openFoodFacts.OpenFoodFactsResponse
 import com.example.nutrimatebackend.entities.Food;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-
 @Service
 public class FoodConverter {
 

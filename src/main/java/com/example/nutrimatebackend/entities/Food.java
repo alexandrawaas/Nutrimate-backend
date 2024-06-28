@@ -1,6 +1,5 @@
 package com.example.nutrimatebackend.entities;
 
-import com.example.nutrimatebackend.dtos.api.openFoodFacts.SelectedImages;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -43,9 +42,9 @@ public class Food {
     String ecoscoreGrade;
     int ecoscoreScore;
 
-    String ImageUrl;
+    String imageUrl;
 
-    public Food(String name, String category, String barcode, LocalDateTime expireDate, List<Allergen> allergens, int calories, int fats, int saturatedFats, int carbs, int sugar, int fibers, int proteins, int salt, String ecoscoreGrade, int ecoscoreScore) {
+    public Food(String name, String category, String barcode, LocalDateTime expireDate, List<Allergen> allergens, int calories, int fats, int saturatedFats, int carbs, int sugar, int fibers, int proteins, int salt, String ecoscoreGrade, int ecoscoreScore, String imageUrl) {
         isOpen = false;
         daysToConsume = null;
 
@@ -65,6 +64,7 @@ public class Food {
 
         this.ecoscoreGrade = ecoscoreGrade;
         this.ecoscoreScore = ecoscoreScore;
+        this.imageUrl = imageUrl;
     }
 
     public Food() {}

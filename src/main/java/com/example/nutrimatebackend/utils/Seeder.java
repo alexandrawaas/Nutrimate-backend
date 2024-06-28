@@ -49,18 +49,66 @@ class Seeder {
                 List<Food> myFood = new ArrayList<>();
 
                 myFood.add(
-                        new Food("Nutella", "spread", "123456789", LocalDateTime.now(), Collections.emptyList(),
-                                546, 32, 12, 58, 56, 7, 6, 0, "A", 42)
+                        new Food(
+                                "Nutella",
+                                "spread",
+                                "123456789",
+                                LocalDateTime.now(),
+                                Collections.emptyList(),
+                                546,
+                                32,
+                                12,
+                                58,
+                                56,
+                                7,
+                                6,
+                                0,
+                                "A",
+                                42,
+                                "https://www.italiangourmet.de/cdn/shop/products/ferrero-streichfahige-creme-ferrero-nutella-kakao-und-haselnuss-creme-950g-8000500357729-23571880542387.jpg?v=1650900252&width=240"
+                        )
                 );
 
                 myFood.add(
-                        new Food("American Sandwich", "bread", "123456789", LocalDateTime.now(), Collections.emptyList(),
-                                250, 4, 1, 46, 5, 3, 8, 1, "B", 33)
+                        new Food(
+                                "American Sandwich",
+                                "bread",
+                                "123456789",
+                                LocalDateTime.now(),
+                                Collections.emptyList(),
+                                250,
+                                4,
+                                1,
+                                46,
+                                5,
+                                3,
+                                8,
+                                1,
+                                "B",
+                                33,
+                                "https://m.media-amazon.com/images/I/71VWXGpuRfL._SL1500_.jpg"
+                        )
                 );
 
                 myFood.add(
-                        new Food("Coca Cola", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(),
-                                42, 0, 0, 11, 11, 0, 0, 0, "C", 24)
+                        new Food(
+                                "Coca Cola",
+                                "soft drink",
+                                "123456789",
+                                LocalDateTime.now(),
+                                Collections.emptyList(),
+                                42,
+                                0,
+                                0,
+                                11,
+                                11,
+                                0,
+                                0,
+                                0,
+                                "C",
+                                24,
+                                "https://www.coca-cola.com/content/dam/onexp/de/de/home-images/brand-coca-cola/de_coca-cola-original-taste_750x750.jpg/width2674.jpg"
+                        )
                 );
 
                 Set<Allergen> myAllergens = new HashSet<>(allergenRepository.findAll().subList(0, 3));
