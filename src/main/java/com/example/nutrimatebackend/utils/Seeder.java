@@ -49,15 +49,18 @@ class Seeder {
                 List<Food> myFood = new ArrayList<>();
 
                 myFood.add(
-                        new Food("Nutella", "spread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8, "A", 42)
+                        new Food("Nutella", "spread", "123456789", LocalDateTime.now(), Collections.emptyList(),
+                                546, 32, 12, 58, 56, 7, 6, 0, "A", 42)
                 );
 
                 myFood.add(
-                        new Food("American Sandwich", "bread", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8, "B", 33)
+                        new Food("American Sandwich", "bread", "123456789", LocalDateTime.now(), Collections.emptyList(),
+                                250, 4, 1, 46, 5, 3, 8, 1, "B", 33)
                 );
 
                 myFood.add(
-                        new Food("Coke", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(), 1,2,3,4,5,6,7,8, "C", 24)
+                        new Food("Coca Cola", "soft drink", "123456789", LocalDateTime.now(), Collections.emptyList(),
+                                42, 0, 0, 11, 11, 0, 0, 0, "C", 24)
                 );
 
                 Set<Allergen> myAllergens = new HashSet<>(allergenRepository.findAll().subList(0, 3));
