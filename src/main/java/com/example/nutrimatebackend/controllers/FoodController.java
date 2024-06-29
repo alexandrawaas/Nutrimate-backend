@@ -65,11 +65,12 @@ public class FoodController {
         }
     }
 
+    // Open a food
     @PatchMapping(value = "/fridge/food/{foodId}")
     FoodDTOResponse openFood(@RequestBody DaysToConsumeRequestDTO daysToConsumeDTO, @PathVariable Long foodId)
     {
         try {
-            FoodDTOResponse response = foodService.openFood(foodId, daysToConsumeDTO.getDaysToConsume());
+            FoodDTOResponse response = foodService.openFood(foodId, daysToConsumeDTO);
             response.addLinks(foodId);
             return response;
         } catch (Exception e) {

@@ -28,6 +28,9 @@ public class Food {
     @Nullable
     Integer daysToConsume;
 
+    @Nullable
+    LocalDateTime timeOpened;
+
     // nutritional values
     double calories;
     double fats;
@@ -47,6 +50,7 @@ public class Food {
     public Food(String name, String category, String barcode, LocalDateTime expireDate, List<Allergen> allergens, int calories, int fats, int saturatedFats, int carbs, int sugar, int fibers, int proteins, int salt, String ecoscoreGrade, int ecoscoreScore, String imageUrl) {
         isOpen = false;
         daysToConsume = null;
+        timeOpened = null;
 
         this.name = name;
         this.category = category;

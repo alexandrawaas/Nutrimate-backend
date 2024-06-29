@@ -124,10 +124,13 @@ public class FoodService {
         return foodConverter.convertServerResponseToDtoResponse(response);
     }
 
-    public FoodDTOResponse openFood(Long foodId, int daysToConsume) {
+    public FoodDTOResponse openFood(Long foodId, DaysToConsumeRequestDTO daysToConsume) {
         Food food = foodRepository.findById(foodId).orElseThrow(() -> new RuntimeException("Food not found"));
+
         food.setOpen(true);
-        food.setDaysToConsume(daysToConsume);
+        food.setDaysToConsume(daysToConsume.getDaysToConsume());
+        food.setTimeOpened(daysToConsume.getTimeOpened());
+
         foodRepository.save(food);
         return foodConverter.convertToDtoResponse(food);
     }

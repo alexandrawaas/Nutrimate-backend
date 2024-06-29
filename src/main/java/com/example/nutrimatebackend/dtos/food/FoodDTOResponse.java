@@ -20,6 +20,8 @@ public class FoodDTOResponse extends RepresentationModel<FoodDTOResponse>
     String name;
 
     boolean isOpen;
+    LocalDateTime timeOpened;
+
     Integer daysToConsume;
 
     double calories;
@@ -35,13 +37,14 @@ public class FoodDTOResponse extends RepresentationModel<FoodDTOResponse>
 
     String imageUrl;
 
-    public FoodDTOResponse(Long id, String barcode, LocalDateTime expireDate, String category, String name, boolean isOpen, Integer daysToConsume, double calories, double fats, double saturatedFats, double carbs, double sugar, double fibers, double proteins, double salt, List<Allergen> allergens, String imageUrl) {
+    public FoodDTOResponse(Long id, String barcode, LocalDateTime expireDate, String category, String name, boolean isOpen, LocalDateTime timeOpened, Integer daysToConsume, double calories, double fats, double saturatedFats, double carbs, double sugar, double fibers, double proteins, double salt, List<Allergen> allergens, String imageUrl) {
         this.id = id;
         this.barcode = barcode;
         this.expireDate = expireDate;
         this.category = category;
         this.name = name;
         this.isOpen = isOpen;
+        this.timeOpened = timeOpened;
         this.daysToConsume = daysToConsume;
         this.calories = calories;
         this.fats = fats;

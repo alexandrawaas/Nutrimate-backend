@@ -15,6 +15,7 @@ public class FoodConverter {
                 food.getCategory(),
                 food.getName(),
                 food.isOpen(),
+                food.getTimeOpened(),
                 food.getDaysToConsume(),
                 food.getCalories(),
                 food.getFats(),
