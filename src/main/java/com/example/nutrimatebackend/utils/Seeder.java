@@ -52,7 +52,7 @@ class Seeder {
                         new Food(
                                 "Nutella",
                                 "spread",
-                                "123456789",
+                                "40084053",
                                 LocalDateTime.now(),
                                 Collections.emptyList(),
                                 546,
@@ -73,7 +73,7 @@ class Seeder {
                         new Food(
                                 "American Sandwich",
                                 "bread",
-                                "123456789",
+                                "20139155",
                                 LocalDateTime.now(),
                                 Collections.emptyList(),
                                 250,
@@ -94,7 +94,7 @@ class Seeder {
                         new Food(
                                 "Coca Cola",
                                 "soft drink",
-                                "123456789",
+                                "54491472",
                                 LocalDateTime.now(),
                                 Collections.emptyList(),
                                 42,
