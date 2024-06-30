@@ -71,6 +71,9 @@ public class FoodConverter {
         food.setCategory(foodScanDTOResponse.getCategory());
         food.setName(foodScanDTOResponse.getName());
         food.setImageUrl(foodScanDTOResponse.getImageUrl());
+        food.setEcoscoreGrade(foodScanDTOResponse.ecoscoreGrade);
+        food.setEcoscoreScore(foodScanDTOResponse.ecoscoreScore);
+
         return food;
     }
 
