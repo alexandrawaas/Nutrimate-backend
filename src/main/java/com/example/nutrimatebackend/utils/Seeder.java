@@ -117,9 +117,7 @@ class Seeder {
 
                 User newUser = new User(
                         "timwagner997@gmail.com",
-                        new Fridge(
-                                myFood
-                        ),
+                        new Fridge(),
                         myAllergens,
                         myRecipes
                 );
