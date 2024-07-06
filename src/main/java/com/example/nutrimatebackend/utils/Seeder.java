@@ -14,8 +14,10 @@ import java.util.*;
 @Configuration
 class Seeder {
 
+    // For demo purposes, we will seed the database with some data
+    // The database is dropped, re-created and seeded every time the application starts
+    // To disable this behaviour, set enableSeeder to false and in application.properties, set spring.jpa.hibernate.ddl-auto=update
     private boolean enableSeeder = true;
-    // TODO: Drop Database if enableSeeder is true
 
     private static final Logger log = LoggerFactory.getLogger(Seeder.class);
 
