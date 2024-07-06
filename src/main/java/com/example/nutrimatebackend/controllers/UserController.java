@@ -79,4 +79,10 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
+    @DeleteMapping("/user")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(){
+        userService.deleteUser();
+    }
 }

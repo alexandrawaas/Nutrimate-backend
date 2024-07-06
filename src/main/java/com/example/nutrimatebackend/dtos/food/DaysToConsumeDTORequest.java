@@ -5,7 +5,8 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class DaysToConsumeRequestDTO {
+public class DaysToConsumeDTORequest
+{
     public int daysToConsume;
     public LocalDateTime timeOpened;
 }

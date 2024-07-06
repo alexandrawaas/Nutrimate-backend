@@ -2,7 +2,7 @@ package com.example.nutrimatebackend.controllers;
 
 import com.example.nutrimatebackend.dtos.allergen.AllergenDTOResponse;
 import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDTOResponse;
-import com.example.nutrimatebackend.dtos.food.DaysToConsumeRequestDTO;
+import com.example.nutrimatebackend.dtos.food.DaysToConsumeDTORequest;
 import com.example.nutrimatebackend.dtos.food.FoodDTORequest;
 import com.example.nutrimatebackend.dtos.food.FoodDTOResponse;
 import com.example.nutrimatebackend.dtos.food.FoodScanDTOResponse;
@@ -10,10 +10,8 @@ import com.example.nutrimatebackend.services.FoodService;
 
 import java.util.List;
 
-import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +65,7 @@ public class FoodController {
 
     // Open a food
     @PatchMapping(value = "/fridge/food/{foodId}")
-    FoodDTOResponse openFood(@RequestBody DaysToConsumeRequestDTO daysToConsumeDTO, @PathVariable Long foodId)
+    FoodDTOResponse openFood(@RequestBody DaysToConsumeDTORequest daysToConsumeDTO, @PathVariable Long foodId)
     {
         try {
             FoodDTOResponse response = foodService.openFood(foodId, daysToConsumeDTO);

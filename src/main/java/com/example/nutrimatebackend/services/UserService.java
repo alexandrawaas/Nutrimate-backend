@@ -142,4 +142,9 @@ public class UserService
 
         return recipeConverter.convertToFavouriteRecipeDTOResponse(deletedRecipe);
     }
+
+    public void deleteUser(){
+        User user = getCurrentUser();
+        userRepository.delete(user);
+    }
 }
