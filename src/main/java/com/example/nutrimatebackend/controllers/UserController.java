@@ -68,16 +68,6 @@ public class UserController {
         return userService.addRecipe(recipeDTORequest);
     }
 
-    @DeleteMapping("/user/allergens/{allergenId}")
-    public AllergenDTOResponse deleteAllergen(@PathVariable Long allergenId) {
-        try {
-            return userService.deleteAllergen(allergenId);
-        }
-        catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }
-    }
-
     @DeleteMapping("/user/favourite-recipes/{recipeId}")
     public FavouriteRecipeDTOResponse deleteFavoriteRecipes(@PathVariable Long recipeId){
         try

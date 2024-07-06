@@ -17,7 +17,9 @@ import com.example.nutrimatebackend.repositories.UserRepository;
 import com.example.nutrimatebackend.utils.HttpRequestUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -144,31 +146,5 @@ public class UserService
     public void deleteUser(){
         User user = getCurrentUser();
         userRepository.delete(user);
-    }
-
-    public AllergenDTOResponse deleteAllergen(Long allergenId) {
-        Allergen deletedAllergen = null;
-
-        User user = getCurrentUser();
-
-        Set<Allergen> updatedAllergens = new HashSet<>();
-
-        for (Allergen allergen : user.getAllergens()) {
-            if (allergen.getId().equals(allergenId)) {
-                deletedAllergen = allergen;
-                continue;
-            }
-
-            updatedAllergens.add(allergen);
-        }
-
-        if (deletedAllergen == null) {
-            return null;
-        }
-
-        user.setAllergens(updatedAllergens);
-        userRepository.saveAndFlush(user);
-
-        return allergenConverter.convertToDTOResponse(deletedAllergen);
     }
 }
