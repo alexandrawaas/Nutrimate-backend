@@ -4,25 +4,27 @@ import com.example.nutrimatebackend.dtos.environmentalScore.EnvironmentalScoreDT
 import com.example.nutrimatebackend.entities.Fridge;
 import com.example.nutrimatebackend.repositories.UserRepository;
 import com.example.nutrimatebackend.services.EnvironmentalScoreService;
+import com.example.nutrimatebackend.services.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class EnvironmentalScoreController {
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public EnvironmentalScoreController(UserRepository userRepository) {
+    public EnvironmentalScoreController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping(value = "/fridge/environmental-score")
     public EnvironmentalScoreDTOResponse getEnvironmentalScore()
     {
-        // TODO: Replace this with the current logged in user!
-        Long currentUser = 1L;
+        Long currentUserId = userService.getCurrentUser().getId();
 
         Fridge fridge = userRepository
-                .findById(currentUser)
+                .findById(currentUserId)
                 .orElseThrow()
                 .getFridge();
 
