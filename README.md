@@ -54,16 +54,6 @@ Wechseln Sie zu dem Ordner des Repositorys:
 cd nutrimate-backend
 ```
 
-Optional: 
-
-Falls Sie die Endpunkte mit Curl o.ä. testen wollen, können Sie die Google-Authentifizierung deaktivieren.
-
-Setzen Sie dazu folgende Umgebungsvariable:
-
-```shell
-export DEBUG=true
-```
-
 Starten Sie mit folgendem Befehl das Backend.
 
 Es kann etwas dauern, bis das Backend aktiv ist, da Gradle inkl. aller benötigten Abhängigkeiten heruntergeladen werden muss:
@@ -74,7 +64,7 @@ sudo docker compose up
 
 Optional:
 
-Falls Sie die Endpunkte mit curl, Postman o.ä. testen wollen, können Sie die Google-Authentifizierung deaktivieren:
+Falls Sie die Endpunkte mit curl, Postman o.ä. testen wollen, können Sie mit einer Umgebungsvariable die Google-Authentifizierung deaktivieren:
 
 ```shell
 export DEBUG=true
