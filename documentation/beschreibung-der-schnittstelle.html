@@ -689,184 +689,400 @@
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-            defs["Allergen"] = {
+            defs["AllergenDTORequest"] = {
   "type" : "object",
   "properties" : {
     "id" : {
       "type" : "integer",
-      "format" : "int64",
-      "example" : 10
+      "format" : "long",
+      "example" : 12
     },
     "name" : {
       "type" : "string",
-      "example" : "lactose"
+      "example" : "gluten"
     }
   }
 };
-            defs["AuthToken"] = {
-  "type" : "string",
-  "example" : "o435bkjwkfaew"
-};
-            defs["EnvironmentalScore"] = {
-  "type" : "object",
-  "properties" : {
-    "environmentalScore" : {
-      "type" : "integer"
-    }
-  }
-};
-            defs["Food"] = {
+            defs["AllergenDTOResponse"] = {
   "type" : "object",
   "properties" : {
     "id" : {
       "type" : "integer",
-      "format" : "int64",
-      "example" : 10
+      "format" : "long",
+      "example" : 12
     },
-    "barcode" : {
+    "name" : {
       "type" : "string",
-      "example" : "3045140105502"
-    },
-    "expireDate" : {
-      "type" : "string",
-      "format" : "date",
-      "example" : "2024-09-20"
-    },
-    "isOpen" : {
-      "type" : "boolean",
-      "example" : false
-    },
-    "daysToConsume" : {
-      "type" : "integer"
-    },
-    "calories" : {
-      "type" : "number"
-    },
-    "fat" : {
-      "type" : "number"
-    },
-    "saturated fats" : {
-      "type" : "number"
-    },
-    "carbs" : {
-      "type" : "number"
-    },
-    "sugar" : {
-      "type" : "number"
-    },
-    "fibers" : {
-      "type" : "number"
-    },
-    "protein" : {
-      "type" : "number"
-    },
-    "salt" : {
-      "type" : "number"
-    },
-    "allergens" : {
-      "type" : "array",
-      "items" : {
-        "$ref" : "#/components/schemas/Allergen"
-      }
-    },
-    "category" : {
-      "type" : "string",
-      "example" : "Schokoladenpudding"
+      "example" : "gluten"
     }
   }
 };
-            defs["FoodCreationObject"] = {
-  "type" : "object",
-  "properties" : {
-    "expireDate" : {
-      "type" : "string",
-      "format" : "date",
-      "example" : "2024-09-20"
-    },
-    "barcode" : {
-      "type" : "string",
-      "example" : "3045140105502"
-    },
-    "amount" : {
-      "type" : "integer",
-      "example" : 1
-    }
-  }
-};
-            defs["FoodOpenObject"] = {
+            defs["DaysToConsumeDTORequest"] = {
   "type" : "object",
   "properties" : {
     "daysToConsume" : {
       "type" : "integer",
       "example" : 5
+    },
+    "timeOpened" : {
+      "type" : "string",
+      "format" : "date",
+      "example" : "2024-09-01"
     }
   }
 };
-            defs["FoodScanObject"] = {
+            defs["EnvironmentalScoreDTOResponse"] = {
   "type" : "object",
   "properties" : {
+    "environmentalScore" : {
+      "type" : "integer",
+      "example" : 50
+    }
+  }
+};
+            defs["FavouriteRecipeDTOResponse"] = {
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "format" : "long",
+      "example" : 3
+    },
+    "url" : {
+      "type" : "string",
+      "example" : "https://edamam.com/recipe/123"
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "Spaghetti Carbonara"
+    }
+  }
+};
+            defs["FoodDTORequest"] = {
+  "type" : "object",
+  "properties" : {
+    "amount" : {
+      "type" : "integer",
+      "example" : 2
+    },
+    "barcode" : {
+      "type" : "string",
+      "example" : "3045140105502"
+    },
+    "expireDate" : {
+      "type" : "string",
+      "format" : "date",
+      "example" : "2024-09-20"
+    }
+  }
+};
+            defs["FoodDTOResponse"] = {
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "format" : "long",
+      "example" : 10
+    },
+    "barcode" : {
+      "type" : "string",
+      "example" : "3045140105502"
+    },
+    "expireDate" : {
+      "type" : "string",
+      "format" : "date",
+      "example" : "2024-09-20"
+    },
+    "category" : {
+      "type" : "string",
+      "example" : "flour"
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "Alnatura Dinkelmehl 630"
+    },
+    "isOpen" : {
+      "type" : "boolean",
+      "example" : true
+    },
+    "timeOpened" : {
+      "type" : "string",
+      "format" : "date",
+      "example" : "2024-09-01"
+    },
+    "daysToConsume" : {
+      "type" : "integer"
+    },
+    "calories" : {
+      "type" : "number",
+      "example" : 100.57
+    },
+    "fats" : {
+      "type" : "number",
+      "example" : 10.14
+    },
+    "saturatedFats" : {
+      "type" : "number",
+      "example" : 5.65
+    },
+    "carbs" : {
+      "type" : "number",
+      "example" : 20.76
+    },
+    "sugar" : {
+      "type" : "number",
+      "example" : 5.22
+    },
+    "fibers" : {
+      "type" : "number",
+      "example" : 5.41
+    },
+    "proteins" : {
+      "type" : "number",
+      "example" : 5.43
+    },
+    "salt" : {
+      "type" : "number",
+      "example" : 0.01
+    },
+    "allergens" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/AllergenDTOResponse"
+      }
+    },
+    "imageUrl" : {
+      "type" : "string",
+      "example" : "https://www.alnatura.de/flour.jpg"
+    },
+    "_links" : {
+      "$ref" : "#/components/schemas/FoodDTOResponse__links"
+    }
+  }
+};
+            defs["FoodDTOResponse__links"] = {
+  "type" : "object",
+  "properties" : {
+    "self" : {
+      "$ref" : "#/components/schemas/FoodDTOResponse__links_self"
+    }
+  }
+};
+            defs["FoodDTOResponse__links_self"] = {
+  "type" : "object",
+  "properties" : {
+    "href" : {
+      "type" : "string",
+      "example" : "http://localhost:8080/fridge/food/10"
+    }
+  }
+};
+            defs["FoodScanDTOResponse"] = {
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string",
+      "example" : "Alnatura Dinkelmehl 630"
+    },
     "barcode" : {
       "type" : "string",
       "example" : "3045140105502"
     },
     "calories" : {
-      "type" : "number"
+      "type" : "number",
+      "example" : 100.57
     },
     "fat" : {
-      "type" : "number"
+      "type" : "number",
+      "example" : 10.14
     },
     "saturated fats" : {
-      "type" : "number"
+      "type" : "number",
+      "example" : 5.65
     },
     "carbs" : {
-      "type" : "number"
+      "type" : "number",
+      "example" : 20.76
     },
     "sugar" : {
-      "type" : "number"
+      "type" : "number",
+      "example" : 5.22
     },
     "fibers" : {
-      "type" : "number"
+      "type" : "number",
+      "example" : 5.41
     },
-    "protein" : {
-      "type" : "number"
+    "proteins" : {
+      "type" : "number",
+      "example" : 5.43
     },
     "salt" : {
-      "type" : "number"
+      "type" : "number",
+      "example" : 0.01
     },
     "allergens" : {
       "type" : "array",
       "items" : {
-        "$ref" : "#/components/schemas/Allergen"
+        "$ref" : "#/components/schemas/AllergenDTOResponse"
       }
     },
     "category" : {
       "type" : "string",
-      "example" : "Schokoladenpudding"
-    }
-  }
-};
-            defs["Recipe"] = {
-  "type" : "object",
-  "properties" : {
-    "url" : {
-      "type" : "string"
-    }
-  }
-};
-            defs["RecipeFavourite"] = {
-  "type" : "object",
-  "properties" : {
-    "id" : {
+      "example" : "flour"
+    },
+    "imageUrl" : {
+      "type" : "string",
+      "example" : "https://www.alnatura.de/flour.jpg"
+    },
+    "ecoscoreGrade" : {
+      "type" : "string",
+      "example" : "A"
+    },
+    "ecoscoreScore" : {
       "type" : "integer",
-      "format" : "int64",
+      "example" : 80
+    },
+    "_links" : {
+      "$ref" : "#/components/schemas/FoodScanDTOResponse__links"
+    }
+  }
+};
+            defs["FoodScanDTOResponse__links"] = {
+  "type" : "object",
+  "properties" : {
+    "self" : {
+      "$ref" : "#/components/schemas/FoodScanDTOResponse__links_self"
+    }
+  }
+};
+            defs["FoodScanDTOResponse__links_self"] = {
+  "type" : "object",
+  "properties" : {
+    "href" : {
+      "type" : "string",
+      "example" : "http://localhost:8080/food/3045140105502"
+    }
+  }
+};
+            defs["inline_response_200"] = {
+  "type" : "object",
+  "properties" : {
+    "_embedded" : {
+      "$ref" : "#/components/schemas/inline_response_200__embedded"
+    },
+    "_links" : {
+      "$ref" : "#/components/schemas/inline_response_200__links"
+    },
+    "page" : {
+      "$ref" : "#/components/schemas/inline_response_200_page"
+    }
+  }
+};
+            defs["inline_response_200__embedded"] = {
+  "type" : "object",
+  "properties" : {
+    "foodDTOResponseList" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/FoodDTOResponse"
+      }
+    }
+  }
+};
+            defs["inline_response_200__links"] = {
+  "properties" : {
+    "first" : {
+      "$ref" : "#/components/schemas/inline_response_200__links_first"
+    },
+    "prev" : {
+      "$ref" : "#/components/schemas/inline_response_200__links_first"
+    },
+    "self" : {
+      "$ref" : "#/components/schemas/inline_response_200__links_self"
+    },
+    "next" : {
+      "$ref" : "#/components/schemas/inline_response_200__links_next"
+    },
+    "last" : {
+      "$ref" : "#/components/schemas/inline_response_200__links_next"
+    }
+  }
+};
+            defs["inline_response_200__links_first"] = {
+  "type" : "object",
+  "properties" : {
+    "href" : {
+      "type" : "string",
+      "example" : "http://localhost:8080/fridge/food?page=0&size=10"
+    }
+  }
+};
+            defs["inline_response_200__links_next"] = {
+  "type" : "object",
+  "properties" : {
+    "href" : {
+      "type" : "string",
+      "example" : "http://localhost:8080/fridge/food?page=2&size=10"
+    }
+  }
+};
+            defs["inline_response_200__links_self"] = {
+  "type" : "object",
+  "properties" : {
+    "href" : {
+      "type" : "string",
+      "example" : "http://localhost:8080/fridge/food?page=1&size=10"
+    }
+  }
+};
+            defs["inline_response_200_page"] = {
+  "type" : "object",
+  "properties" : {
+    "size" : {
+      "type" : "integer",
       "example" : 10
     },
-    "url" : {
-      "type" : "string"
+    "totalElements" : {
+      "type" : "integer",
+      "example" : 30
+    },
+    "totalPages" : {
+      "type" : "integer",
+      "example" : 3
+    },
+    "number" : {
+      "type" : "integer",
+      "example" : 1
     }
   }
 };
-            defs["UserRegisterObject"] = {
+            defs["RecipeDTORequest"] = {
+  "type" : "object",
+  "properties" : {
+    "url" : {
+      "type" : "string",
+      "example" : "https://edamam.com/recipe/123"
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "Spaghetti Carbonara"
+    }
+  }
+};
+            defs["RecipeDTOResponse"] = {
+  "type" : "object",
+  "properties" : {
+    "url" : {
+      "type" : "string",
+      "example" : "https://edamam.com/recipe/123"
+    },
+    "name" : {
+      "type" : "string",
+      "example" : "Spaghetti Carbonara"
+    }
+  }
+};
+            defs["UserDTOResponse"] = {
   "type" : "object",
   "properties" : {
     "email" : {
@@ -947,12 +1163,6 @@
                     <li data-group="User" data-name="getRecipesOfUser" class="">
                       <a href="#api-User-getRecipesOfUser">getRecipesOfUser</a>
                     </li>
-                    <li data-group="User" data-name="loginUser" class="">
-                      <a href="#api-User-loginUser">loginUser</a>
-                    </li>
-                    <li data-group="User" data-name="logoutUser" class="">
-                      <a href="#api-User-logoutUser">logoutUser</a>
-                    </li>
                     <li data-group="User" data-name="registerUser" class="">
                       <a href="#api-User-registerUser">registerUser</a>
                     </li>
@@ -1028,7 +1238,7 @@ public class AllergensApiExample {
         
         AllergensApi apiInstance = new AllergensApi();
         try {
-            array[Allergen] result = apiInstance.getAllergens();
+            array[AllergenDTOResponse] result = apiInstance.getAllergens();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AllergensApi#getAllergens");
@@ -1046,7 +1256,7 @@ public class AllergensApiExample {
     public static void main(String[] args) {
         AllergensApi apiInstance = new AllergensApi();
         try {
-            array[Allergen] result = apiInstance.getAllergens();
+            array[AllergenDTOResponse] result = apiInstance.getAllergens();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AllergensApi#getAllergens");
@@ -1065,7 +1275,7 @@ AllergensApi *apiInstance = [[AllergensApi alloc] init];
 
 // Get all allergens
 [apiInstance getAllergensWithCompletionHandler: 
-              ^(array[Allergen] output, NSError* error) {
+              ^(array[AllergenDTOResponse] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1113,7 +1323,7 @@ namespace Example
             try
             {
                 // Get all allergens
-                array[Allergen] result = apiInstance.getAllergens();
+                array[AllergenDTOResponse] result = apiInstance.getAllergens();
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1191,6 +1401,9 @@ except ApiException as e:
                                   <a data-toggle="tab" href="#responses-getAllergens-200-schema">Schema</a>
                                 </li>
 
+                                <li class="">
+                                  <a data-toggle="tab" href="#responses-getAllergens-200-headers">Headers</a>
+                                </li>
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
@@ -1200,12 +1413,22 @@ except ApiException as e:
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "successful operation",
+  "headers" : {
+    "Cache-Control" : {
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string",
+        "example" : "max-age=86400"
+      }
+    }
+  },
   "content" : {
     "application/json" : {
       "schema" : {
         "type" : "array",
         "items" : {
-          "$ref" : "#/components/schemas/Allergen"
+          "$ref" : "#/components/schemas/AllergenDTOResponse"
         },
         "x-content-type" : "application/json"
       }
@@ -1233,6 +1456,22 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-getAllergens-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                                <div class="tab-pane" id="responses-getAllergens-200-headers">
+                                    <table>
+                                        <tr>
+                                            <th width="150px">Name</th>
+                                            <th width="100px">Type</th>
+                                            <th width="100px">Format</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Cache-Control</td>
+                                            <td>String</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
 
@@ -1293,7 +1532,7 @@ public class EnvironmentalScoreApiExample {
         
         EnvironmentalScoreApi apiInstance = new EnvironmentalScoreApi();
         try {
-            EnvironmentalScore result = apiInstance.fridgeEnvironmentalScoreGet();
+            EnvironmentalScoreDTOResponse result = apiInstance.fridgeEnvironmentalScoreGet();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling EnvironmentalScoreApi#fridgeEnvironmentalScoreGet");
@@ -1311,7 +1550,7 @@ public class EnvironmentalScoreApiExample {
     public static void main(String[] args) {
         EnvironmentalScoreApi apiInstance = new EnvironmentalScoreApi();
         try {
-            EnvironmentalScore result = apiInstance.fridgeEnvironmentalScoreGet();
+            EnvironmentalScoreDTOResponse result = apiInstance.fridgeEnvironmentalScoreGet();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling EnvironmentalScoreApi#fridgeEnvironmentalScoreGet");
@@ -1330,7 +1569,7 @@ EnvironmentalScoreApi *apiInstance = [[EnvironmentalScoreApi alloc] init];
 
 // Get environmental score of fridge
 [apiInstance fridgeEnvironmentalScoreGetWithCompletionHandler: 
-              ^(EnvironmentalScore output, NSError* error) {
+              ^(EnvironmentalScoreDTOResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1378,7 +1617,7 @@ namespace Example
             try
             {
                 // Get environmental score of fridge
-                EnvironmentalScore result = apiInstance.fridgeEnvironmentalScoreGet();
+                EnvironmentalScoreDTOResponse result = apiInstance.fridgeEnvironmentalScoreGet();
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1468,7 +1707,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/EnvironmentalScore"
+        "$ref" : "#/components/schemas/EnvironmentalScoreDTOResponse"
       }
     }
   }
@@ -1570,9 +1809,9 @@ public class FoodApiExample {
     public static void main(String[] args) {
         
         FoodApi apiInstance = new FoodApi();
-        FoodCreationObject body = ; // FoodCreationObject | Create a new food instance in the fridge
+        FoodDTORequest body = ; // FoodDTORequest | Create a new food instance in the fridge
         try {
-            Food result = apiInstance.addFood(body);
+            FoodDTOResponse result = apiInstance.addFood(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#addFood");
@@ -1589,9 +1828,9 @@ public class FoodApiExample {
 
     public static void main(String[] args) {
         FoodApi apiInstance = new FoodApi();
-        FoodCreationObject body = ; // FoodCreationObject | Create a new food instance in the fridge
+        FoodDTORequest body = ; // FoodDTORequest | Create a new food instance in the fridge
         try {
-            Food result = apiInstance.addFood(body);
+            FoodDTOResponse result = apiInstance.addFood(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#addFood");
@@ -1605,13 +1844,13 @@ public class FoodApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Food-addFood-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">FoodCreationObject *body = ; // Create a new food instance in the fridge
+                              <pre class="prettyprint"><code class="language-cpp">FoodDTORequest *body = ; // Create a new food instance in the fridge
 
 FoodApi *apiInstance = [[FoodApi alloc] init];
 
 // Add a new food to the user's fridge
 [apiInstance addFoodWith:body
-              completionHandler: ^(Food output, NSError* error) {
+              completionHandler: ^(FoodDTOResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1626,7 +1865,7 @@ FoodApi *apiInstance = [[FoodApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.FoodApi()
-var body = ; // {{FoodCreationObject}} Create a new food instance in the fridge
+var body = ; // {{FoodDTORequest}} Create a new food instance in the fridge
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1657,12 +1896,12 @@ namespace Example
         {
 
             var apiInstance = new FoodApi();
-            var body = new FoodCreationObject(); // FoodCreationObject | Create a new food instance in the fridge
+            var body = new FoodDTORequest(); // FoodDTORequest | Create a new food instance in the fridge
 
             try
             {
                 // Add a new food to the user's fridge
-                Food result = apiInstance.addFood(body);
+                FoodDTOResponse result = apiInstance.addFood(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1680,7 +1919,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFoodApi();
-$body = ; // FoodCreationObject | Create a new food instance in the fridge
+$body = ; // FoodDTORequest | Create a new food instance in the fridge
 
 try {
     $result = $api_instance->addFood($body);
@@ -1697,7 +1936,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FoodApi;
 
 my $api_instance = WWW::SwaggerClient::FoodApi->new();
-my $body = WWW::SwaggerClient::Object::FoodCreationObject->new(); # FoodCreationObject | Create a new food instance in the fridge
+my $body = WWW::SwaggerClient::Object::FoodDTORequest->new(); # FoodDTORequest | Create a new food instance in the fridge
 
 eval { 
     my $result = $api_instance->addFood(body => $body);
@@ -1717,7 +1956,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.FoodApi()
-body =  # FoodCreationObject | Create a new food instance in the fridge
+body =  # FoodDTORequest | Create a new food instance in the fridge
 
 try: 
     # Add a new food to the user's fridge
@@ -1749,7 +1988,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/FoodCreationObject"
+        "$ref" : "#/components/schemas/FoodDTORequest"
       }
     }
   },
@@ -1799,7 +2038,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Food"
+        "$ref" : "#/components/schemas/FoodDTOResponse"
       }
     }
   }
@@ -1897,9 +2136,9 @@ public class FoodApiExample {
     public static void main(String[] args) {
         
         FoodApi apiInstance = new FoodApi();
-        Long foodId = 789; // Long | ID of food to delete
+        Integer foodId = 56; // Integer | ID of food to delete
         try {
-            Food result = apiInstance.deleteFood(foodId);
+            FoodDTOResponse result = apiInstance.deleteFood(foodId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#deleteFood");
@@ -1916,9 +2155,9 @@ public class FoodApiExample {
 
     public static void main(String[] args) {
         FoodApi apiInstance = new FoodApi();
-        Long foodId = 789; // Long | ID of food to delete
+        Integer foodId = 56; // Integer | ID of food to delete
         try {
-            Food result = apiInstance.deleteFood(foodId);
+            FoodDTOResponse result = apiInstance.deleteFood(foodId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#deleteFood");
@@ -1932,13 +2171,13 @@ public class FoodApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Food-deleteFood-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Long *foodId = 789; // ID of food to delete
+                              <pre class="prettyprint"><code class="language-cpp">Integer *foodId = 56; // ID of food to delete
 
 FoodApi *apiInstance = [[FoodApi alloc] init];
 
 // Deletes a food
 [apiInstance deleteFoodWith:foodId
-              completionHandler: ^(Food output, NSError* error) {
+              completionHandler: ^(FoodDTOResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1953,7 +2192,7 @@ FoodApi *apiInstance = [[FoodApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.FoodApi()
-var foodId = 789; // {{Long}} ID of food to delete
+var foodId = 56; // {{Integer}} ID of food to delete
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1984,12 +2223,12 @@ namespace Example
         {
 
             var apiInstance = new FoodApi();
-            var foodId = 789;  // Long | ID of food to delete
+            var foodId = 56;  // Integer | ID of food to delete
 
             try
             {
                 // Deletes a food
-                Food result = apiInstance.deleteFood(foodId);
+                FoodDTOResponse result = apiInstance.deleteFood(foodId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2007,7 +2246,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFoodApi();
-$foodId = 789; // Long | ID of food to delete
+$foodId = 56; // Integer | ID of food to delete
 
 try {
     $result = $api_instance->deleteFood($foodId);
@@ -2024,7 +2263,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FoodApi;
 
 my $api_instance = WWW::SwaggerClient::FoodApi->new();
-my $foodId = 789; # Long | ID of food to delete
+my $foodId = 56; # Integer | ID of food to delete
 
 eval { 
     my $result = $api_instance->deleteFood(foodId => $foodId);
@@ -2044,7 +2283,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.FoodApi()
-foodId = 789 # Long | ID of food to delete
+foodId = 56 # Integer | ID of food to delete
 
 try: 
     # Deletes a food
@@ -2071,10 +2310,10 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      Long
+                                                      Integer
                                                   </span>
                                                       <span class="format">
-                                                          (int64)
+                                                          (long)
                                                       </span>
                                   
                                                       <div class="inner description">
@@ -2114,7 +2353,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Food"
+        "$ref" : "#/components/schemas/FoodDTOResponse"
       }
     }
   }
@@ -2214,7 +2453,7 @@ public class FoodApiExample {
         FoodApi apiInstance = new FoodApi();
         String barcode = barcode_example; // String | ID of food to show environmental score of
         try {
-            EnvironmentalScore result = apiInstance.foodBarcodeEnvironmentalScoreGet(barcode);
+            EnvironmentalScoreDTOResponse result = apiInstance.foodBarcodeEnvironmentalScoreGet(barcode);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#foodBarcodeEnvironmentalScoreGet");
@@ -2233,7 +2472,7 @@ public class FoodApiExample {
         FoodApi apiInstance = new FoodApi();
         String barcode = barcode_example; // String | ID of food to show environmental score of
         try {
-            EnvironmentalScore result = apiInstance.foodBarcodeEnvironmentalScoreGet(barcode);
+            EnvironmentalScoreDTOResponse result = apiInstance.foodBarcodeEnvironmentalScoreGet(barcode);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#foodBarcodeEnvironmentalScoreGet");
@@ -2253,7 +2492,7 @@ FoodApi *apiInstance = [[FoodApi alloc] init];
 
 // Get environmental score of a food
 [apiInstance foodBarcodeEnvironmentalScoreGetWith:barcode
-              completionHandler: ^(EnvironmentalScore output, NSError* error) {
+              completionHandler: ^(EnvironmentalScoreDTOResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2304,7 +2543,7 @@ namespace Example
             try
             {
                 // Get environmental score of a food
-                EnvironmentalScore result = apiInstance.foodBarcodeEnvironmentalScoreGet(barcode);
+                EnvironmentalScoreDTOResponse result = apiInstance.foodBarcodeEnvironmentalScoreGet(barcode);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2426,7 +2665,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/EnvironmentalScore"
+        "$ref" : "#/components/schemas/EnvironmentalScoreDTOResponse"
       }
     }
   }
@@ -2500,7 +2739,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-Food-getFood-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"//fridge/food"</code></pre>
+"//fridge/food?page=&size=&q="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Food-getFood-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2516,8 +2755,11 @@ public class FoodApiExample {
     public static void main(String[] args) {
         
         FoodApi apiInstance = new FoodApi();
+        Integer page = 56; // Integer | The page number
+        Integer size = 56; // Integer | The number of items per page
+        String q = q_example; // String | Search for a specific food
         try {
-            array[Food] result = apiInstance.getFood();
+            inline_response_200 result = apiInstance.getFood(page, size, q);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#getFood");
@@ -2534,8 +2776,11 @@ public class FoodApiExample {
 
     public static void main(String[] args) {
         FoodApi apiInstance = new FoodApi();
+        Integer page = 56; // Integer | The page number
+        Integer size = 56; // Integer | The number of items per page
+        String q = q_example; // String | Search for a specific food
         try {
-            array[Food] result = apiInstance.getFood();
+            inline_response_200 result = apiInstance.getFood(page, size, q);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#getFood");
@@ -2549,12 +2794,17 @@ public class FoodApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Food-getFood-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Integer *page = 56; // The page number (optional)
+Integer *size = 56; // The number of items per page (optional)
+String *q = q_example; // Search for a specific food (optional)
+
 FoodApi *apiInstance = [[FoodApi alloc] init];
 
 // Get a list of all the user's food in the fridge
-[apiInstance getFoodWithCompletionHandler: 
-              ^(array[Food] output, NSError* error) {
+[apiInstance getFoodWith:page
+    size:size
+    q:q
+              completionHandler: ^(inline_response_200 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2569,6 +2819,11 @@ FoodApi *apiInstance = [[FoodApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.FoodApi()
+var opts = { 
+  'page': 56, // {{Integer}} The page number
+  'size': 56, // {{Integer}} The number of items per page
+  'q': q_example // {{String}} Search for a specific food
+};
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -2576,7 +2831,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getFood(callback);
+api.getFood(opts, callback);
 </code></pre>
                             </div>
 
@@ -2598,11 +2853,14 @@ namespace Example
         {
 
             var apiInstance = new FoodApi();
+            var page = 56;  // Integer | The page number (optional) 
+            var size = 56;  // Integer | The number of items per page (optional) 
+            var q = q_example;  // String | Search for a specific food (optional) 
 
             try
             {
                 // Get a list of all the user's food in the fridge
-                array[Food] result = apiInstance.getFood();
+                inline_response_200 result = apiInstance.getFood(page, size, q);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2620,9 +2878,12 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFoodApi();
+$page = 56; // Integer | The page number
+$size = 56; // Integer | The number of items per page
+$q = q_example; // String | Search for a specific food
 
 try {
-    $result = $api_instance->getFood();
+    $result = $api_instance->getFood($page, $size, $q);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FoodApi->getFood: ', $e->getMessage(), PHP_EOL;
@@ -2636,9 +2897,12 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FoodApi;
 
 my $api_instance = WWW::SwaggerClient::FoodApi->new();
+my $page = 56; # Integer | The page number
+my $size = 56; # Integer | The number of items per page
+my $q = q_example; # String | Search for a specific food
 
 eval { 
-    my $result = $api_instance->getFood();
+    my $result = $api_instance->getFood(page => $page, size => $size, q => $q);
     print Dumper($result);
 };
 if ($@) {
@@ -2655,10 +2919,13 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.FoodApi()
+page = 56 # Integer | The page number (optional)
+size = 56 # Integer | The number of items per page (optional)
+q = q_example # String | Search for a specific food (optional)
 
 try: 
     # Get a list of all the user's food in the fridge
-    api_response = api_instance.get_food()
+    api_response = api_instance.get_food(page=page, size=size, q=q)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FoodApi->getFood: %s\n" % e)</code></pre>
@@ -2671,6 +2938,70 @@ except ApiException as e:
 
 
 
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">page</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getFood_page">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    Integer
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        The page number
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">size</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getFood_size">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    Integer
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        The number of items per page
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">q</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getFood_q">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        Search for a specific food
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
 
                           <h2>Responses</h2>
                             <h3> Status: 200 - Successful operation </h3>
@@ -2692,11 +3023,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/Food"
-        },
-        "x-content-type" : "application/json"
+        "$ref" : "#/components/schemas/inline_response_200"
       }
     }
   }
@@ -2795,8 +3122,9 @@ public class FoodApiExample {
         
         FoodApi apiInstance = new FoodApi();
         String barcode = barcode_example; // String | barcode of food to return
+        String ifNoneMatch = ifNoneMatch_example; // String | ETag of the resource
         try {
-            FoodScanObject result = apiInstance.getFoodByBarcode(barcode);
+            FoodScanDTOResponse result = apiInstance.getFoodByBarcode(barcode, ifNoneMatch);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#getFoodByBarcode");
@@ -2814,8 +3142,9 @@ public class FoodApiExample {
     public static void main(String[] args) {
         FoodApi apiInstance = new FoodApi();
         String barcode = barcode_example; // String | barcode of food to return
+        String ifNoneMatch = ifNoneMatch_example; // String | ETag of the resource
         try {
-            FoodScanObject result = apiInstance.getFoodByBarcode(barcode);
+            FoodScanDTOResponse result = apiInstance.getFoodByBarcode(barcode, ifNoneMatch);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#getFoodByBarcode");
@@ -2830,12 +3159,14 @@ public class FoodApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Food-getFoodByBarcode-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">String *barcode = barcode_example; // barcode of food to return
+String *ifNoneMatch = ifNoneMatch_example; // ETag of the resource (optional)
 
 FoodApi *apiInstance = [[FoodApi alloc] init];
 
 // Find food by barcode
 [apiInstance getFoodByBarcodeWith:barcode
-              completionHandler: ^(FoodScanObject output, NSError* error) {
+    ifNoneMatch:ifNoneMatch
+              completionHandler: ^(FoodScanDTOResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2851,7 +3182,9 @@ FoodApi *apiInstance = [[FoodApi alloc] init];
 
 var api = new NutrimateApiDocumentation.FoodApi()
 var barcode = barcode_example; // {{String}} barcode of food to return
-
+var opts = { 
+  'ifNoneMatch': ifNoneMatch_example // {{String}} ETag of the resource
+};
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -2859,7 +3192,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getFoodByBarcode(barcode, callback);
+api.getFoodByBarcode(barcode, opts, callback);
 </code></pre>
                             </div>
 
@@ -2882,11 +3215,12 @@ namespace Example
 
             var apiInstance = new FoodApi();
             var barcode = barcode_example;  // String | barcode of food to return
+            var ifNoneMatch = ifNoneMatch_example;  // String | ETag of the resource (optional) 
 
             try
             {
                 // Find food by barcode
-                FoodScanObject result = apiInstance.getFoodByBarcode(barcode);
+                FoodScanDTOResponse result = apiInstance.getFoodByBarcode(barcode, ifNoneMatch);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2905,9 +3239,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFoodApi();
 $barcode = barcode_example; // String | barcode of food to return
+$ifNoneMatch = ifNoneMatch_example; // String | ETag of the resource
 
 try {
-    $result = $api_instance->getFoodByBarcode($barcode);
+    $result = $api_instance->getFoodByBarcode($barcode, $ifNoneMatch);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FoodApi->getFoodByBarcode: ', $e->getMessage(), PHP_EOL;
@@ -2922,9 +3257,10 @@ use WWW::SwaggerClient::FoodApi;
 
 my $api_instance = WWW::SwaggerClient::FoodApi->new();
 my $barcode = barcode_example; # String | barcode of food to return
+my $ifNoneMatch = ifNoneMatch_example; # String | ETag of the resource
 
 eval { 
-    my $result = $api_instance->getFoodByBarcode(barcode => $barcode);
+    my $result = $api_instance->getFoodByBarcode(barcode => $barcode, ifNoneMatch => $ifNoneMatch);
     print Dumper($result);
 };
 if ($@) {
@@ -2942,10 +3278,11 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.FoodApi()
 barcode = barcode_example # String | barcode of food to return
+ifNoneMatch = ifNoneMatch_example # String | ETag of the resource (optional)
 
 try: 
     # Find food by barcode
-    api_response = api_instance.get_food_by_barcode(barcode)
+    api_response = api_instance.get_food_by_barcode(barcode, ifNoneMatch=ifNoneMatch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FoodApi->getFoodByBarcode: %s\n" % e)</code></pre>
@@ -2984,6 +3321,32 @@ except ApiException as e:
                                   </tr>
                             </table>
 
+                            <div class="methodsubtabletitle">Header parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                  <tr><td style="width:150px;">If-None-Match</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_getFoodByBarcode_ifNoneMatch">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      String
+                                                  </span>
+                                  
+                                                      <div class="inner description">
+                                                          ETag of the resource
+                                                      </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
 
 
 
@@ -3008,7 +3371,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/FoodScanObject"
+        "$ref" : "#/components/schemas/FoodScanDTOResponse"
       }
     }
   }
@@ -3037,7 +3400,15 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 404 - Food not found in the database </h3>
+                            <h3> Status: 403 - Not changed since last request (E-Tag matches) </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - Food not found in the open food facts database </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3098,9 +3469,10 @@ public class FoodApiExample {
     public static void main(String[] args) {
         
         FoodApi apiInstance = new FoodApi();
-        Long foodId = 789; // Long | ID of food to return
+        Integer foodId = 56; // Integer | ID of food to return
+        String ifNoneMatch = ifNoneMatch_example; // String | ETag of the resource
         try {
-            Food result = apiInstance.getFoodById(foodId);
+            FoodDTOResponse result = apiInstance.getFoodById(foodId, ifNoneMatch);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#getFoodById");
@@ -3117,9 +3489,10 @@ public class FoodApiExample {
 
     public static void main(String[] args) {
         FoodApi apiInstance = new FoodApi();
-        Long foodId = 789; // Long | ID of food to return
+        Integer foodId = 56; // Integer | ID of food to return
+        String ifNoneMatch = ifNoneMatch_example; // String | ETag of the resource
         try {
-            Food result = apiInstance.getFoodById(foodId);
+            FoodDTOResponse result = apiInstance.getFoodById(foodId, ifNoneMatch);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#getFoodById");
@@ -3133,13 +3506,15 @@ public class FoodApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Food-getFoodById-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Long *foodId = 789; // ID of food to return
+                              <pre class="prettyprint"><code class="language-cpp">Integer *foodId = 56; // ID of food to return
+String *ifNoneMatch = ifNoneMatch_example; // ETag of the resource (optional)
 
 FoodApi *apiInstance = [[FoodApi alloc] init];
 
 // Find food by ID
 [apiInstance getFoodByIdWith:foodId
-              completionHandler: ^(Food output, NSError* error) {
+    ifNoneMatch:ifNoneMatch
+              completionHandler: ^(FoodDTOResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3154,8 +3529,10 @@ FoodApi *apiInstance = [[FoodApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.FoodApi()
-var foodId = 789; // {{Long}} ID of food to return
-
+var foodId = 56; // {{Integer}} ID of food to return
+var opts = { 
+  'ifNoneMatch': ifNoneMatch_example // {{String}} ETag of the resource
+};
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -3163,7 +3540,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getFoodById(foodId, callback);
+api.getFoodById(foodId, opts, callback);
 </code></pre>
                             </div>
 
@@ -3185,12 +3562,13 @@ namespace Example
         {
 
             var apiInstance = new FoodApi();
-            var foodId = 789;  // Long | ID of food to return
+            var foodId = 56;  // Integer | ID of food to return
+            var ifNoneMatch = ifNoneMatch_example;  // String | ETag of the resource (optional) 
 
             try
             {
                 // Find food by ID
-                Food result = apiInstance.getFoodById(foodId);
+                FoodDTOResponse result = apiInstance.getFoodById(foodId, ifNoneMatch);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3208,10 +3586,11 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFoodApi();
-$foodId = 789; // Long | ID of food to return
+$foodId = 56; // Integer | ID of food to return
+$ifNoneMatch = ifNoneMatch_example; // String | ETag of the resource
 
 try {
-    $result = $api_instance->getFoodById($foodId);
+    $result = $api_instance->getFoodById($foodId, $ifNoneMatch);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FoodApi->getFoodById: ', $e->getMessage(), PHP_EOL;
@@ -3225,10 +3604,11 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FoodApi;
 
 my $api_instance = WWW::SwaggerClient::FoodApi->new();
-my $foodId = 789; # Long | ID of food to return
+my $foodId = 56; # Integer | ID of food to return
+my $ifNoneMatch = ifNoneMatch_example; # String | ETag of the resource
 
 eval { 
-    my $result = $api_instance->getFoodById(foodId => $foodId);
+    my $result = $api_instance->getFoodById(foodId => $foodId, ifNoneMatch => $ifNoneMatch);
     print Dumper($result);
 };
 if ($@) {
@@ -3245,11 +3625,12 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.FoodApi()
-foodId = 789 # Long | ID of food to return
+foodId = 56 # Integer | ID of food to return
+ifNoneMatch = ifNoneMatch_example # String | ETag of the resource (optional)
 
 try: 
     # Find food by ID
-    api_response = api_instance.get_food_by_id(foodId)
+    api_response = api_instance.get_food_by_id(foodId, ifNoneMatch=ifNoneMatch)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FoodApi->getFoodById: %s\n" % e)</code></pre>
@@ -3272,10 +3653,10 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      Long
+                                                      Integer
                                                   </span>
                                                       <span class="format">
-                                                          (int64)
+                                                          (long)
                                                       </span>
                                   
                                                       <div class="inner description">
@@ -3291,6 +3672,32 @@ except ApiException as e:
                                   </tr>
                             </table>
 
+                            <div class="methodsubtabletitle">Header parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                  <tr><td style="width:150px;">If-None-Match</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_getFoodById_ifNoneMatch">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      String
+                                                  </span>
+                                  
+                                                      <div class="inner description">
+                                                          ETag of the resource
+                                                      </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
 
 
 
@@ -3315,7 +3722,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Food"
+        "$ref" : "#/components/schemas/FoodDTOResponse"
       }
     }
   }
@@ -3345,6 +3752,14 @@ except ApiException as e:
                             </div>
 
                             <h3> Status: 401 - User not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 403 - Not changed since last request (E-Tag matches) </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3415,7 +3830,7 @@ public class FoodApiExample {
         FoodApi apiInstance = new FoodApi();
         String barcode = barcode_example; // String | barcode of food to return allergens of
         try {
-            array[Allergen] result = apiInstance.getMatchingAllergens(barcode);
+            array[AllergenDTOResponse] result = apiInstance.getMatchingAllergens(barcode);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#getMatchingAllergens");
@@ -3434,7 +3849,7 @@ public class FoodApiExample {
         FoodApi apiInstance = new FoodApi();
         String barcode = barcode_example; // String | barcode of food to return allergens of
         try {
-            array[Allergen] result = apiInstance.getMatchingAllergens(barcode);
+            array[AllergenDTOResponse] result = apiInstance.getMatchingAllergens(barcode);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#getMatchingAllergens");
@@ -3454,7 +3869,7 @@ FoodApi *apiInstance = [[FoodApi alloc] init];
 
 // Get allergens of a food that match the user's allergens
 [apiInstance getMatchingAllergensWith:barcode
-              completionHandler: ^(array[Allergen] output, NSError* error) {
+              completionHandler: ^(array[AllergenDTOResponse] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3505,7 +3920,7 @@ namespace Example
             try
             {
                 // Get allergens of a food that match the user's allergens
-                array[Allergen] result = apiInstance.getMatchingAllergens(barcode);
+                array[AllergenDTOResponse] result = apiInstance.getMatchingAllergens(barcode);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3629,7 +4044,7 @@ except ApiException as e:
       "schema" : {
         "type" : "array",
         "items" : {
-          "$ref" : "#/components/schemas/Allergen"
+          "$ref" : "#/components/schemas/AllergenDTOResponse"
         },
         "x-content-type" : "application/json"
       }
@@ -3712,6 +4127,7 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Food-openFood-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH\
+-H "Accept: application/json"\
 -H "Content-Type: application/json"\
 "//fridge/food/{foodId}"</code></pre>
                           </div>
@@ -3729,10 +4145,11 @@ public class FoodApiExample {
     public static void main(String[] args) {
         
         FoodApi apiInstance = new FoodApi();
-        Long foodId = 789; // Long | ID of food to open
-        FoodOpenObject body = ; // FoodOpenObject | 
+        Integer foodId = 56; // Integer | ID of food to open
+        DaysToConsumeDTORequest body = ; // DaysToConsumeDTORequest | 
         try {
-            apiInstance.openFood(foodId, body);
+            FoodDTOResponse result = apiInstance.openFood(foodId, body);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#openFood");
             e.printStackTrace();
@@ -3748,10 +4165,11 @@ public class FoodApiExample {
 
     public static void main(String[] args) {
         FoodApi apiInstance = new FoodApi();
-        Long foodId = 789; // Long | ID of food to open
-        FoodOpenObject body = ; // FoodOpenObject | 
+        Integer foodId = 56; // Integer | ID of food to open
+        DaysToConsumeDTORequest body = ; // DaysToConsumeDTORequest | 
         try {
-            apiInstance.openFood(foodId, body);
+            FoodDTOResponse result = apiInstance.openFood(foodId, body);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FoodApi#openFood");
             e.printStackTrace();
@@ -3764,15 +4182,18 @@ public class FoodApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Food-openFood-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Long *foodId = 789; // ID of food to open
-FoodOpenObject *body = ; //  (optional)
+                              <pre class="prettyprint"><code class="language-cpp">Integer *foodId = 56; // ID of food to open
+DaysToConsumeDTORequest *body = ; //  (optional)
 
 FoodApi *apiInstance = [[FoodApi alloc] init];
 
 // Open a food and add days in which it should be consumed
 [apiInstance openFoodWith:foodId
     body:body
-              completionHandler: ^(NSError* error) {
+              completionHandler: ^(FoodDTOResponse output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
                             if (error) {
                                 NSLog(@"Error: %@", error);
                             }
@@ -3784,15 +4205,15 @@ FoodApi *apiInstance = [[FoodApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.FoodApi()
-var foodId = 789; // {{Long}} ID of food to open
+var foodId = 56; // {{Integer}} ID of food to open
 var opts = { 
-  'body':  // {{FoodOpenObject}} 
+  'body':  // {{DaysToConsumeDTORequest}} 
 };
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
 };
 api.openFood(foodId, opts, callback);
@@ -3817,13 +4238,14 @@ namespace Example
         {
 
             var apiInstance = new FoodApi();
-            var foodId = 789;  // Long | ID of food to open
-            var body = new FoodOpenObject(); // FoodOpenObject |  (optional) 
+            var foodId = 56;  // Integer | ID of food to open
+            var body = new DaysToConsumeDTORequest(); // DaysToConsumeDTORequest |  (optional) 
 
             try
             {
                 // Open a food and add days in which it should be consumed
-                apiInstance.openFood(foodId, body);
+                FoodDTOResponse result = apiInstance.openFood(foodId, body);
+                Debug.WriteLine(result);
             }
             catch (Exception e)
             {
@@ -3840,11 +4262,12 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiFoodApi();
-$foodId = 789; // Long | ID of food to open
-$body = ; // FoodOpenObject | 
+$foodId = 56; // Integer | ID of food to open
+$body = ; // DaysToConsumeDTORequest | 
 
 try {
-    $api_instance->openFood($foodId, $body);
+    $result = $api_instance->openFood($foodId, $body);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FoodApi->openFood: ', $e->getMessage(), PHP_EOL;
 }
@@ -3857,11 +4280,12 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::FoodApi;
 
 my $api_instance = WWW::SwaggerClient::FoodApi->new();
-my $foodId = 789; # Long | ID of food to open
-my $body = WWW::SwaggerClient::Object::FoodOpenObject->new(); # FoodOpenObject | 
+my $foodId = 56; # Integer | ID of food to open
+my $body = WWW::SwaggerClient::Object::DaysToConsumeDTORequest->new(); # DaysToConsumeDTORequest | 
 
 eval { 
-    $api_instance->openFood(foodId => $foodId, body => $body);
+    my $result = $api_instance->openFood(foodId => $foodId, body => $body);
+    print Dumper($result);
 };
 if ($@) {
     warn "Exception when calling FoodApi->openFood: $@\n";
@@ -3877,12 +4301,13 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.FoodApi()
-foodId = 789 # Long | ID of food to open
-body =  # FoodOpenObject |  (optional)
+foodId = 56 # Integer | ID of food to open
+body =  # DaysToConsumeDTORequest |  (optional)
 
 try: 
     # Open a food and add days in which it should be consumed
-    api_instance.open_food(foodId, body=body)
+    api_response = api_instance.open_food(foodId, body=body)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling FoodApi->openFood: %s\n" % e)</code></pre>
                             </div>
@@ -3904,10 +4329,10 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      Long
+                                                      Integer
                                                   </span>
                                                       <span class="format">
-                                                          (int64)
+                                                          (long)
                                                       </span>
                                   
                                                       <div class="inner description">
@@ -3940,7 +4365,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/FoodOpenObject"
+        "$ref" : "#/components/schemas/DaysToConsumeDTORequest"
       }
     }
   }
@@ -3973,9 +4398,49 @@ except ApiException as e:
                             <h3> Status: 200 - Food successfully updated </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-openFood-200-schema">Schema</a>
+                                </li>
+
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-openFood-200-schema">
+                                  <div id='responses-openFood-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Food successfully updated",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/FoodDTOResponse"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-openFood-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-openFood-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-openFood-200-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                             <h3> Status: 400 - Invalid input </h3>
@@ -4059,9 +4524,9 @@ public class RecipesApiExample {
         
         RecipesApi apiInstance = new RecipesApi();
         array[String] categories = ; // array[String] | The names of the food categories (1 per food) that the recipe should contain
-        array[Integer] allergens = ; // array[Integer] | The ids of the allergens of the user that should not be in the recipes
+        array[Integer] allergens = ; // array[Integer] | The names of the allergens that should not be in the recipes
         try {
-            array[Recipe] result = apiInstance.searchRecipes(categories, allergens);
+            array[RecipeDTOResponse] result = apiInstance.searchRecipes(categories, allergens);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling RecipesApi#searchRecipes");
@@ -4079,9 +4544,9 @@ public class RecipesApiExample {
     public static void main(String[] args) {
         RecipesApi apiInstance = new RecipesApi();
         array[String] categories = ; // array[String] | The names of the food categories (1 per food) that the recipe should contain
-        array[Integer] allergens = ; // array[Integer] | The ids of the allergens of the user that should not be in the recipes
+        array[Integer] allergens = ; // array[Integer] | The names of the allergens that should not be in the recipes
         try {
-            array[Recipe] result = apiInstance.searchRecipes(categories, allergens);
+            array[RecipeDTOResponse] result = apiInstance.searchRecipes(categories, allergens);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling RecipesApi#searchRecipes");
@@ -4096,14 +4561,14 @@ public class RecipesApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Recipes-searchRecipes-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">array[String] *categories = ; // The names of the food categories (1 per food) that the recipe should contain (optional)
-array[Integer] *allergens = ; // The ids of the allergens of the user that should not be in the recipes (optional)
+array[Integer] *allergens = ; // The names of the allergens that should not be in the recipes (optional)
 
 RecipesApi *apiInstance = [[RecipesApi alloc] init];
 
 // Returns a filtered list of recipes
 [apiInstance searchRecipesWith:categories
     allergens:allergens
-              completionHandler: ^(array[Recipe] output, NSError* error) {
+              completionHandler: ^(array[RecipeDTOResponse] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4120,7 +4585,7 @@ RecipesApi *apiInstance = [[RecipesApi alloc] init];
 var api = new NutrimateApiDocumentation.RecipesApi()
 var opts = { 
   'categories': , // {{array[String]}} The names of the food categories (1 per food) that the recipe should contain
-  'allergens':  // {{array[Integer]}} The ids of the allergens of the user that should not be in the recipes
+  'allergens':  // {{array[Integer]}} The names of the allergens that should not be in the recipes
 };
 var callback = function(error, data, response) {
   if (error) {
@@ -4152,12 +4617,12 @@ namespace Example
 
             var apiInstance = new RecipesApi();
             var categories = new array[String](); // array[String] | The names of the food categories (1 per food) that the recipe should contain (optional) 
-            var allergens = new array[Integer](); // array[Integer] | The ids of the allergens of the user that should not be in the recipes (optional) 
+            var allergens = new array[Integer](); // array[Integer] | The names of the allergens that should not be in the recipes (optional) 
 
             try
             {
                 // Returns a filtered list of recipes
-                array[Recipe] result = apiInstance.searchRecipes(categories, allergens);
+                array[RecipeDTOResponse] result = apiInstance.searchRecipes(categories, allergens);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4176,7 +4641,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiRecipesApi();
 $categories = ; // array[String] | The names of the food categories (1 per food) that the recipe should contain
-$allergens = ; // array[Integer] | The ids of the allergens of the user that should not be in the recipes
+$allergens = ; // array[Integer] | The names of the allergens that should not be in the recipes
 
 try {
     $result = $api_instance->searchRecipes($categories, $allergens);
@@ -4194,7 +4659,7 @@ use WWW::SwaggerClient::RecipesApi;
 
 my $api_instance = WWW::SwaggerClient::RecipesApi->new();
 my $categories = []; # array[String] | The names of the food categories (1 per food) that the recipe should contain
-my $allergens = []; # array[Integer] | The ids of the allergens of the user that should not be in the recipes
+my $allergens = []; # array[Integer] | The names of the allergens that should not be in the recipes
 
 eval { 
     my $result = $api_instance->searchRecipes(categories => $categories, allergens => $allergens);
@@ -4215,7 +4680,7 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.RecipesApi()
 categories =  # array[String] | The names of the food categories (1 per food) that the recipe should contain (optional)
-allergens =  # array[Integer] | The ids of the allergens of the user that should not be in the recipes (optional)
+allergens =  # array[Integer] | The names of the allergens that should not be in the recipes (optional)
 
 try: 
     # Returns a filtered list of recipes
@@ -4269,7 +4734,7 @@ except ApiException as e:
                                                 </span>
                                 
                                                     <div class="inner description">
-                                                        The ids of the allergens of the user that should not be in the recipes
+                                                        The names of the allergens that should not be in the recipes
                                                     </div>
                                             </div>
                                         </div>
@@ -4300,7 +4765,7 @@ except ApiException as e:
       "schema" : {
         "type" : "array",
         "items" : {
-          "$ref" : "#/components/schemas/Recipe"
+          "$ref" : "#/components/schemas/RecipeDTOResponse"
         },
         "x-content-type" : "application/json"
       }
@@ -4396,9 +4861,9 @@ public class UserApiExample {
     public static void main(String[] args) {
         
         UserApi apiInstance = new UserApi();
-        Recipe body = ; // Recipe | 
+        RecipeDTORequest body = ; // RecipeDTORequest | 
         try {
-            Recipe result = apiInstance.addFavouriteRecipes(body);
+            FavouriteRecipeDTOResponse result = apiInstance.addFavouriteRecipes(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#addFavouriteRecipes");
@@ -4415,9 +4880,9 @@ public class UserApiExample {
 
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
-        Recipe body = ; // Recipe | 
+        RecipeDTORequest body = ; // RecipeDTORequest | 
         try {
-            Recipe result = apiInstance.addFavouriteRecipes(body);
+            FavouriteRecipeDTOResponse result = apiInstance.addFavouriteRecipes(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#addFavouriteRecipes");
@@ -4431,13 +4896,13 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-addFavouriteRecipes-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Recipe *body = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">RecipeDTORequest *body = ; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // Add one favourite recipe to the list of favourite recipes in a user's profile
 [apiInstance addFavouriteRecipesWith:body
-              completionHandler: ^(Recipe output, NSError* error) {
+              completionHandler: ^(FavouriteRecipeDTOResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4452,7 +4917,7 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.UserApi()
-var body = ; // {{Recipe}} 
+var body = ; // {{RecipeDTORequest}} 
 
 var callback = function(error, data, response) {
   if (error) {
@@ -4483,12 +4948,12 @@ namespace Example
         {
 
             var apiInstance = new UserApi();
-            var body = new Recipe(); // Recipe | 
+            var body = new RecipeDTORequest(); // RecipeDTORequest | 
 
             try
             {
                 // Add one favourite recipe to the list of favourite recipes in a user's profile
-                Recipe result = apiInstance.addFavouriteRecipes(body);
+                FavouriteRecipeDTOResponse result = apiInstance.addFavouriteRecipes(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4506,7 +4971,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiUserApi();
-$body = ; // Recipe | 
+$body = ; // RecipeDTORequest | 
 
 try {
     $result = $api_instance->addFavouriteRecipes($body);
@@ -4523,7 +4988,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $body = WWW::SwaggerClient::Object::Recipe->new(); # Recipe | 
+my $body = WWW::SwaggerClient::Object::RecipeDTORequest->new(); # RecipeDTORequest | 
 
 eval { 
     my $result = $api_instance->addFavouriteRecipes(body => $body);
@@ -4543,7 +5008,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
-body =  # Recipe | 
+body =  # RecipeDTORequest | 
 
 try: 
     # Add one favourite recipe to the list of favourite recipes in a user's profile
@@ -4574,7 +5039,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Recipe"
+        "$ref" : "#/components/schemas/RecipeDTORequest"
       }
     }
   },
@@ -4624,7 +5089,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Recipe"
+        "$ref" : "#/components/schemas/FavouriteRecipeDTOResponse"
       }
     }
   }
@@ -4722,9 +5187,9 @@ public class UserApiExample {
     public static void main(String[] args) {
         
         UserApi apiInstance = new UserApi();
-        Long recipeId = 789; // Long | ID of recipe to remove
+        Integer recipeId = 56; // Integer | ID of recipe to remove
         try {
-            RecipeFavourite result = apiInstance.deleteRecipe(recipeId);
+            FavouriteRecipeDTOResponse result = apiInstance.deleteRecipe(recipeId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#deleteRecipe");
@@ -4741,9 +5206,9 @@ public class UserApiExample {
 
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
-        Long recipeId = 789; // Long | ID of recipe to remove
+        Integer recipeId = 56; // Integer | ID of recipe to remove
         try {
-            RecipeFavourite result = apiInstance.deleteRecipe(recipeId);
+            FavouriteRecipeDTOResponse result = apiInstance.deleteRecipe(recipeId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#deleteRecipe");
@@ -4757,13 +5222,13 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-deleteRecipe-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Long *recipeId = 789; // ID of recipe to remove
+                              <pre class="prettyprint"><code class="language-cpp">Integer *recipeId = 56; // ID of recipe to remove
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // Removes a recipe from the user's favourites
 [apiInstance deleteRecipeWith:recipeId
-              completionHandler: ^(RecipeFavourite output, NSError* error) {
+              completionHandler: ^(FavouriteRecipeDTOResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -4778,7 +5243,7 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.UserApi()
-var recipeId = 789; // {{Long}} ID of recipe to remove
+var recipeId = 56; // {{Integer}} ID of recipe to remove
 
 var callback = function(error, data, response) {
   if (error) {
@@ -4809,12 +5274,12 @@ namespace Example
         {
 
             var apiInstance = new UserApi();
-            var recipeId = 789;  // Long | ID of recipe to remove
+            var recipeId = 56;  // Integer | ID of recipe to remove
 
             try
             {
                 // Removes a recipe from the user's favourites
-                RecipeFavourite result = apiInstance.deleteRecipe(recipeId);
+                FavouriteRecipeDTOResponse result = apiInstance.deleteRecipe(recipeId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4832,7 +5297,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiUserApi();
-$recipeId = 789; // Long | ID of recipe to remove
+$recipeId = 56; // Integer | ID of recipe to remove
 
 try {
     $result = $api_instance->deleteRecipe($recipeId);
@@ -4849,7 +5314,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $recipeId = 789; # Long | ID of recipe to remove
+my $recipeId = 56; # Integer | ID of recipe to remove
 
 eval { 
     my $result = $api_instance->deleteRecipe(recipeId => $recipeId);
@@ -4869,7 +5334,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
-recipeId = 789 # Long | ID of recipe to remove
+recipeId = 56 # Integer | ID of recipe to remove
 
 try: 
     # Removes a recipe from the user's favourites
@@ -4896,10 +5361,10 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      Long
+                                                      Integer
                                                   </span>
                                                       <span class="format">
-                                                          (int64)
+                                                          (long)
                                                       </span>
                                   
                                                       <div class="inner description">
@@ -4939,7 +5404,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/RecipeFavourite"
+        "$ref" : "#/components/schemas/FavouriteRecipeDTOResponse"
       }
     }
   }
@@ -4991,12 +5456,12 @@ except ApiException as e:
                       <article id="api-User-deleteUser-0" data-group="User" data-name="deleteUser" data-version="0">
                         <div class="pull-left">
                           <h1>deleteUser</h1>
-                          <p>Delete Account</p>
+                          <p>Delete a user</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Deletes the current user&#x27;s account</p>
+                        <p class="marked">Deletes a user account</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/user</span></code></pre>
@@ -5070,7 +5535,7 @@ public class UserApiExample {
                               <pre class="prettyprint"><code class="language-cpp">
 UserApi *apiInstance = [[UserApi alloc] init];
 
-// Delete Account
+// Delete a user
 [apiInstance deleteUserWithCompletionHandler: 
               ^(NSError* error) {
                             if (error) {
@@ -5116,7 +5581,7 @@ namespace Example
 
             try
             {
-                // Delete Account
+                // Delete a user
                 apiInstance.deleteUser();
             }
             catch (Exception e)
@@ -5169,7 +5634,7 @@ from pprint import pprint
 api_instance = swagger_client.UserApi()
 
 try: 
-    # Delete Account
+    # Delete a user
     api_instance.delete_user()
 except ApiException as e:
     print("Exception when calling UserApi->deleteUser: %s\n" % e)</code></pre>
@@ -5184,7 +5649,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Account successfully deleted </h3>
+                            <h3> Status: 204 - User successfully deleted </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -5193,6 +5658,14 @@ except ApiException as e:
                             </div>
 
                             <h3> Status: 401 - User not authenticated </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - User not found </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -5254,9 +5727,9 @@ public class UserApiExample {
     public static void main(String[] args) {
         
         UserApi apiInstance = new UserApi();
-        array[Allergen] body = ; // array[Allergen] | 
+        array[AllergenDTORequest] body = ; // array[AllergenDTORequest] | 
         try {
-            array[Allergen] result = apiInstance.editAllergens(body);
+            array[AllergenDTOResponse] result = apiInstance.editAllergens(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#editAllergens");
@@ -5273,9 +5746,9 @@ public class UserApiExample {
 
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
-        array[Allergen] body = ; // array[Allergen] | 
+        array[AllergenDTORequest] body = ; // array[AllergenDTORequest] | 
         try {
-            array[Allergen] result = apiInstance.editAllergens(body);
+            array[AllergenDTOResponse] result = apiInstance.editAllergens(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#editAllergens");
@@ -5289,13 +5762,13 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-editAllergens-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">array[Allergen] *body = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">array[AllergenDTORequest] *body = ; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // Change the list of allergens in a user's profile
 [apiInstance editAllergensWith:body
-              completionHandler: ^(array[Allergen] output, NSError* error) {
+              completionHandler: ^(array[AllergenDTOResponse] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -5310,7 +5783,7 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.UserApi()
-var body = ; // {{array[Allergen]}} 
+var body = ; // {{array[AllergenDTORequest]}} 
 
 var callback = function(error, data, response) {
   if (error) {
@@ -5341,12 +5814,12 @@ namespace Example
         {
 
             var apiInstance = new UserApi();
-            var body = new array[Allergen](); // array[Allergen] | 
+            var body = new array[AllergenDTORequest](); // array[AllergenDTORequest] | 
 
             try
             {
                 // Change the list of allergens in a user's profile
-                array[Allergen] result = apiInstance.editAllergens(body);
+                array[AllergenDTOResponse] result = apiInstance.editAllergens(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -5364,7 +5837,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiUserApi();
-$body = ; // array[Allergen] | 
+$body = ; // array[AllergenDTORequest] | 
 
 try {
     $result = $api_instance->editAllergens($body);
@@ -5381,7 +5854,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $body = [WWW::SwaggerClient::Object::array[Allergen]->new()]; # array[Allergen] | 
+my $body = [WWW::SwaggerClient::Object::array[AllergenDTORequest]->new()]; # array[AllergenDTORequest] | 
 
 eval { 
     my $result = $api_instance->editAllergens(body => $body);
@@ -5401,7 +5874,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
-body =  # array[Allergen] | 
+body =  # array[AllergenDTORequest] | 
 
 try: 
     # Change the list of allergens in a user's profile
@@ -5434,7 +5907,7 @@ except ApiException as e:
       "schema" : {
         "type" : "array",
         "items" : {
-          "$ref" : "#/components/schemas/Allergen"
+          "$ref" : "#/components/schemas/AllergenDTORequest"
         }
       }
     }
@@ -5487,7 +5960,7 @@ except ApiException as e:
       "schema" : {
         "type" : "array",
         "items" : {
-          "$ref" : "#/components/schemas/Allergen"
+          "$ref" : "#/components/schemas/AllergenDTOResponse"
         },
         "x-content-type" : "application/json"
       }
@@ -5596,7 +6069,7 @@ public class UserApiExample {
         
         UserApi apiInstance = new UserApi();
         try {
-            array[Allergen] result = apiInstance.getAllergensOfUser();
+            array[AllergenDTOResponse] result = apiInstance.getAllergensOfUser();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#getAllergensOfUser");
@@ -5614,7 +6087,7 @@ public class UserApiExample {
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
         try {
-            array[Allergen] result = apiInstance.getAllergensOfUser();
+            array[AllergenDTOResponse] result = apiInstance.getAllergensOfUser();
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#getAllergensOfUser");
@@ -5633,7 +6106,7 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
 // Get all allergens the user has saved in their profile
 [apiInstance getAllergensOfUserWithCompletionHandler: 
-              ^(array[Allergen] output, NSError* error) {
+              ^(array[AllergenDTOResponse] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -5681,7 +6154,7 @@ namespace Example
             try
             {
                 // Get all allergens the user has saved in their profile
-                array[Allergen] result = apiInstance.getAllergensOfUser();
+                array[AllergenDTOResponse] result = apiInstance.getAllergensOfUser();
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -5773,7 +6246,7 @@ except ApiException as e:
       "schema" : {
         "type" : "array",
         "items" : {
-          "$ref" : "#/components/schemas/Allergen"
+          "$ref" : "#/components/schemas/AllergenDTOResponse"
         },
         "x-content-type" : "application/json"
       }
@@ -5857,7 +6330,7 @@ except ApiException as e:
                           <div class="tab-pane active" id="examples-User-getRecipesOfUser-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X GET\
 -H "Accept: application/json"\
-"//user/favourite-recipes"</code></pre>
+"//user/favourite-recipes?q="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-getRecipesOfUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5873,8 +6346,9 @@ public class UserApiExample {
     public static void main(String[] args) {
         
         UserApi apiInstance = new UserApi();
+        String q = q_example; // String | Search for a specific recipe
         try {
-            array[RecipeFavourite] result = apiInstance.getRecipesOfUser();
+            array[FavouriteRecipeDTOResponse] result = apiInstance.getRecipesOfUser(q);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#getRecipesOfUser");
@@ -5891,8 +6365,9 @@ public class UserApiExample {
 
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
+        String q = q_example; // String | Search for a specific recipe
         try {
-            array[RecipeFavourite] result = apiInstance.getRecipesOfUser();
+            array[FavouriteRecipeDTOResponse] result = apiInstance.getRecipesOfUser(q);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#getRecipesOfUser");
@@ -5906,12 +6381,13 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-getRecipesOfUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">String *q = q_example; // Search for a specific recipe (optional)
+
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // Get all recipes the user has saved in their favourites
-[apiInstance getRecipesOfUserWithCompletionHandler: 
-              ^(array[RecipeFavourite] output, NSError* error) {
+[apiInstance getRecipesOfUserWith:q
+              completionHandler: ^(array[FavouriteRecipeDTOResponse] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -5926,6 +6402,9 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.UserApi()
+var opts = { 
+  'q': q_example // {{String}} Search for a specific recipe
+};
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -5933,7 +6412,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getRecipesOfUser(callback);
+api.getRecipesOfUser(opts, callback);
 </code></pre>
                             </div>
 
@@ -5955,11 +6434,12 @@ namespace Example
         {
 
             var apiInstance = new UserApi();
+            var q = q_example;  // String | Search for a specific recipe (optional) 
 
             try
             {
                 // Get all recipes the user has saved in their favourites
-                array[RecipeFavourite] result = apiInstance.getRecipesOfUser();
+                array[FavouriteRecipeDTOResponse] result = apiInstance.getRecipesOfUser(q);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -5977,9 +6457,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiUserApi();
+$q = q_example; // String | Search for a specific recipe
 
 try {
-    $result = $api_instance->getRecipesOfUser();
+    $result = $api_instance->getRecipesOfUser($q);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->getRecipesOfUser: ', $e->getMessage(), PHP_EOL;
@@ -5993,9 +6474,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $q = q_example; # String | Search for a specific recipe
 
 eval { 
-    my $result = $api_instance->getRecipesOfUser();
+    my $result = $api_instance->getRecipesOfUser(q => $q);
     print Dumper($result);
 };
 if ($@) {
@@ -6012,10 +6494,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
+q = q_example # String | Search for a specific recipe (optional)
 
 try: 
     # Get all recipes the user has saved in their favourites
-    api_response = api_instance.get_recipes_of_user()
+    api_response = api_instance.get_recipes_of_user(q=q)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling UserApi->getRecipesOfUser: %s\n" % e)</code></pre>
@@ -6028,6 +6511,32 @@ except ApiException as e:
 
 
 
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">q</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getRecipesOfUser_q">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        Search for a specific recipe
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
 
                           <h2>Responses</h2>
                             <h3> Status: 200 - successful operation </h3>
@@ -6051,7 +6560,7 @@ except ApiException as e:
       "schema" : {
         "type" : "array",
         "items" : {
-          "$ref" : "#/components/schemas/RecipeFavourite"
+          "$ref" : "#/components/schemas/FavouriteRecipeDTOResponse"
         },
         "x-content-type" : "application/json"
       }
@@ -6101,526 +6610,6 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
-                    <div id="api-User-loginUser">
-                      <article id="api-User-loginUser-0" data-group="User" data-name="loginUser" data-version="0">
-                        <div class="pull-left">
-                          <h1>loginUser</h1>
-                          <p>Logs in a user</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked">Creates a new session token to log in a user</p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/login</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-User-loginUser-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-java">Java</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-User-loginUser-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-User-loginUser-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-User-loginUser-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-User-loginUser-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-User-loginUser-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-User-loginUser-0-curl">
-                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
--H "Content-Type: application/json"\
-"//login"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-User-loginUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
-
-import java.io.File;
-import java.util.*;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        
-        UserApi apiInstance = new UserApi();
-        UserRegisterObject body = ; // UserRegisterObject | 
-        try {
-            apiInstance.loginUser(body);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#loginUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-User-loginUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        UserApi apiInstance = new UserApi();
-        UserRegisterObject body = ; // UserRegisterObject | 
-        try {
-            apiInstance.loginUser(body);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#loginUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-User-loginUser-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-User-loginUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">UserRegisterObject *body = ; // 
-
-UserApi *apiInstance = [[UserApi alloc] init];
-
-// Logs in a user
-[apiInstance loginUserWith:body
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-loginUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
-
-var api = new NutrimateApiDocumentation.UserApi()
-var body = ; // {{UserRegisterObject}} 
-
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully.');
-  }
-};
-api.loginUser(body, callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-User-loginUser-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-User-loginUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class loginUserExample
-    {
-        public void main()
-        {
-
-            var apiInstance = new UserApi();
-            var body = new UserRegisterObject(); // UserRegisterObject | 
-
-            try
-            {
-                // Logs in a user
-                apiInstance.loginUser(body);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.loginUser: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-loginUser-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\ApiUserApi();
-$body = ; // UserRegisterObject | 
-
-try {
-    $api_instance->loginUser($body);
-} catch (Exception $e) {
-    echo 'Exception when calling UserApi->loginUser: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-loginUser-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
-
-my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $body = WWW::SwaggerClient::Object::UserRegisterObject->new(); # UserRegisterObject | 
-
-eval { 
-    $api_instance->loginUser(body => $body);
-};
-if ($@) {
-    warn "Exception when calling UserApi->loginUser: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-loginUser-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.UserApi()
-body =  # UserRegisterObject | 
-
-try: 
-    # Logs in a user
-    api_instance.login_user(body)
-except ApiException as e:
-    print("Exception when calling UserApi->loginUser: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-                            <div class="methodsubtabletitle">Body parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
-                                <td>
-                                
-                                
-                                <script>
-                                $(document).ready(function() {
-                                  var schemaWrapper = {
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/UserRegisterObject"
-      }
-    }
-  },
-  "required" : true
-};
-                                  var schema = schemaWrapper.content["application/json"].schema;
-                                  if (schema.$ref != null) {
-                                    schema = defsParser.$refs.get(schema.$ref);
-                                  } else {
-                                    schemaWrapper.components = {};
-                                    schemaWrapper.components.schemas = Object.assign({}, defs);
-                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                      console.log(err);
-                                    });
-                                  }
-                                
-                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-                                  var result = $('#d2e199_loginUser_body');
-                                  result.empty();
-                                  result.append(view.render());
-                                });
-                                </script>
-                                <div id="d2e199_loginUser_body"></div>
-                                </td>
-                                </tr>
-                            </table>
-
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: 201 - Logged in successfully </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="">
-                                  <a data-toggle="tab" href="#responses-loginUser-201-headers">Headers</a>
-                                </li>
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane" id="responses-loginUser-201-headers">
-                                    <table>
-                                        <tr>
-                                            <th width="150px">Name</th>
-                                            <th width="100px">Type</th>
-                                            <th width="100px">Format</th>
-                                            <th>Description</th>
-                                        </tr>
-                                        <tr>
-                                            <td>authToken</td>
-                                            <td>AuthToken</td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <h3> Status: 400 - Invalid input </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                            <h3> Status: 404 - User not found </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
-                    <div id="api-User-logoutUser">
-                      <article id="api-User-logoutUser-0" data-group="User" data-name="logoutUser" data-version="0">
-                        <div class="pull-left">
-                          <h1>logoutUser</h1>
-                          <p>Logs out a user</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked">Deletes an existing session token to log out a user</p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/logout</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-User-logoutUser-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-java">Java</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-User-logoutUser-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-User-logoutUser-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-User-logoutUser-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-User-logoutUser-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-User-logoutUser-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-User-logoutUser-0-curl">
-                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
-"//logout"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-User-logoutUser-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UserApi;
-
-import java.io.File;
-import java.util.*;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        
-        UserApi apiInstance = new UserApi();
-        try {
-            apiInstance.logoutUser();
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#logoutUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-User-logoutUser-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UserApi;
-
-public class UserApiExample {
-
-    public static void main(String[] args) {
-        UserApi apiInstance = new UserApi();
-        try {
-            apiInstance.logoutUser();
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UserApi#logoutUser");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-User-logoutUser-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-User-logoutUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-UserApi *apiInstance = [[UserApi alloc] init];
-
-// Logs out a user
-[apiInstance logoutUserWithCompletionHandler: 
-              ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-logoutUser-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
-
-var api = new NutrimateApiDocumentation.UserApi()
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully.');
-  }
-};
-api.logoutUser(callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-User-logoutUser-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-User-logoutUser-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class logoutUserExample
-    {
-        public void main()
-        {
-
-            var apiInstance = new UserApi();
-
-            try
-            {
-                // Logs out a user
-                apiInstance.logoutUser();
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UserApi.logoutUser: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-logoutUser-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\ApiUserApi();
-
-try {
-    $api_instance->logoutUser();
-} catch (Exception $e) {
-    echo 'Exception when calling UserApi->logoutUser: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-logoutUser-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UserApi;
-
-my $api_instance = WWW::SwaggerClient::UserApi->new();
-
-eval { 
-    $api_instance->logoutUser();
-};
-if ($@) {
-    warn "Exception when calling UserApi->logoutUser: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-User-logoutUser-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.UserApi()
-
-try: 
-    # Logs out a user
-    api_instance.logout_user()
-except ApiException as e:
-    print("Exception when calling UserApi->logoutUser: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: 200 - Logged out successfully </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                            <h3> Status: 401 - User not authenticated </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                            <h3> Status: 404 - User not found </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
                     <div id="api-User-registerUser">
                       <article id="api-User-registerUser-0" data-group="User" data-name="registerUser" data-version="0">
                         <div class="pull-left">
@@ -6654,7 +6643,7 @@ except ApiException as e:
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-registerUser-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
--H "Content-Type: application/json"\
+-H "Accept: application/json"\
 "//register"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-registerUser-0-java">
@@ -6671,9 +6660,9 @@ public class UserApiExample {
     public static void main(String[] args) {
         
         UserApi apiInstance = new UserApi();
-        UserRegisterObject body = ; // UserRegisterObject | 
         try {
-            apiInstance.registerUser(body);
+            UserDTOResponse result = apiInstance.registerUser();
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#registerUser");
             e.printStackTrace();
@@ -6689,9 +6678,9 @@ public class UserApiExample {
 
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
-        UserRegisterObject body = ; // UserRegisterObject | 
         try {
-            apiInstance.registerUser(body);
+            UserDTOResponse result = apiInstance.registerUser();
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#registerUser");
             e.printStackTrace();
@@ -6704,13 +6693,15 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-registerUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">UserRegisterObject *body = ; // 
-
+                              <pre class="prettyprint"><code class="language-cpp">
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // Register a new user
-[apiInstance registerUserWith:body
-              completionHandler: ^(NSError* error) {
+[apiInstance registerUserWithCompletionHandler: 
+              ^(UserDTOResponse output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
                             if (error) {
                                 NSLog(@"Error: %@", error);
                             }
@@ -6722,16 +6713,14 @@ UserApi *apiInstance = [[UserApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var NutrimateApiDocumentation = require('nutrimate_api_documentation');
 
 var api = new NutrimateApiDocumentation.UserApi()
-var body = ; // {{UserRegisterObject}} 
-
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.registerUser(body, callback);
+api.registerUser(callback);
 </code></pre>
                             </div>
 
@@ -6753,12 +6742,12 @@ namespace Example
         {
 
             var apiInstance = new UserApi();
-            var body = new UserRegisterObject(); // UserRegisterObject | 
 
             try
             {
                 // Register a new user
-                apiInstance.registerUser(body);
+                UserDTOResponse result = apiInstance.registerUser();
+                Debug.WriteLine(result);
             }
             catch (Exception e)
             {
@@ -6775,10 +6764,10 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiUserApi();
-$body = ; // UserRegisterObject | 
 
 try {
-    $api_instance->registerUser($body);
+    $result = $api_instance->registerUser();
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->registerUser: ', $e->getMessage(), PHP_EOL;
 }
@@ -6791,10 +6780,10 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::UserApi;
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
-my $body = WWW::SwaggerClient::Object::UserRegisterObject->new(); # UserRegisterObject | 
 
 eval { 
-    $api_instance->registerUser(body => $body);
+    my $result = $api_instance->registerUser();
+    print Dumper($result);
 };
 if ($@) {
     warn "Exception when calling UserApi->registerUser: $@\n";
@@ -6810,11 +6799,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
-body =  # UserRegisterObject | 
 
 try: 
     # Register a new user
-    api_instance.register_user(body)
+    api_response = api_instance.register_user()
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling UserApi->registerUser: %s\n" % e)</code></pre>
                             </div>
@@ -6824,49 +6813,6 @@ except ApiException as e:
 
 
 
-                            <div class="methodsubtabletitle">Body parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
-                                <td>
-                                
-                                
-                                <script>
-                                $(document).ready(function() {
-                                  var schemaWrapper = {
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/UserRegisterObject"
-      }
-    }
-  },
-  "required" : true
-};
-                                  var schema = schemaWrapper.content["application/json"].schema;
-                                  if (schema.$ref != null) {
-                                    schema = defsParser.$refs.get(schema.$ref);
-                                  } else {
-                                    schemaWrapper.components = {};
-                                    schemaWrapper.components.schemas = Object.assign({}, defs);
-                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                      console.log(err);
-                                    });
-                                  }
-                                
-                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
-                                  var result = $('#d2e199_registerUser_body');
-                                  result.empty();
-                                  result.append(view.render());
-                                });
-                                </script>
-                                <div id="d2e199_registerUser_body"></div>
-                                </td>
-                                </tr>
-                            </table>
 
 
 
@@ -6874,27 +6820,48 @@ except ApiException as e:
                             <h3> Status: 201 - Account created successfully </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="">
-                                  <a data-toggle="tab" href="#responses-registerUser-201-headers">Headers</a>
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-registerUser-201-schema">Schema</a>
                                 </li>
+
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane" id="responses-registerUser-201-headers">
-                                    <table>
-                                        <tr>
-                                            <th width="150px">Name</th>
-                                            <th width="100px">Type</th>
-                                            <th width="100px">Format</th>
-                                            <th>Description</th>
-                                        </tr>
-                                        <tr>
-                                            <td>authToken</td>
-                                            <td>AuthToken</td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </table>
+                                <div class="tab-pane active" id="responses-registerUser-201-schema">
+                                  <div id='responses-registerUser-201-schema-201' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Account created successfully",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/UserDTOResponse"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-registerUser-201-schema-data').val(stringify(schema));
+                                        var result = $('#responses-registerUser-201-schema-201');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-registerUser-201-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
