@@ -71,3 +71,12 @@ Es kann etwas dauern, bis das Backend aktiv ist, da Gradle inkl. aller benötigt
 ```shell
 sudo docker compose up
 ```
+
+Optional:
+
+Falls Sie die Endpunkte mit curl, Postman o.ä. testen wollen, können Sie die Google-Authentifizierung deaktivieren:
+
+```shell
+export DEBUG=true
+sudo -E docker compose up
+```
