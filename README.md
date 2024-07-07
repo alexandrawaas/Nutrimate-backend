@@ -1,8 +1,10 @@
 # Dokumentation der Studienarbeit
 
-Dieses Repository ist Teil der Studienarbeit "Nutrimate" der Gruppe MATCH (Marina Waller, Alexandra Waas, Tim Wagner, Celine Grenz, Hien Le) im Studienfach RESTful Webservices.
+Dieses Repository ist Teil der Studienarbeit "Nutrimate" der Gruppe MATCH (Marina Waller, Alexandra Waas, Tim Wagner, Celine Grenz, Hien Le) im Studienfach RESTful Webservices und enthält das Backend zu unserer App.
 
 Die Dokumentation unserer Studienarbeit befindet sich im Verzeichnis [documentation](https://gitlab.hof-university.de/awaas/nutrimate-backend/-/tree/main/documentation?ref_type=heads) dieses Repositorys.
+
+Das Frontend zu unserem Projekt finden Sie im Repository [nutrimate-app](https://gitlab.hof-university.de/twagner4/nutrimate-app).
 
 # Anleitung zur Installation des Spring-Backends auf Ubuntu
 
