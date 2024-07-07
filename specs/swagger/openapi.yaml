@@ -15,21 +15,93 @@ tags:
     description: Endpoints for user and auth
 
 paths:
-  /food:
+  /fridge/food:
     get:
       tags:
         - food
       summary: Get a list of all the user's food in the fridge
       operationId: getFood
+      parameters:
+          - in: query
+            name: page
+            schema:
+                type: integer
+                example: 1
+            description: The page number
+          - in: query
+            name: size
+            schema:
+                type: integer
+                example: 10
+            description: The number of items per page
+          - in: query
+            name: q
+            schema:
+                type: string
+                example: bread
+            description: Search for a specific food
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Food'
+                type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      foodDTOResponseList:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FoodDTOResponse'
+                  _links:
+                    properties:
+                      first:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: http://localhost:8080/fridge/food?page=0&size=10
+                      prev:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: http://localhost:8080/fridge/food?page=0&size=10
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: http://localhost:8080/fridge/food?page=1&size=10
+                      next:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: http://localhost:8080/fridge/food?page=2&size=10
+                      last:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: http://localhost:8080/fridge/food?page=2&size=10
+                  page:
+                    type: object
+                    properties:
+                      size:
+                        type: integer
+                        example: 10
+                      totalElements:
+                        type: integer
+                        example: 30
+                      totalPages:
+                        type: integer
+                        example: 3
+                      number:
+                        type: integer
+                        example: 1
         '401':
           description: User not authenticated
         '204':
@@ -44,7 +116,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FoodCreationObject'
+              $ref: '#/components/schemas/FoodDTORequest'
         required: true
       responses:
         '201':
@@ -52,41 +124,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Food'
+                $ref: '#/components/schemas/FoodDTOResponse'
         '400':
           description: Invalid input
         '401':
           description: User not authenticated
-        '422':
-          description: Validation exception
 
-  /food/scan/{barcode}:
-    get:
-      tags:
-        - food
-      summary: Find food by barcode
-      description: Returns a single food by barcode
-      operationId: getFoodByBarcode
-      parameters:
-        - name: barcode
-          in: path
-          description: barcode of food to return
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FoodScanObject'
-        '404':
-          description: Food not found in the database
-        '422':
-          description: Barcode has a wrong format
 
-  /food/{foodId}:
+  /fridge/food/{foodId}:
     get:
       tags:
         - food
@@ -100,18 +145,56 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: long
+        - name: If-None-Match
+          in: header
+          description: ETag of the resource
+          required: false
+          schema:
+            type: string
+            example: 10--123456789
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Food'
-        '422':
-          description: Invalid ID supplied
+                $ref: '#/components/schemas/FoodDTOResponse'
         '401':
           description: User not authenticated
+        '403':
+          description: Not changed since last request (E-Tag matches)
+        '404':
+          description: Food not found
+    patch:
+      tags:
+        - food
+      summary: Open a food and add days in which it should be consumed
+      operationId: openFood
+      parameters:
+        - name: foodId
+          in: path
+          description: ID of food to open
+          required: true
+          schema:
+            type: integer
+            format: long
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DaysToConsumeDTORequest'
+      responses:
+        '200':
+          description: Food successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoodDTOResponse'
+        '401':
+          description: User not authenticated
+        '400':
+          description: Invalid input
         '404':
           description: Food not found
     delete:
@@ -127,71 +210,103 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: long
       responses:
         '200':
           description: Food successfully deleted
-        '422':
-          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FoodDTOResponse'
         '401':
           description: User not authenticated
         '404':
           description: Food not found
 
-  /food/{foodId}/environmental-score:
+  /food/{barcode}:
     get:
       tags:
         - food
-      summary: Get environmental score of a food
-      description: Get an integer describing the environmental score of a single food
+      summary: Find food by barcode
+      description: Returns a single food by barcode
+      operationId: getFoodByBarcode
       parameters:
-        - name: foodId
+        - name: barcode
           in: path
-          description: ID of food to show environmental score of
+          description: barcode of food to return
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+        - name: If-None-Match
+          in: header
+          description: ETag of the resource
+          required: false
+          schema:
+            type: string
+            example: 123456789--123456789
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnvironmentalScore'
+                $ref: '#/components/schemas/FoodScanDTOResponse'
+        '403':
+          description: Not changed since last request (E-Tag matches)
         '404':
-          description: Food not found
-        '422':
-          description: Invalid ID supplied
+          description: Food not found in the open food facts database
 
-  /food/{foodId}/open:
-    patch:
+
+  /food/{barcode}/matching-allergens:
+    get:
       tags:
         - food
-      summary: Open a food and add days in which it should be consumed
-      operationId: openFood
+      summary: Get allergens of a food that match the user's allergens
+      description: Get a list of allergens of the food that match the user's allergens
+      operationId: getMatchingAllergens
       parameters:
-        - name: foodId
+        - name: barcode
           in: path
-          description: ID of food to open
+          description: barcode of food to return allergens of
           required: true
           schema:
-            type: integer
-            format: int64
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FoodOpenObject'
+            type: string
       responses:
         '200':
-          description: Food successfully updated
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AllergenDTOResponse'
         '401':
           description: User not authenticated
         '404':
           description: Food not found
-        '422':
-          description: Invalid input
+
+  /food/{barcode}/environmental-score:
+    get:
+      tags:
+        - food
+      summary: Get environmental score of a food
+      description: Get an integer describing the environmental score of a single food
+      parameters:
+        - name: barcode
+          in: path
+          description: ID of food to show environmental score of
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentalScoreDTOResponse'
+        '404':
+          description: Food not found
 
   /recipes:
     get:
@@ -214,7 +329,7 @@ paths:
             type: array
             items:
               type: integer
-          description: The ids of the allergens of the user that should not be in the recipes
+          description: The names of the allergens that should not be in the recipes
       responses:
         '200':
           description: successful operation
@@ -223,13 +338,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Recipe'
+                  $ref: '#/components/schemas/RecipeDTOResponse'
         '204':
           description: No recipes found
-        '422':
-          description: Validation exception
 
-  /environmental-score:
+  /fridge/environmental-score:
     get:
       tags:
         - environmentalScore
@@ -241,7 +354,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EnvironmentalScore'
+                $ref: '#/components/schemas/EnvironmentalScoreDTOResponse'
         '401':
           description: User not authenticated
         '204':
@@ -257,12 +370,17 @@ paths:
       responses:
         '200':
           description: successful operation
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                example: max-age=86400
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Allergen'
+                  $ref: '#/components/schemas/AllergenDTOResponse'
 
   /user/allergens:
     get:
@@ -279,12 +397,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Allergen'
+                  $ref: '#/components/schemas/AllergenDTOResponse'
         '204':
           description: No content
         '401':
           description: User not authenticated
-    patch:
+    put:
       tags:
         - user
       summary: Change the list of allergens in a user's profile
@@ -295,7 +413,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Allergen'
+                $ref: '#/components/schemas/AllergenDTORequest'
         required: true
       responses:
         '201':
@@ -305,7 +423,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Allergen'
+                  $ref: '#/components/schemas/AllergenDTOResponse'
 
         '400':
           description: Invalid input
@@ -313,8 +431,6 @@ paths:
           description: User has no allergenes
         '401':
           description: User not authenticated
-        '422':
-          description: Validation exception
 
   /user/favourite-recipes:
     get:
@@ -323,6 +439,13 @@ paths:
       summary: Get all recipes the user has saved in their favourites
       description: Get a list of all the user's favourite recipes
       operationId: getRecipesOfUser
+      parameters:
+        - in: query
+          name: q
+          schema:
+              type: string
+              example: spaghetti
+          description: Search for a specific recipe
       responses:
         '200':
           description: successful operation
@@ -331,7 +454,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/RecipeFavourite'
+                  $ref: '#/components/schemas/FavouriteRecipeDTOResponse'
         '204':
           description: No content
         '401':
@@ -345,7 +468,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Recipe'
+              $ref: '#/components/schemas/RecipeDTORequest'
         required: true
       responses:
         '201':
@@ -353,14 +476,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/FavouriteRecipeDTOResponse'
 
         '400':
           description: Invalid input
         '401':
           description: User not authenticated
-        '422':
-          description: Validation exception
 
   /user/favourite-recipes/{recipeId}:
     delete:
@@ -376,31 +497,18 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: long
       responses:
         '200':
           description: Recipe successfully removed
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/FavouriteRecipeDTOResponse'
         '401':
           description: User not authenticated
         '404':
           description: Recipe not found
-        '422':
-          description: Invalid recipe id
-
-  /user:
-    delete:
-      tags:
-        - user
-      summary: Delete Account
-      description: Deletes the current user's account
-      operationId: deleteUser
-      responses:
-        '200':
-          description: Account successfully deleted
-        '401':
-          description: User not authenticated
-        '404':
-          description: User not found
 
   /register:
     post:
@@ -409,83 +517,48 @@ paths:
       summary: Register a new user
       description: Creates a new user account
       operationId: registerUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRegisterObject'
-        required: true
       responses:
         '201':
           description: Account created successfully
-          headers:
-            authToken:
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/AuthToken'
+                $ref: '#/components/schemas/UserDTOResponse'
         '400':
           description: Invalid input
-        '422':
-          description: Validation exception
 
-  /login:
-    post:
+  /user:
+    delete:
       tags:
         - user
-      summary: Logs in a user
-      description: Creates a new session token to log in a user
-      operationId: loginUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRegisterObject'
-        required: true
+      summary: Delete a user
+      description: Deletes a user account
+      operationId: deleteUser
       responses:
-        '201':
-          description: Logged in successfully
-          headers:
-            authToken:
-              schema:
-                $ref: '#/components/schemas/AuthToken'
-        '400':
-          description: Invalid input
-        '404':
-          description: User not found
-        '422':
-          description: Validation exception
-
-  /logout:
-    post:
-      tags:
-        - user
-      summary: Logs out a user
-      description: Deletes an existing session token to log out a user
-      operationId: logoutUser
-      responses:
-        '200':
-          description: Logged out successfully
+        '204':
+          description: User successfully deleted
         '401':
           description: User not authenticated
         '404':
           description: User not found
 
 
-
 components:
   schemas:
 
-    EnvironmentalScore:
+    EnvironmentalScoreDTOResponse:
       type: object
       properties:
         environmentalScore:
           type: integer
+          example: 50
 
-    Food:
+    FoodDTOResponse:
       type: object
       properties:
         id:
           type: integer
-          format: int64
+          format: long
           example: 10
         barcode:
           type: string
@@ -494,124 +567,206 @@ components:
           type: string
           format: date
           example: 2024-09-20
+        category:
+          type: string
+          example: flour
+        name:
+          type: string
+          example: Alnatura Dinkelmehl 630
         isOpen:
           type: boolean
-          example: false
+          example: true
+        timeOpened:
+          type: string
+          format: date
+          example: 2024-09-01
         daysToConsume:
           type: integer
           example: null
         calories:
           type: number
-        fat:
+          example: 100.57
+        fats:
           type: number
-        saturated fats:
+          example: 10.14
+        saturatedFats:
           type: number
+          example: 5.65
         carbs:
           type: number
+          example: 20.76
         sugar:
           type: number
+          example: 5.22
         fibers:
           type: number
-        protein:
+          example: 5.41
+        proteins:
           type: number
+          example: 5.43
         salt:
           type: number
+          example: 0.01
         allergens:
           type: array
           items:
-            $ref: '#/components/schemas/Allergen'
-        category:
+            $ref: '#/components/schemas/AllergenDTOResponse'
+        imageUrl:
           type: string
-          example: Schokoladenpudding
+          example: https://www.alnatura.de/flour.jpg
+        _links:
+          type: object
+          properties:
+              self:
+                type: object
+                properties:
+                  href:
+                    type: string
+                    example: http://localhost:8080/fridge/food/10
 
-    FoodCreationObject:
+    FoodDTORequest:
       type: object
       properties:
+        amount:
+          type: integer
+          example: 2
+        barcode:
+          type: string
+          example: 3045140105502
         expireDate:
           type: string
           format: date
           example: 2024-09-20
-        barcode:
-          type: string
-          example: 3045140105502
-        amount:
-          type: integer
-          example: 1
 
-    FoodScanObject:
+    FoodScanDTOResponse:
       type: object
       properties:
+        name:
+          type: string
+          example: Alnatura Dinkelmehl 630
         barcode:
           type: string
           example: 3045140105502
         calories:
           type: number
+          example: 100.57
         fat:
           type: number
+          example: 10.14
         saturated fats:
           type: number
+          example: 5.65
         carbs:
           type: number
+          example: 20.76
         sugar:
           type: number
+          example: 5.22
         fibers:
           type: number
-        protein:
+          example: 5.41
+        proteins:
           type: number
+          example: 5.43
         salt:
           type: number
+          example: 0.01
         allergens:
           type: array
           items:
-            $ref: '#/components/schemas/Allergen'
+            $ref: '#/components/schemas/AllergenDTOResponse'
         category:
           type: string
-          example: Schokoladenpudding
+          example: flour
+        imageUrl:
+          type: string
+          example: https://www.alnatura.de/flour.jpg
+        ecoscoreGrade:
+          type: string
+          example: A
+        ecoscoreScore:
+          type: integer
+          example: 80
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: http://localhost:8080/food/3045140105502
 
-    FoodOpenObject:
+    DaysToConsumeDTORequest:
       type: object
       properties:
         daysToConsume:
           type: integer
           example: 5
+        timeOpened:
+          type: string
+          format: date
+          example: 2024-09-01
 
-    RecipeFavourite:
+    FavouriteRecipeDTOResponse:
       type: object
       properties:
         id:
           type: integer
-          format: int64
-          example: 10
+          format: long
+          example: 3
         url:
           type: string
-
-    Recipe:
-      type: object
-      properties:
-        url:
-          type: string
-
-    Allergen:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
+          example: https://edamam.com/recipe/123
         name:
           type: string
-          example: lactose
+          example: Spaghetti Carbonara
 
-    UserRegisterObject:
+    RecipeDTOResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://edamam.com/recipe/123
+        name:
+          type: string
+          example: Spaghetti Carbonara
+
+    RecipeDTORequest:
+      type: object
+      properties:
+        url:
+          type: string
+          example: https://edamam.com/recipe/123
+        name:
+          type: string
+          example: Spaghetti Carbonara
+
+    AllergenDTOResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: long
+          example: 12
+        name:
+          type: string
+          example: gluten
+
+    AllergenDTORequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: long
+          example: 12
+        name:
+          type: string
+          example: gluten
+
+    UserDTOResponse:
       type: object
       properties:
         email:
           type: string
           example: test@example.com
-        password:
-          type: string
-          example: passwort+1234
-
-    AuthToken:
-      type: string
-      example: o435bkjwkfaew
