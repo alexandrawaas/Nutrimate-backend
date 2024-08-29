@@ -1,10 +1,10 @@
-# Dokumentation der Studienarbeit
+# Über Nutrimate
 
-Dieses Repository ist Teil der Studienarbeit "Nutrimate" der Gruppe MATCH (Marina Waller, Alexandra Waas, Tim Wagner, Celine Grenz, Hien Le) im Studienfach RESTful Webservices und enthält das Backend zu unserer App.
+Dieses Repository ist Teil der Studienarbeit "Nutrimate" der Gruppe MATCH (Marina Waller, Alexandra Waas, Tim Wagner, Celine Grenz, Hien Le) im Studienmodul RESTful Webservices und enthält das Backend zu unserer App.
 
-Die Dokumentation unserer Studienarbeit befindet sich im Verzeichnis [documentation](https://gitlab.hof-university.de/awaas/nutrimate-backend/-/tree/main/documentation?ref_type=heads) dieses Repositorys.
+Für dieses Modul haben wir die App “NutriMate” entwickelt, die die Prinzipien von REST verfolgt. NutriMate bietet die Möglichkeit, Lebensmittelprodukte effizient zu verwalten und kulinarische Inspirationen zu finden. Der Nutzer kann den Barcode eines gekauften Lebensmittelprodukts scannen, woraufhin das Produkt in seinem digitalen Kühlschrank gespeichert wird. Sobald der Barcode gescannt ist, kann der Nutzer die detaillierten Informationen (Nährwertangaben, Zutatenlisten und weitere wichtige Details) zum Produkt abrufen. Zusätzlich bietet unsere App eine Funktion zur Rezeptempfehlung. Basierend auf im Kühlschrank gespeicherten Produkten werden passende Kochideen (Rezepte) angezeigt. Die App arbeitet entsprechend den Anforderungen der Studienarbeit mit zwei  externen APIs, nämlich [Open Food Facts](https://world.openfoodfacts.org/) und [Edamam](https://www.edamam.com/).
 
-Das Frontend zu unserem Projekt finden Sie im Repository [nutrimate-app](https://gitlab.hof-university.de/twagner4/nutrimate-app).
+Die vollständige Dokumentation unserer Studienarbeit befindet sich im Verzeichnis [documentation](https://gitlab.hof-university.de/awaas/nutrimate-backend/-/tree/main/documentation?ref_type=heads) dieses Repositorys.
 
 # Anleitung zur Installation des Spring-Backends auf Ubuntu
 
